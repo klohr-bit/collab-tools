@@ -6,73 +6,72 @@
 <title>High Balls: Dangerous or Not? · The CoLLab Field Hockey</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #f5f5f5; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 24px 16px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-  .container { width: 100%; max-width: 600px; }
-  .card { background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid #e0e0e0; }
-
-  .hdr { background: #111; padding: 22px 26px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; border-bottom: 4px solid #c8f135; }
-  .hdr-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 8px; }
-  .hdr-title { font-size: 20px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 4px; }
-  .hdr-sub { font-size: 12px; color: #888; }
+  body { background: #f5f5f5; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 28px 16px 40px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .container { width: 100%; max-width: 680px; }
+  .card { background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid #e0e0e0; }
+  .hdr { background: #111; padding: 28px 32px 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; border-bottom: 4px solid #c8f135; }
+  .hdr-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 10px; }
+  .hdr-title { font-size: 26px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 6px; }
+  .hdr-sub { font-size: 14px; color: #888; }
   .logo-block { text-align: right; flex-shrink: 0; }
-  .logo-text { font-size: 13px; font-weight: 900; color: #fff; line-height: 1.05; }
+  .logo-text { font-size: 15px; font-weight: 900; color: #fff; line-height: 1.05; }
   .logo-text .o { color: #c8f135; }
-  .logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 7px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; border-radius: 3px; margin-top: 4px; }
-
-  .rules-block { margin: 18px 24px; background: #f9f9f9; border-left: 3px solid #c8f135; border-radius: 0 8px 8px 0; padding: 13px 15px; }
-  .rule { font-size: 13px; color: #333; line-height: 1.75; }
+  .logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 8px; font-weight: 800; letter-spacing: .1em; padding: 3px 8px; border-radius: 3px; margin-top: 5px; }
+  .how-to { background: #f0ffd0; border-left: 4px solid #c8f135; border-radius: 0 10px 10px 0; margin: 22px 28px; padding: 16px 18px; }
+  .how-to-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #3a6600; margin-bottom: 12px; }
+  .how-to-steps { display: flex; gap: 16px; flex-wrap: wrap; }
+  .how-to-step { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 160px; }
+  .step-num { width: 26px; height: 26px; border-radius: 50%; background: #c8f135; color: #111; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-text { font-size: 13px; color: #2a4a00; line-height: 1.5; padding-top: 3px; }
+  .rules-block { margin: 0 28px 22px; background: #f9f9f9; border-left: 3px solid #ddd; border-radius: 0 8px 8px 0; padding: 14px 16px; }
+  .rules-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #888; margin-bottom: 8px; }
+  .rule { font-size: 14px; color: #333; line-height: 1.8; }
   .rule b { color: #111; font-weight: 700; }
-
-  .body { padding: 0 24px 24px; }
-  .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #888; margin-bottom: 10px; }
-
-  .scenario-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 22px; }
-  .s-btn { background: #f5f5f5; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 13px 10px; font-size: 12px; color: #555; cursor: pointer; text-align: center; line-height: 1.45; transition: all .15s; font-family: inherit; }
-  .s-btn:hover { border-color: #111; color: #111; background: #f0f0f0; }
-  .s-btn.active { border-color: #111; border-width: 2px; color: #111; background: #f0ffd0; font-weight: 700; }
-
-  .q-card { background: #f9f9f9; border: 1.5px solid #e0e0e0; border-radius: 12px; padding: 20px; margin-bottom: 10px; }
-  .q-text { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 6px; line-height: 1.4; }
-  .q-hint { font-size: 12px; color: #888; font-style: italic; margin-bottom: 16px; line-height: 1.5; }
-  .a-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .a-btn { flex: 1; min-width: 130px; background: #fff; border: 1.5px solid #e0e0e0; border-radius: 8px; padding: 11px 13px; font-size: 13px; color: #444; cursor: pointer; font-family: inherit; transition: all .15s; text-align: center; line-height: 1.4; }
+  .body { padding: 0 28px 28px; }
+  .scenario-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #555; margin-bottom: 8px; }
+  .scenario-hint { font-size: 13px; color: #888; margin-bottom: 14px; font-style: italic; }
+  .scenario-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 26px; }
+  .s-btn { background: #f5f5f5; border: 2px solid #e0e0e0; border-radius: 10px; padding: 16px 12px; font-size: 13px; color: #444; cursor: pointer; text-align: center; line-height: 1.5; transition: all .15s; font-family: inherit; font-weight: 500; }
+  .s-btn:hover { border-color: #111; color: #111; background: #efefef; }
+  .s-btn.active { border-color: #111; color: #111; background: #f0ffd0; font-weight: 700; }
+  .q-card { background: #f9f9f9; border: 2px solid #e0e0e0; border-radius: 12px; padding: 24px; margin-bottom: 12px; }
+  .q-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #888; margin-bottom: 10px; }
+  .q-text { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 8px; line-height: 1.4; }
+  .q-hint { font-size: 13px; color: #888; font-style: italic; margin-bottom: 20px; line-height: 1.5; }
+  .a-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .a-btn { flex: 1; min-width: 160px; background: #fff; border: 2px solid #e0e0e0; border-radius: 10px; padding: 14px 16px; font-size: 14px; color: #333; cursor: pointer; font-family: inherit; transition: all .15s; text-align: center; line-height: 1.4; font-weight: 500; }
   .a-btn:hover { border-color: #111; color: #111; background: #f5f5f5; }
-
-  .breadcrumb { font-size: 11px; color: #aaa; margin-bottom: 14px; line-height: 2; }
-  .bc-step { color: #777; }
-  .bc-arr { margin: 0 5px; color: #ccc; }
-
-  .outcome { border-radius: 12px; padding: 20px; margin-bottom: 12px; }
-  .outcome.foul { background: #fff5f5; border: 1.5px solid #ffcccc; }
-  .outcome.play-on { background: #f0fff4; border: 1.5px solid #b2f5c8; }
-  .out-eye { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+  .breadcrumb { font-size: 12px; color: #aaa; margin-bottom: 16px; line-height: 2; }
+  .bc-step { color: #666; font-weight: 500; }
+  .bc-arr { margin: 0 6px; color: #ccc; }
+  .outcome { border-radius: 12px; padding: 24px; margin-bottom: 14px; }
+  .outcome.foul { background: #fff5f5; border: 2px solid #ffbbbb; }
+  .outcome.play-on { background: #f0fff4; border: 2px solid #99e6b3; }
+  .out-eye { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
   .outcome.foul .out-eye { color: #cc0000; }
   .outcome.play-on .out-eye { color: #1a7a3c; }
-  .out-title { font-size: 17px; font-weight: 800; margin-bottom: 8px; line-height: 1.2; }
+  .out-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
   .outcome.foul .out-title { color: #aa0000; }
   .outcome.play-on .out-title { color: #155a2e; }
-  .out-detail { font-size: 13.5px; line-height: 1.65; }
+  .out-detail { font-size: 15px; line-height: 1.7; }
   .outcome.foul .out-detail { color: #7a0000; }
   .outcome.play-on .out-detail { color: #1a5c32; }
-
-  .restart { background: transparent; border: 1.5px solid #e0e0e0; border-radius: 8px; padding: 9px 18px; font-size: 12px; color: #888; cursor: pointer; font-family: inherit; transition: all .15s; }
+  .restart { background: transparent; border: 2px solid #e0e0e0; border-radius: 8px; padding: 10px 20px; font-size: 13px; color: #888; cursor: pointer; font-family: inherit; transition: all .15s; font-weight: 500; }
   .restart:hover { border-color: #111; color: #111; }
-
-  .footer { background: #f5f5f5; border-top: 1px solid #e0e0e0; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
-  .footer-note { font-size: 11px; color: #aaa; }
-  .footer-dot { width: 6px; height: 6px; border-radius: 50%; background: #c8f135; }
-
-  @media (max-width: 480px) {
+  .footer { background: #f5f5f5; border-top: 1px solid #e0e0e0; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-note { font-size: 12px; color: #aaa; }
+  .footer-dot { width: 7px; height: 7px; border-radius: 50%; background: #c8f135; }
+  @media (max-width: 520px) {
     .scenario-grid { grid-template-columns: 1fr; }
     .a-row { flex-direction: column; }
     .hdr { flex-direction: column; }
+    .how-to-steps { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 <div class="container">
 <div class="card">
-
   <div class="hdr">
     <div>
       <div class="hdr-tag">Field Hockey · Rules Guide</div>
@@ -85,7 +84,26 @@
     </div>
   </div>
 
+  <div class="how-to">
+    <div class="how-to-label">How to use this guide</div>
+    <div class="how-to-steps">
+      <div class="how-to-step">
+        <div class="step-num">1</div>
+        <div class="step-text">Pick the scenario that matches what happened on the field</div>
+      </div>
+      <div class="how-to-step">
+        <div class="step-num">2</div>
+        <div class="step-text">Answer the question about what you observed</div>
+      </div>
+      <div class="how-to-step">
+        <div class="step-num">3</div>
+        <div class="step-text">Get the correct call with the reasoning behind it</div>
+      </div>
+    </div>
+  </div>
+
   <div class="rules-block">
+    <div class="rules-label">Key rules to know first</div>
     <div class="rule"><b>Dangerous ball:</b> causes legitimate evasive action by players.</div>
     <div class="rule"><b>General standard:</b> below knee height is generally not dangerous.</div>
     <div class="rule"><b>Intentional lift:</b> only legal on a shot at goal, inside the circle.</div>
@@ -93,7 +111,8 @@
   </div>
 
   <div class="body">
-    <div class="label">Select a scenario</div>
+    <div class="scenario-label">Step 1 — Select your scenario</div>
+    <div class="scenario-hint">Choose the situation that best matches what you saw on the field.</div>
     <div class="scenario-grid">
       <button class="s-btn" onclick="go('hit',this)">Ball lifted on a hit (not a shot at goal)</button>
       <button class="s-btn" onclick="go('deflect',this)">Ball is deflected</button>
@@ -106,7 +125,6 @@
     <div class="footer-note">Based on NFHS Field Hockey Rules · The CoLLab Field Hockey</div>
     <div class="footer-dot"></div>
   </div>
-
 </div>
 </div>
 
@@ -116,15 +134,15 @@
       { q: 'Was the ball intentionally lifted on the hit?',
         hint: 'Consider the body position, stick angle, and apparent intent of the player.',
         answers: [
-          { l: 'Yes, intentional (chip shot)', n: 'hit-illegal' },
-          { l: 'No, unintentional or poor skill', n: 'q2-hit' }
+          { l: 'Yes, it was intentional (chip shot)', n: 'hit-illegal' },
+          { l: 'No, it was unintentional or poor skill', n: 'q2-hit' }
         ]
       },
       { q: 'Is the ball dangerous or does it lead to dangerous play?',
         hint: 'Did any player have to take evasive action to avoid being hit?',
         answers: [
-          { l: 'Yes, dangerous', n: 'hit-foul' },
-          { l: 'No, not dangerous', n: 'hit-playon' }
+          { l: 'Yes, it was dangerous', n: 'hit-foul' },
+          { l: 'No, it was not dangerous', n: 'hit-playon' }
         ]
       }
     ],
@@ -132,8 +150,8 @@
       { q: 'Is the deflected ball dangerous or does it lead to dangerous play?',
         hint: 'Deflections are unintentional. Only assess whether the outcome is dangerous.',
         answers: [
-          { l: 'Yes, dangerous', n: 'def-foul' },
-          { l: 'No, not dangerous', n: 'def-playon' }
+          { l: 'Yes, it was dangerous', n: 'def-foul' },
+          { l: 'No, it was not dangerous', n: 'def-playon' }
         ]
       }
     ]
@@ -154,19 +172,21 @@
     btn.classList.add('active');
     scenario = type; step = 0; hist = [];
     type === 'popup' ? renderPopup() : renderStep();
+    document.getElementById('flow').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   function bc() {
     if (!hist.length) return '';
-    return '<div class="breadcrumb">' + hist.map((h,i) =>
-      '<span class="bc-step">'+h+'</span>'+(i<hist.length-1?'<span class="bc-arr">&#8594;</span>':'')
-    ).join('') + '</div>';
+    return '<div class="breadcrumb"><span style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;">Your path: </span>' +
+      hist.map((h,i) => '<span class="bc-step">'+h+'</span>'+(i<hist.length-1?'<span class="bc-arr">&#8594;</span>':'')).join('') + '</div>';
   }
 
   function renderStep() {
     const s = flows[scenario][step];
     document.getElementById('flow').innerHTML = bc() +
-      '<div class="q-card"><div class="q-text">'+s.q+'</div>' +
+      '<div class="q-card">' +
+      '<div class="q-label">Step ' + (step + 2) + ' — Answer this question</div>' +
+      '<div class="q-text">'+s.q+'</div>' +
       (s.hint ? '<div class="q-hint">'+s.hint+'</div>' : '') +
       '<div class="a-row">'+s.answers.map(a =>
         '<button class="a-btn" onclick="pick(\''+esc(a.l)+'\',\''+a.n+'\')">'+a.l+'</button>'
