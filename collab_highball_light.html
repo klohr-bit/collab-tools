@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>High Balls: Dangerous or Not? · The CoLLab Field Hockey</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f5f5f5; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 24px 16px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  .container { width: 100%; max-width: 600px; }
+  .card { background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid #e0e0e0; }
+
+  .hdr { background: #111; padding: 22px 26px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; border-bottom: 4px solid #c8f135; }
+  .hdr-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 8px; }
+  .hdr-title { font-size: 20px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 4px; }
+  .hdr-sub { font-size: 12px; color: #888; }
+  .logo-block { text-align: right; flex-shrink: 0; }
+  .logo-text { font-size: 13px; font-weight: 900; color: #fff; line-height: 1.05; }
+  .logo-text .o { color: #c8f135; }
+  .logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 7px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; border-radius: 3px; margin-top: 4px; }
+
+  .rules-block { margin: 18px 24px; background: #f9f9f9; border-left: 3px solid #c8f135; border-radius: 0 8px 8px 0; padding: 13px 15px; }
+  .rule { font-size: 13px; color: #333; line-height: 1.75; }
+  .rule b { color: #111; font-weight: 700; }
+
+  .body { padding: 0 24px 24px; }
+  .label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #888; margin-bottom: 10px; }
+
+  .scenario-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 22px; }
+  .s-btn { background: #f5f5f5; border: 1.5px solid #e0e0e0; border-radius: 10px; padding: 13px 10px; font-size: 12px; color: #555; cursor: pointer; text-align: center; line-height: 1.45; transition: all .15s; font-family: inherit; }
+  .s-btn:hover { border-color: #111; color: #111; background: #f0f0f0; }
+  .s-btn.active { border-color: #111; border-width: 2px; color: #111; background: #f0ffd0; font-weight: 700; }
+
+  .q-card { background: #f9f9f9; border: 1.5px solid #e0e0e0; border-radius: 12px; padding: 20px; margin-bottom: 10px; }
+  .q-text { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 6px; line-height: 1.4; }
+  .q-hint { font-size: 12px; color: #888; font-style: italic; margin-bottom: 16px; line-height: 1.5; }
+  .a-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .a-btn { flex: 1; min-width: 130px; background: #fff; border: 1.5px solid #e0e0e0; border-radius: 8px; padding: 11px 13px; font-size: 13px; color: #444; cursor: pointer; font-family: inherit; transition: all .15s; text-align: center; line-height: 1.4; }
+  .a-btn:hover { border-color: #111; color: #111; background: #f5f5f5; }
+
+  .breadcrumb { font-size: 11px; color: #aaa; margin-bottom: 14px; line-height: 2; }
+  .bc-step { color: #777; }
+  .bc-arr { margin: 0 5px; color: #ccc; }
+
+  .outcome { border-radius: 12px; padding: 20px; margin-bottom: 12px; }
+  .outcome.foul { background: #fff5f5; border: 1.5px solid #ffcccc; }
+  .outcome.play-on { background: #f0fff4; border: 1.5px solid #b2f5c8; }
+  .out-eye { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+  .outcome.foul .out-eye { color: #cc0000; }
+  .outcome.play-on .out-eye { color: #1a7a3c; }
+  .out-title { font-size: 17px; font-weight: 800; margin-bottom: 8px; line-height: 1.2; }
+  .outcome.foul .out-title { color: #aa0000; }
+  .outcome.play-on .out-title { color: #155a2e; }
+  .out-detail { font-size: 13.5px; line-height: 1.65; }
+  .outcome.foul .out-detail { color: #7a0000; }
+  .outcome.play-on .out-detail { color: #1a5c32; }
+
+  .restart { background: transparent; border: 1.5px solid #e0e0e0; border-radius: 8px; padding: 9px 18px; font-size: 12px; color: #888; cursor: pointer; font-family: inherit; transition: all .15s; }
+  .restart:hover { border-color: #111; color: #111; }
+
+  .footer { background: #f5f5f5; border-top: 1px solid #e0e0e0; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-note { font-size: 11px; color: #aaa; }
+  .footer-dot { width: 6px; height: 6px; border-radius: 50%; background: #c8f135; }
+
+  @media (max-width: 480px) {
+    .scenario-grid { grid-template-columns: 1fr; }
+    .a-row { flex-direction: column; }
+    .hdr { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="card">
+
+  <div class="hdr">
+    <div>
+      <div class="hdr-tag">Field Hockey · Rules Guide</div>
+      <div class="hdr-title">High Balls: Dangerous or Not?</div>
+      <div class="hdr-sub">Interactive decision guide for coaches and officials</div>
+    </div>
+    <div class="logo-block">
+      <div class="logo-text">THE<br>C<span class="o">o</span>L<br>LAB</div>
+      <div class="logo-pill">FIELD HOCKEY</div>
+    </div>
+  </div>
+
+  <div class="rules-block">
+    <div class="rule"><b>Dangerous ball:</b> causes legitimate evasive action by players.</div>
+    <div class="rule"><b>General standard:</b> below knee height is generally not dangerous.</div>
+    <div class="rule"><b>Intentional lift:</b> only legal on a shot at goal, inside the circle.</div>
+    <div class="rule"><b>Remember:</b> there is no "high ball" call in field hockey, only a dangerous ball call.</div>
+  </div>
+
+  <div class="body">
+    <div class="label">Select a scenario</div>
+    <div class="scenario-grid">
+      <button class="s-btn" onclick="go('hit',this)">Ball lifted on a hit (not a shot at goal)</button>
+      <button class="s-btn" onclick="go('deflect',this)">Ball is deflected</button>
+      <button class="s-btn" onclick="go('popup',this)">Ball pops up between 2 players</button>
+    </div>
+    <div id="flow"></div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-note">Based on NFHS Field Hockey Rules · The CoLLab Field Hockey</div>
+    <div class="footer-dot"></div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  const flows = {
+    hit: [
+      { q: 'Was the ball intentionally lifted on the hit?',
+        hint: 'Consider the body position, stick angle, and apparent intent of the player.',
+        answers: [
+          { l: 'Yes, intentional (chip shot)', n: 'hit-illegal' },
+          { l: 'No, unintentional or poor skill', n: 'q2-hit' }
+        ]
+      },
+      { q: 'Is the ball dangerous or does it lead to dangerous play?',
+        hint: 'Did any player have to take evasive action to avoid being hit?',
+        answers: [
+          { l: 'Yes, dangerous', n: 'hit-foul' },
+          { l: 'No, not dangerous', n: 'hit-playon' }
+        ]
+      }
+    ],
+    deflect: [
+      { q: 'Is the deflected ball dangerous or does it lead to dangerous play?',
+        hint: 'Deflections are unintentional. Only assess whether the outcome is dangerous.',
+        answers: [
+          { l: 'Yes, dangerous', n: 'def-foul' },
+          { l: 'No, not dangerous', n: 'def-playon' }
+        ]
+      }
+    ]
+  };
+
+  const outcomes = {
+    'hit-illegal': { t:'foul', eye:'Illegal play', title:'Free hit to the opposing team', detail:'Intentionally lifting the ball on a hit outside the circle is a chip shot and is not allowed. Award a free hit to the opposing team at the spot of the hit.' },
+    'hit-foul':    { t:'foul', eye:'Dangerous ball', title:'Free hit to the opposing team', detail:'The ball was unintentionally lifted but caused or led to dangerous play. Award a free hit to the opposing team at the spot of the hit.' },
+    'hit-playon':  { t:'play-on', eye:'No call', title:'Play on', detail:'The ball was unintentionally lifted and was not dangerous. Play continues.' },
+    'def-foul':    { t:'foul', eye:'Dangerous deflection', title:'Blow the whistle, free hit', detail:'Stop play immediately. Award a free hit to the team that did not deflect the ball.' },
+    'def-playon':  { t:'play-on', eye:'No call', title:'Play on', detail:'The deflected ball was not dangerous. Play continues.' }
+  };
+
+  let scenario = null, step = 0, hist = [];
+
+  function go(type, btn) {
+    document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    scenario = type; step = 0; hist = [];
+    type === 'popup' ? renderPopup() : renderStep();
+  }
+
+  function bc() {
+    if (!hist.length) return '';
+    return '<div class="breadcrumb">' + hist.map((h,i) =>
+      '<span class="bc-step">'+h+'</span>'+(i<hist.length-1?'<span class="bc-arr">&#8594;</span>':'')
+    ).join('') + '</div>';
+  }
+
+  function renderStep() {
+    const s = flows[scenario][step];
+    document.getElementById('flow').innerHTML = bc() +
+      '<div class="q-card"><div class="q-text">'+s.q+'</div>' +
+      (s.hint ? '<div class="q-hint">'+s.hint+'</div>' : '') +
+      '<div class="a-row">'+s.answers.map(a =>
+        '<button class="a-btn" onclick="pick(\''+esc(a.l)+'\',\''+a.n+'\')">'+a.l+'</button>'
+      ).join('')+'</div></div>';
+  }
+
+  function renderPopup() {
+    document.getElementById('flow').innerHTML =
+      '<div class="outcome foul"><div class="out-eye">Immediate call</div>' +
+      '<div class="out-title">Free hit to the opponent</div>' +
+      '<div class="out-detail">Call it immediately when the ball rises above knee height between two players. The last stick to contact the ball is responsible. Free hit to the opponent at the spot of the pop-up.</div></div>' +
+      '<button class="restart" onclick="reset()">Start over</button>';
+  }
+
+  function pick(label, next) {
+    hist.push(label);
+    if (next === 'q2-hit') { step = 1; renderStep(); return; }
+    if (outcomes[next]) {
+      const o = outcomes[next];
+      document.getElementById('flow').innerHTML = bc() +
+        '<div class="outcome '+o.t+'"><div class="out-eye">'+o.eye+'</div>' +
+        '<div class="out-title">'+o.title+'</div>' +
+        '<div class="out-detail">'+o.detail+'</div></div>' +
+        '<button class="restart" onclick="reset()">Start over</button>';
+    }
+  }
+
+  function reset() {
+    scenario = null; step = 0; hist = [];
+    document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('flow').innerHTML = '';
+  }
+
+  function esc(s) { return s.replace(/'/g, "\\'"); }
+</script>
+</body>
+</html>
