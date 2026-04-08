@@ -14,12 +14,13 @@
   .nav-logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 7px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; border-radius: 3px; margin-top: 4px; }
   .nav-right { font-size: 13px; color: #666; }
 
-  .hero { background: #111; padding: 52px 32px 44px; border-bottom: 4px solid #c8f135; }
-  .hero-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 12px; }
-  .hero-title { font-size: 36px; font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 10px; }
-  .hero-sub { font-size: 16px; color: #888; line-height: 1.7; max-width: 520px; }
+  .hero { background: #111; padding: 64px 32px 56px; border-bottom: 4px solid #c8f135; text-align: center; }
+  .hero-inner { max-width: 640px; margin: 0 auto; }
+  .hero-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 14px; }
+  .hero-title { font-size: 48px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 14px; }
+  .hero-sub { font-size: 17px; color: #888; line-height: 1.75; max-width: 480px; margin: 0 auto; }
 
-  .main { max-width: 780px; margin: 0 auto; padding: 40px 24px; }
+  .main { max-width: 920px; margin: 0 auto; padding: 40px 32px; }
 
   .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
   .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; }
@@ -75,10 +76,10 @@
   @media (max-width: 560px) {
     .tools-grid { grid-template-columns: 1fr; }
     .substack-strip { flex-direction: column; text-align: center; }
-    .hero-title { font-size: 26px; }
+    .hero-title { font-size: 30px; }
+    .hero { padding: 40px 20px 36px; }
     .nav { padding: 14px 20px; }
     .main { padding: 28px 16px; }
-    .hero { padding: 36px 20px 32px; }
   }
 </style>
 </head>
@@ -93,9 +94,11 @@
 </div>
 
 <div class="hero">
-  <div class="hero-tag">Free resource library</div>
-  <div class="hero-title">Free Coaching Tools<br>from The CoLLab</div>
-  <div class="hero-sub">Interactive drills and guides built from real field hockey coaching experience. For coaches, players, and everyone in between.</div>
+  <div class="hero-inner">
+    <div class="hero-tag">Free resource library</div>
+    <div class="hero-title">Free Coaching Tools<br>from The CoLLab</div>
+    <div class="hero-sub">Interactive drills and guides built from real field hockey coaching experience. For coaches, players, and everyone in between.</div>
+  </div>
 </div>
 
 <div class="main">
