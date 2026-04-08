@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Understanding the Press · Experience 1 · The CoLLab Field Hockey</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 16px 40px; }
+  .wrap { width: 100%; max-width: 580px; }
+
+  .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .logo-text { font-size: 13px; font-weight: 900; color: #111; line-height: 1.05; }
+  .logo-text .o { color: #3a8c00; }
+  .logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 7px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; border-radius: 3px; margin-top: 3px; }
+  .progress-wrap { flex: 1; margin: 0 20px; }
+  .progress-label { font-size: 11px; color: #999; text-align: center; margin-bottom: 6px; font-weight: 600; letter-spacing: .04em; }
+  .progress-track { background: #e0e0e0; border-radius: 4px; height: 6px; }
+  .progress-fill { background: #c8f135; border-radius: 4px; height: 6px; transition: width .4s ease; }
+
+  .card { background: #fff; border-radius: 16px; border: 1px solid #e0e0e0; overflow: hidden; margin-bottom: 16px; }
+  .card-header { background: #111; padding: 20px 24px 18px; border-bottom: 3px solid #c8f135; }
+  .lesson-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 8px; }
+  .lesson-title { font-size: 22px; font-weight: 800; color: #fff; line-height: 1.25; }
+  .lesson-sub { font-size: 13px; color: #888; margin-top: 6px; }
+
+  .card-body { padding: 22px 24px; }
+
+  .concept-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .concept-text { font-size: 15px; color: #111; line-height: 1.8; margin-bottom: 18px; }
+  .concept-text b { color: #111; font-weight: 700; }
+
+  .lock-key-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .lk-card { border-radius: 10px; padding: 16px; }
+  .lk-card.lock { background: #fff5f5; border: 2px solid #ffbbbb; }
+  .lk-card.key { background: #f0ffd0; border: 2px solid #c8f135; }
+  .lk-icon { font-size: 24px; margin-bottom: 8px; }
+  .lk-title { font-size: 15px; font-weight: 800; color: #111; margin-bottom: 6px; }
+  .lk-card.lock .lk-title { color: #aa0000; }
+  .lk-card.key .lk-title { color: #2a5000; }
+  .lk-text { font-size: 13px; line-height: 1.6; }
+  .lk-card.lock .lk-text { color: #7a0000; }
+  .lk-card.key .lk-text { color: #2a5000; }
+
+  .diagram-wrap { background: #f9f9f9; border-radius: 12px; padding: 16px; margin-bottom: 18px; border: 1px solid #e0e0e0; }
+  .diagram-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #555; margin-bottom: 12px; text-align: center; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #555; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .legend-box { width: 14px; height: 10px; border-radius: 2px; flex-shrink: 0; opacity: .4; }
+
+  .insight { background: #f0ffd0; border-left: 3px solid #c8f135; border-radius: 0 8px 8px 0; padding: 14px 16px; margin-bottom: 20px; }
+  .insight-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #2a5000; margin-bottom: 6px; }
+  .insight-text { font-size: 14px; color: #2a5000; line-height: 1.7; }
+
+  .stepper { display: flex; gap: 0; margin-bottom: 20px; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; }
+  .step-btn { flex: 1; padding: 10px 6px; font-size: 12px; font-weight: 600; color: #888; background: #f9f9f9; border: none; cursor: pointer; font-family: inherit; transition: all .15s; border-right: 1px solid #e0e0e0; text-align: center; }
+  .step-btn:last-child { border-right: none; }
+  .step-btn.active { background: #111; color: #c8f135; }
+  .step-btn:hover:not(.active) { background: #f0f0f0; color: #333; }
+
+  .step-content { display: none; }
+  .step-content.active { display: block; }
+
+  .check-q { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 14px; line-height: 1.4; }
+  .check-opts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .check-btn { background: #f9f9f9; border: 2px solid #e0e0e0; border-radius: 8px; padding: 12px 16px; font-size: 14px; color: #333; cursor: pointer; text-align: left; font-family: inherit; font-weight: 500; transition: all .15s; }
+  .check-btn:hover:not(:disabled) { border-color: #111; background: #f0f0f0; }
+  .check-btn.correct { background: #f0fff4; border-color: #22c55e; color: #155a2e; }
+  .check-btn.wrong { background: #fff5f5; border-color: #ef4444; color: #7a0000; }
+  .check-btn.reveal { background: #f0fff4; border-color: #22c55e; color: #155a2e; opacity: .7; }
+  .check-fb { padding: 12px 14px; border-radius: 8px; font-size: 13px; line-height: 1.65; display: none; margin-bottom: 12px; }
+  .check-fb.show { display: block; }
+  .check-fb.correct { background: #f0fff4; border: 1px solid #99e6b3; color: #155a2e; }
+  .check-fb.wrong { background: #fff5f5; border: 1px solid #ffbbbb; color: #7a0000; }
+
+  .next-btn { width: 100%; background: #111; color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: opacity .15s; margin-top: 8px; }
+  .next-btn:hover { opacity: .85; }
+  .next-btn.locked { background: #e0e0e0; color: #aaa; cursor: default; }
+  .next-btn.locked:hover { opacity: 1; }
+
+  .complete-strip { background: #111; border-radius: 12px; padding: 20px 24px; text-align: center; }
+  .complete-strip-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .complete-strip-sub { font-size: 13px; color: #888; margin-bottom: 16px; }
+  .next-exp-btn { display: inline-block; background: #c8f135; color: #111; font-size: 14px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
+
+  @media (max-width: 400px) {
+    .lock-key-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-bar">
+    <div>
+      <div class="logo-text">THE C<span class="o">o</span>L LAB</div>
+      <div class="logo-pill">FIELD HOCKEY</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">Experience 1 of 3 · Understanding the Press</div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:33%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="lesson-tag">Player Learning Series · Experience 1</div>
+      <div class="lesson-title">What Is a Press — and What Is It Trying to Do?</div>
+      <div class="lesson-sub">Before you can read a press, you need to understand its job.</div>
+    </div>
+    <div class="card-body">
+
+      <div class="stepper">
+        <button class="step-btn active" onclick="showStep(0)">Lock &amp; Key</button>
+        <button class="step-btn" onclick="showStep(1)">The Court</button>
+        <button class="step-btn" onclick="showStep(2)">Zone vs M2M</button>
+        <button class="step-btn" onclick="showStep(3)">Check</button>
+      </div>
+
+      <!-- STEP 1: LOCK AND KEY -->
+      <div class="step-content active" id="step-0">
+        <div class="concept-label">The core concept</div>
+        <div class="concept-text">Every press your team runs — and every press you face — is built around two ideas. <b>Lock</b> and <b>Key.</b> Understanding these two things makes every other concept click into place.</div>
+
+        <div class="lock-key-grid">
+          <div class="lk-card lock">
+            <div class="lk-icon">&#128274;</div>
+            <div class="lk-title">Lock</div>
+            <div class="lk-text">The team defense. The system that shuts down space and stops the opponent from reaching the goal. A lock is secure when every player knows their role and executes it.</div>
+          </div>
+          <div class="lk-card key">
+            <div class="lk-icon">&#128273;</div>
+            <div class="lk-title">Key</div>
+            <div class="lk-text">The individual and team tools used to unlock the opponent's press. Keys find the space, create the angle, and move the ball through a press that is trying to stop you.</div>
+          </div>
+        </div>
+
+        <div class="insight">
+          <div class="insight-label">Why this matters for you as a player</div>
+          <div class="insight-text">When your team is defending, you are executing the Lock. When your team has the ball, you are looking for the Key. Every decision you make on the field fits into one of these two categories. The better you understand both, the faster your decisions become.</div>
+        </div>
+
+        <button class="next-btn" onclick="showStep(1)">Next: The Court &#8594;</button>
+      </div>
+
+      <!-- STEP 2: THE COURT -->
+      <div class="step-content" id="step-1">
+        <div class="concept-label">How the press uses the court</div>
+        <div class="concept-text">A press is not random. It is a deliberate system that uses the court's boundaries as additional defenders. The boards, the baseline, and the circle all become part of the Lock.</div>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">The indoor court — Lock zones and Key spaces</div>
+          <svg width="100%" viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
+            <!-- Court outline -->
+            <rect x="10" y="10" width="280" height="400" rx="4" fill="#e8d5b0" stroke="#999" stroke-width="1.5"/>
+            <!-- Center line -->
+            <line x1="10" y1="210" x2="290" y2="210" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+            <!-- Top circle -->
+            <ellipse cx="150" cy="60" rx="60" ry="40" fill="none" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+            <!-- Bottom circle -->
+            <ellipse cx="150" cy="360" rx="60" ry="40" fill="none" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+            <!-- Top goal -->
+            <rect x="110" y="10" width="80" height="18" rx="2" fill="#ccc" stroke="#999" stroke-width="1"/>
+            <!-- Bottom goal -->
+            <rect x="110" y="392" width="80" height="18" rx="2" fill="#ccc" stroke="#999" stroke-width="1"/>
+
+            <!-- Lock zones (red) -->
+            <rect x="10" y="10" width="50" height="400" fill="#ef4444" opacity=".15" rx="2"/>
+            <rect x="240" y="10" width="50" height="400" fill="#ef4444" opacity=".15" rx="2"/>
+            <ellipse cx="150" cy="360" rx="60" ry="40" fill="#ef4444" opacity=".15"/>
+
+            <!-- Key space (green) -->
+            <rect x="80" y="110" width="140" height="180" rx="4" fill="#c8f135" opacity=".2"/>
+
+            <!-- Lock zone labels -->
+            <text x="35" y="215" font-family="Arial, sans-serif" font-size="9" fill="#aa0000" font-weight="700" text-anchor="middle" transform="rotate(-90 35 215)">BOARDS — LOCK</text>
+            <text x="265" y="215" font-family="Arial, sans-serif" font-size="9" fill="#aa0000" font-weight="700" text-anchor="middle" transform="rotate(90 265 215)">BOARDS — LOCK</text>
+
+            <!-- Key space label -->
+            <text x="150" y="195" font-family="Arial, sans-serif" font-size="11" fill="#2a5000" font-weight="700" text-anchor="middle">KEY SPACE</text>
+            <text x="150" y="210" font-family="Arial, sans-serif" font-size="9" fill="#2a5000" text-anchor="middle">Find the space here</text>
+
+            <!-- Circle label -->
+            <text x="150" y="368" font-family="Arial, sans-serif" font-size="9" fill="#aa0000" font-weight="700" text-anchor="middle">DANGER ZONE</text>
+
+            <!-- Opponent players (X marks) -->
+            <text x="150" y="90" font-family="Arial, sans-serif" font-size="14" fill="#cc0000" font-weight="900" text-anchor="middle">F</text>
+            <text x="100" y="90" font-family="Arial, sans-serif" font-size="14" fill="#cc0000" font-weight="900" text-anchor="middle">F</text>
+            <text x="150" y="165" font-family="Arial, sans-serif" font-size="14" fill="#cc0000" font-weight="900" text-anchor="middle">M</text>
+            <text x="100" y="240" font-family="Arial, sans-serif" font-size="14" fill="#cc0000" font-weight="900" text-anchor="middle">B</text>
+            <text x="200" y="240" font-family="Arial, sans-serif" font-size="14" fill="#cc0000" font-weight="900" text-anchor="middle">B</text>
+          </svg>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item"><div class="legend-box" style="background:#ef4444;"></div> Lock zones — limit access</div>
+          <div class="legend-item"><div class="legend-box" style="background:#c8f135;"></div> Key space — find this</div>
+          <div class="legend-item"><div class="legend-item" style="font-weight:700;color:#cc0000;">F M B</div> Opponent positions</div>
+        </div>
+
+        <div class="insight">
+          <div class="insight-label">The player's job</div>
+          <div class="insight-text">When you have the ball, your job is to find the Key space — the open areas the press is not protecting — and move the ball there before the Lock closes it. When you do not have the ball, your job is to move into positions that force the press to make decisions.</div>
+        </div>
+
+        <button class="next-btn" onclick="showStep(2)">Next: Zone vs M2M &#8594;</button>
+      </div>
+
+      <!-- STEP 3: ZONE vs M2M -->
+      <div class="step-content" id="step-2">
+        <div class="concept-label">Two types of press</div>
+        <div class="concept-text">Every press your team will face falls into one of two categories — or a hybrid of both. Knowing which one you are facing changes what Keys you look for.</div>
+
+        <div class="stepper" style="margin-bottom:16px;">
+          <button class="step-btn active" id="zone-tab" onclick="showPressTab('zone')">Zone</button>
+          <button class="step-btn" id="m2m-tab" onclick="showPressTab('m2m')">Man to Man</button>
+        </div>
+
+        <div id="zone-content">
+          <div class="diagram-wrap">
+            <div class="diagram-label">Zone press — defenders cover areas, not players</div>
+            <svg width="100%" viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="280" height="300" rx="4" fill="#e8d5b0" stroke="#999" stroke-width="1.5"/>
+              <line x1="10" y1="160" x2="290" y2="160" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+              <ellipse cx="150" cy="270" rx="60" ry="40" fill="none" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+              <rect x="110" y="292" width="80" height="18" rx="2" fill="#ccc" stroke="#999" stroke-width="1"/>
+
+              <!-- Zone areas shaded -->
+              <rect x="10" y="10" width="130" height="100" fill="#3b82f6" opacity=".15" rx="2"/>
+              <rect x="140" y="10" width="150" height="100" fill="#8b5cf6" opacity=".15" rx="2"/>
+              <rect x="10" y="110" width="280" height="60" fill="#f59e0b" opacity=".15"/>
+
+              <!-- Zone defenders -->
+              <circle cx="75" cy="55" r="14" fill="#3b82f6" opacity=".8"/>
+              <text x="75" y="60" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">F</text>
+              <circle cx="215" cy="55" r="14" fill="#8b5cf6" opacity=".8"/>
+              <text x="215" y="60" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">F</text>
+              <circle cx="150" cy="135" r="14" fill="#f59e0b" opacity=".9"/>
+              <text x="150" y="140" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">M</text>
+              <circle cx="90" cy="210" r="14" fill="#111" opacity=".7"/>
+              <text x="90" y="215" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">B</text>
+              <circle cx="210" cy="210" r="14" fill="#111" opacity=".7"/>
+              <text x="210" y="215" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">B</text>
+
+              <!-- Zone labels -->
+              <text x="75" y="95" font-family="Arial, sans-serif" font-size="8" fill="#3b82f6" font-weight="700" text-anchor="middle">LEFT ZONE</text>
+              <text x="215" y="95" font-family="Arial, sans-serif" font-size="8" fill="#8b5cf6" font-weight="700" text-anchor="middle">RIGHT ZONE</text>
+              <text x="150" y="155" font-family="Arial, sans-serif" font-size="8" fill="#b45309" font-weight="700" text-anchor="middle">MID ZONE</text>
+
+              <!-- Ball -->
+              <circle cx="150" cy="30" r="6" fill="#f97316" stroke="#ea580c" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="insight">
+            <div class="insight-label">Zone press — what to look for</div>
+            <div class="insight-text">Each defender owns an area, not a person. The Key is to move the ball faster than the zones can shift. Look for the gaps between zones — the seams. Quick ball movement and shape changes create overloads that zones cannot cover.</div>
+          </div>
+        </div>
+
+        <div id="m2m-content" style="display:none;">
+          <div class="diagram-wrap">
+            <div class="diagram-label">Man to Man press — each defender follows a specific player</div>
+            <svg width="100%" viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="10" width="280" height="300" rx="4" fill="#e8d5b0" stroke="#999" stroke-width="1.5"/>
+              <line x1="10" y1="160" x2="290" y2="160" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+              <ellipse cx="150" cy="270" rx="60" ry="40" fill="none" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+              <rect x="110" y="292" width="80" height="18" rx="2" fill="#ccc" stroke="#999" stroke-width="1"/>
+
+              <!-- Your team (lime) -->
+              <circle cx="80" cy="50" r="14" fill="#c8f135" stroke="#3a8c00" stroke-width="2"/>
+              <text x="80" y="55" font-family="Arial, sans-serif" font-size="11" fill="#111" font-weight="800" text-anchor="middle">F</text>
+              <circle cx="200" cy="80" r="14" fill="#c8f135" stroke="#3a8c00" stroke-width="2"/>
+              <text x="200" y="85" font-family="Arial, sans-serif" font-size="11" fill="#111" font-weight="800" text-anchor="middle">F</text>
+              <circle cx="150" cy="130" r="14" fill="#c8f135" stroke="#3a8c00" stroke-width="2"/>
+              <text x="150" y="135" font-family="Arial, sans-serif" font-size="11" fill="#111" font-weight="800" text-anchor="middle">M</text>
+              <circle cx="100" cy="200" r="14" fill="#c8f135" stroke="#3a8c00" stroke-width="2"/>
+              <text x="100" y="205" font-family="Arial, sans-serif" font-size="11" fill="#111" font-weight="800" text-anchor="middle">B</text>
+              <circle cx="200" cy="210" r="14" fill="#c8f135" stroke="#3a8c00" stroke-width="2"/>
+              <text x="200" y="215" font-family="Arial, sans-serif" font-size="11" fill="#111" font-weight="800" text-anchor="middle">B</text>
+
+              <!-- Opponent defenders (red circles following) -->
+              <circle cx="100" cy="65" r="12" fill="#ef4444" opacity=".85"/>
+              <text x="100" y="70" font-family="Arial, sans-serif" font-size="10" fill="#fff" font-weight="800" text-anchor="middle">D</text>
+              <circle cx="220" cy="95" r="12" fill="#ef4444" opacity=".85"/>
+              <text x="220" y="100" font-family="Arial, sans-serif" font-size="10" fill="#fff" font-weight="800" text-anchor="middle">D</text>
+              <circle cx="168" cy="145" r="12" fill="#ef4444" opacity=".85"/>
+              <text x="168" y="150" font-family="Arial, sans-serif" font-size="10" fill="#fff" font-weight="800" text-anchor="middle">D</text>
+              <circle cx="118" cy="215" r="12" fill="#ef4444" opacity=".85"/>
+              <text x="118" y="220" font-family="Arial, sans-serif" font-size="10" fill="#fff" font-weight="800" text-anchor="middle">D</text>
+              <circle cx="218" cy="225" r="12" fill="#ef4444" opacity=".85"/>
+              <text x="218" y="230" font-family="Arial, sans-serif" font-size="10" fill="#fff" font-weight="800" text-anchor="middle">D</text>
+
+              <!-- Connection lines showing marking -->
+              <line x1="80" y1="50" x2="100" y2="65" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 2" opacity=".6"/>
+              <line x1="200" y1="80" x2="220" y2="95" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 2" opacity=".6"/>
+              <line x1="150" y1="130" x2="168" y2="145" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 2" opacity=".6"/>
+              <line x1="100" y1="200" x2="118" y2="215" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 2" opacity=".6"/>
+              <line x1="200" y1="210" x2="218" y2="225" stroke="#ef4444" stroke-width="1" stroke-dasharray="3 2" opacity=".6"/>
+
+              <!-- Ball -->
+              <circle cx="80" cy="30" r="6" fill="#f97316" stroke="#ea580c" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="insight">
+            <div class="insight-label">Man to Man press — what to look for</div>
+            <div class="insight-text">Each defender is assigned to a specific player on your team. The Key is to create space through movement. When you move, your defender has to follow — that creates opportunities for teammates. Leading passes into space, midfield movement, and overloads all unlock M2M.</div>
+          </div>
+        </div>
+
+        <button class="next-btn" onclick="showStep(3)">Next: Check your understanding &#8594;</button>
+      </div>
+
+      <!-- STEP 4: CHECK -->
+      <div class="step-content" id="step-3">
+        <div class="concept-label">Check your understanding</div>
+        <div class="check-q">You receive the ball in midfield. The opponent's defenders are each following a specific player on your team — nobody is covering an area. What type of press are you facing?</div>
+        <div class="check-opts" id="check-opts-1">
+          <button class="check-btn" onclick="checkAnswer(this, false, 'check-fb-1')">Zone press — they are covering areas of the court.</button>
+          <button class="check-btn" onclick="checkAnswer(this, true, 'check-fb-1')">Man to Man press — each defender is assigned to a specific player.</button>
+          <button class="check-btn" onclick="checkAnswer(this, false, 'check-fb-1')">No press — they are just defending normally.</button>
+        </div>
+        <div class="check-fb" id="check-fb-1"></div>
+
+        <div class="check-q" style="margin-top:20px;">Your team has the ball. The opponent is running a Zone press. Where should you be looking for the Key?</div>
+        <div class="check-opts" id="check-opts-2">
+          <button class="check-btn" onclick="checkAnswer(this, false, 'check-fb-2')">Stay wide on the boards where there is always space.</button>
+          <button class="check-btn" onclick="checkAnswer(this, true, 'check-fb-2')">Find the seams between zones and move the ball quickly before they can shift.</button>
+          <button class="check-btn" onclick="checkAnswer(this, false, 'check-fb-2')">Run directly at the nearest defender to draw the press.</button>
+        </div>
+        <div class="check-fb" id="check-fb-2"></div>
+
+        <div id="complete-area" style="display:none;margin-top:20px;">
+          <div class="complete-strip">
+            <div class="complete-strip-title">Experience 1 complete.</div>
+            <div class="complete-strip-sub">You understand what a press is and what it is trying to do. Next: learn to identify which press you are facing.</div>
+            <a href="collab_press_experience2.html" class="next-exp-btn">Experience 2: Reading the Press &#8594;</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+let checksCompleted = 0;
+const totalChecks = 2;
+
+function showStep(idx) {
+  document.querySelectorAll('.step-content').forEach((s, i) => {
+    s.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.stepper .step-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === idx);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showPressTab(type) {
+  document.getElementById('zone-content').style.display = type === 'zone' ? 'block' : 'none';
+  document.getElementById('m2m-content').style.display = type === 'm2m' ? 'block' : 'none';
+  document.getElementById('zone-tab').classList.toggle('active', type === 'zone');
+  document.getElementById('m2m-tab').classList.toggle('active', type === 'm2m');
+}
+
+function checkAnswer(btn, correct, fbId) {
+  const opts = btn.parentElement;
+  if (opts.dataset.answered) return;
+  opts.dataset.answered = 'true';
+
+  Array.from(opts.children).forEach(b => {
+    b.disabled = true;
+    if (b === btn) b.classList.add(correct ? 'correct' : 'wrong');
+    else if (b.onclick.toString().includes('true')) b.classList.add('reveal');
+  });
+
+  const fb = document.getElementById(fbId);
+  fb.className = 'check-fb show ' + (correct ? 'correct' : 'wrong');
+  fb.textContent = correct
+    ? (fbId === 'check-fb-1'
+        ? 'Correct. When each defender follows a specific player rather than covering an area, that is Man to Man.'
+        : 'Correct. Zone defenses shift as a unit. Moving the ball faster than they can shift — through the seams between zones — is the Key.')
+    : (fbId === 'check-fb-1'
+        ? 'Not quite. In a zone press defenders cover areas. When they follow individual players that is Man to Man — each defender has an assignment.'
+        : 'Not quite. Boards can be a Lock zone in many presses. The Key in a zone press is the seam between zones — the gap where coverage transitions from one defender to another.');
+
+  checksCompleted++;
+  if (checksCompleted >= totalChecks) {
+    setTimeout(() => {
+      document.getElementById('complete-area').style.display = 'block';
+    }, 600);
+  }
+}
+</script>
+</body>
+</html>
