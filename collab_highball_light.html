@@ -3,224 +3,470 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>High Balls: Dangerous or Not? · The CoLLab Field Hockey</title>
+<title>High Balls Drill · The CoLLab Field Hockey</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #f5f5f5; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 28px 16px 40px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-  .container { width: 100%; max-width: 680px; }
-  .card { background: #fff; border-radius: 16px; overflow: hidden; border: 1px solid #e0e0e0; }
-  .hdr { background: #111; padding: 28px 32px 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; border-bottom: 4px solid #c8f135; }
-  .hdr-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 10px; }
-  .hdr-title { font-size: 26px; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 6px; }
-  .hdr-sub { font-size: 14px; color: #888; }
-  .logo-block { text-align: right; flex-shrink: 0; }
-  .logo-text { font-size: 15px; font-weight: 900; color: #fff; line-height: 1.05; }
-  .logo-text .o { color: #c8f135; }
-  .logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 8px; font-weight: 800; letter-spacing: .1em; padding: 3px 8px; border-radius: 3px; margin-top: 5px; }
-  .how-to { background: #f0ffd0; border-left: 4px solid #c8f135; border-radius: 0 10px 10px 0; margin: 22px 28px; padding: 16px 18px; }
-  .how-to-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #3a6600; margin-bottom: 12px; }
-  .how-to-steps { display: flex; gap: 16px; flex-wrap: wrap; }
-  .how-to-step { display: flex; align-items: flex-start; gap: 10px; flex: 1; min-width: 160px; }
-  .step-num { width: 26px; height: 26px; border-radius: 50%; background: #c8f135; color: #111; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .step-text { font-size: 13px; color: #2a4a00; line-height: 1.5; padding-top: 3px; }
-  .rules-block { margin: 0 28px 22px; background: #f9f9f9; border-left: 3px solid #ddd; border-radius: 0 8px 8px 0; padding: 14px 16px; }
-  .rules-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #888; margin-bottom: 8px; }
-  .rule { font-size: 14px; color: #333; line-height: 1.8; }
-  .rule b { color: #111; font-weight: 700; }
-  .body { padding: 0 28px 28px; }
-  .scenario-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #555; margin-bottom: 8px; }
-  .scenario-hint { font-size: 13px; color: #888; margin-bottom: 14px; font-style: italic; }
-  .scenario-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 26px; }
-  .s-btn { background: #f5f5f5; border: 2px solid #e0e0e0; border-radius: 10px; padding: 16px 12px; font-size: 13px; color: #444; cursor: pointer; text-align: center; line-height: 1.5; transition: all .15s; font-family: inherit; font-weight: 500; }
-  .s-btn:hover { border-color: #111; color: #111; background: #efefef; }
-  .s-btn.active { border-color: #111; color: #111; background: #f0ffd0; font-weight: 700; }
-  .q-card { background: #f9f9f9; border: 2px solid #e0e0e0; border-radius: 12px; padding: 24px; margin-bottom: 12px; }
-  .q-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #888; margin-bottom: 10px; }
-  .q-text { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 8px; line-height: 1.4; }
-  .q-hint { font-size: 13px; color: #888; font-style: italic; margin-bottom: 20px; line-height: 1.5; }
-  .a-row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .a-btn { flex: 1; min-width: 160px; background: #fff; border: 2px solid #e0e0e0; border-radius: 10px; padding: 14px 16px; font-size: 14px; color: #333; cursor: pointer; font-family: inherit; transition: all .15s; text-align: center; line-height: 1.4; font-weight: 500; }
-  .a-btn:hover { border-color: #111; color: #111; background: #f5f5f5; }
-  .breadcrumb { font-size: 12px; color: #aaa; margin-bottom: 16px; line-height: 2; }
-  .bc-step { color: #666; font-weight: 500; }
-  .bc-arr { margin: 0 6px; color: #ccc; }
-  .outcome { border-radius: 12px; padding: 24px; margin-bottom: 14px; }
-  .outcome.foul { background: #fff5f5; border: 2px solid #ffbbbb; }
-  .outcome.play-on { background: #f0fff4; border: 2px solid #99e6b3; }
-  .out-eye { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px; }
-  .outcome.foul .out-eye { color: #cc0000; }
-  .outcome.play-on .out-eye { color: #1a7a3c; }
-  .out-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
-  .outcome.foul .out-title { color: #aa0000; }
-  .outcome.play-on .out-title { color: #155a2e; }
-  .out-detail { font-size: 15px; line-height: 1.7; }
-  .outcome.foul .out-detail { color: #7a0000; }
-  .outcome.play-on .out-detail { color: #1a5c32; }
-  .restart { background: transparent; border: 2px solid #e0e0e0; border-radius: 8px; padding: 10px 20px; font-size: 13px; color: #888; cursor: pointer; font-family: inherit; transition: all .15s; font-weight: 500; }
-  .restart:hover { border-color: #111; color: #111; }
-  .footer { background: #f5f5f5; border-top: 1px solid #e0e0e0; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; }
-  .footer-note { font-size: 12px; color: #aaa; }
-  .footer-dot { width: 7px; height: 7px; border-radius: 50%; background: #c8f135; }
-  @media (max-width: 520px) {
-    .scenario-grid { grid-template-columns: 1fr; }
-    .a-row { flex-direction: column; }
-    .hdr { flex-direction: column; }
-    .how-to-steps { flex-direction: column; }
+
+  body {
+    background: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px 40px;
+  }
+
+  .wrap { width: 100%; max-width: 580px; }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .logo-text { font-size: 13px; font-weight: 900; color: #111; line-height: 1.05; }
+  .logo-text .o { color: #3a8c00; }
+  .logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 7px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; border-radius: 3px; margin-top: 3px; }
+
+  .progress-wrap { flex: 1; margin: 0 20px; }
+  .progress-label { font-size: 11px; color: #999; text-align: center; margin-bottom: 6px; font-weight: 600; letter-spacing: .04em; }
+  .progress-track { background: #e0e0e0; border-radius: 4px; height: 6px; }
+  .progress-fill { background: #c8f135; border-radius: 4px; height: 6px; transition: width .4s ease; }
+
+  .score-badge { font-size: 13px; font-weight: 700; color: #555; white-space: nowrap; }
+  .score-badge span { color: #111; }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .card-header {
+    background: #111;
+    padding: 20px 24px 18px;
+    border-bottom: 3px solid #c8f135;
+  }
+
+  .drill-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 8px; }
+  .drill-title { font-size: 20px; font-weight: 800; color: #fff; line-height: 1.25; }
+
+  .card-body { padding: 22px 24px; }
+
+  .situation-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+
+  .situation { font-size: 16px; color: #111; line-height: 1.7; margin-bottom: 20px; font-weight: 400; }
+  .situation b { font-weight: 700; color: #111; }
+
+  .field-strip {
+    background: #f0f7e6;
+    border: 1.5px solid #c8f135;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .field-icon {
+    width: 36px;
+    height: 36px;
+    background: #c8f135;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+
+  .field-text { font-size: 13px; color: #2a5000; line-height: 1.55; font-weight: 500; }
+
+  .question-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .question { font-size: 17px; font-weight: 700; color: #111; margin-bottom: 18px; line-height: 1.4; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+
+  .opt-btn {
+    background: #f9f9f9;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.4;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .opt-btn:hover:not(:disabled) { border-color: #111; background: #f0f0f0; }
+  .opt-btn:disabled { cursor: default; }
+
+  .opt-btn.correct { background: #f0fff4; border-color: #22c55e; color: #155a2e; }
+  .opt-btn.wrong { background: #fff5f5; border-color: #ef4444; color: #7a0000; }
+  .opt-btn.reveal { background: #f0fff4; border-color: #22c55e; color: #155a2e; opacity: .7; }
+
+  .opt-indicator {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #bbb;
+    background: #fff;
+    transition: all .15s;
+  }
+
+  .opt-btn.correct .opt-indicator { background: #22c55e; border-color: #22c55e; color: #fff; }
+  .opt-btn.wrong .opt-indicator { background: #ef4444; border-color: #ef4444; color: #fff; }
+  .opt-btn.reveal .opt-indicator { background: #22c55e; border-color: #22c55e; color: #fff; }
+
+  .feedback {
+    margin-top: 18px;
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: none;
+  }
+
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: #f0fff4; border: 1.5px solid #99e6b3; }
+  .feedback.wrong-fb { background: #fff5f5; border: 1.5px solid #ffbbbb; }
+
+  .fb-result { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+  .correct-fb .fb-result { color: #1a7a3c; }
+  .wrong-fb .fb-result { color: #cc0000; }
+
+  .fb-text { font-size: 14px; line-height: 1.7; }
+  .correct-fb .fb-text { color: #155a2e; }
+  .wrong-fb .fb-text { color: #7a0000; }
+
+  .fb-rule {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0,0,0,.06);
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .correct-fb .fb-rule { color: #2a7a4c; }
+  .wrong-fb .fb-rule { color: #8a2020; }
+
+  .next-btn {
+    width: 100%;
+    margin-top: 16px;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity .15s;
+    display: none;
+  }
+
+  .next-btn.show { display: block; }
+  .next-btn:hover { opacity: .85; }
+
+  .complete-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+    display: none;
+  }
+
+  .complete-card.show { display: block; }
+
+  .complete-header {
+    background: #111;
+    padding: 28px 24px 24px;
+    border-bottom: 3px solid #c8f135;
+    text-align: center;
+  }
+
+  .complete-icon { font-size: 36px; margin-bottom: 10px; }
+  .complete-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .complete-sub { font-size: 14px; color: #888; }
+
+  .complete-body { padding: 24px; }
+
+  .score-display {
+    background: #f0ffd0;
+    border: 2px solid #c8f135;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .score-num { font-size: 48px; font-weight: 800; color: #111; line-height: 1; margin-bottom: 4px; }
+  .score-label { font-size: 13px; color: #555; font-weight: 500; }
+
+  .takeaway { background: #f9f9f9; border-radius: 10px; padding: 18px; margin-bottom: 20px; }
+  .takeaway-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .takeaway-text { font-size: 14px; color: #333; line-height: 1.75; }
+
+  .practice-prompt {
+    background: #111;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+
+  .practice-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #c8f135; margin-bottom: 10px; }
+  .practice-text { font-size: 14px; color: #ccc; line-height: 1.75; }
+
+  .retry-btn {
+    width: 100%;
+    background: #f5f5f5;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #555;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .15s;
+  }
+
+  .retry-btn:hover { border-color: #111; color: #111; }
+
+  @media (min-width: 580px) {
+    .options { flex-direction: column; }
   }
 </style>
 </head>
 <body>
-<div class="container">
-<div class="card">
-  <div class="hdr">
+<div class="wrap">
+
+  <div class="top-bar">
     <div>
-      <div class="hdr-tag">Field Hockey · Rules Guide</div>
-      <div class="hdr-title">High Balls: Dangerous or Not?</div>
-      <div class="hdr-sub">Interactive decision guide for coaches and officials</div>
-    </div>
-    <div class="logo-block">
-      <div class="logo-text">THE<br>C<span class="o">o</span>L<br>LAB</div>
+      <div class="logo-text">THE C<span class="o">o</span>L LAB</div>
       <div class="logo-pill">FIELD HOCKEY</div>
     </div>
+    <div class="progress-wrap">
+      <div class="progress-label" id="prog-label">Drill 1 of 3</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="score-badge">Score: <span id="score-display">0</span>/3</div>
   </div>
 
-  <div class="how-to">
-    <div class="how-to-label">How to use this guide</div>
-    <div class="how-to-steps">
-      <div class="how-to-step">
-        <div class="step-num">1</div>
-        <div class="step-text">Pick the scenario that matches what happened on the field</div>
+  <div class="card" id="drill-card">
+    <div class="card-header">
+      <div class="drill-label" id="drill-label">High Balls Drill</div>
+      <div class="drill-title" id="drill-title">Make the call.</div>
+    </div>
+    <div class="card-body">
+      <div class="situation-label">The situation</div>
+      <div class="situation" id="situation"></div>
+      <div class="field-strip" id="field-strip">
+        <div class="field-icon">&#9889;</div>
+        <div class="field-text" id="field-text"></div>
       </div>
-      <div class="how-to-step">
-        <div class="step-num">2</div>
-        <div class="step-text">Answer the question about what you observed</div>
+      <div class="question-label">Your call</div>
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback">
+        <div class="fb-result" id="fb-result"></div>
+        <div class="fb-text" id="fb-text"></div>
+        <div class="fb-rule" id="fb-rule"></div>
       </div>
-      <div class="how-to-step">
-        <div class="step-num">3</div>
-        <div class="step-text">Get the correct call with the reasoning behind it</div>
-      </div>
+      <button class="next-btn" id="next-btn" onclick="nextDrill()">Next drill rep &#8594;</button>
     </div>
   </div>
 
-  <div class="rules-block">
-    <div class="rules-label">Key rules to know first</div>
-    <div class="rule"><b>Dangerous ball:</b> causes legitimate evasive action by players.</div>
-    <div class="rule"><b>General standard:</b> below knee height is generally not dangerous.</div>
-    <div class="rule"><b>Intentional lift:</b> only legal on a shot at goal, inside the circle.</div>
-    <div class="rule"><b>Remember:</b> there is no "high ball" call in field hockey, only a dangerous ball call.</div>
-  </div>
-
-  <div class="body">
-    <div class="scenario-label">Step 1 — Select your scenario</div>
-    <div class="scenario-hint">Choose the situation that best matches what you saw on the field.</div>
-    <div class="scenario-grid">
-      <button class="s-btn" onclick="go('hit',this)">Ball lifted on a hit (not a shot at goal)</button>
-      <button class="s-btn" onclick="go('deflect',this)">Ball is deflected</button>
-      <button class="s-btn" onclick="go('popup',this)">Ball pops up between 2 players</button>
+  <div class="complete-card" id="complete-card">
+    <div class="complete-header">
+      <div class="complete-icon">&#127942;</div>
+      <div class="complete-title">Drill complete.</div>
+      <div class="complete-sub">Here is what to take to your next practice.</div>
     </div>
-    <div id="flow"></div>
+    <div class="complete-body">
+      <div class="score-display">
+        <div class="score-num" id="final-score">0/3</div>
+        <div class="score-label">calls correct</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-label">The key takeaway</div>
+        <div class="takeaway-text">There is no high ball call in field hockey — only a dangerous ball call. The question is never how high the ball went. The question is always: did someone have to get out of the way? Train your players to ask that question and you will have fewer arguments and better decisions on both sides of the ball.</div>
+      </div>
+      <div class="practice-prompt">
+        <div class="practice-label">Take this to practice</div>
+        <div class="practice-text">Run a short scrimmage and call out "high ball situation" when the ball lifts. Pause play and ask your players to make the call before you give it. Use the three scenarios from this drill. See how quickly they start applying the standard on their own.</div>
+      </div>
+      <button class="retry-btn" onclick="restart()">Run the drill again</button>
+    </div>
   </div>
 
-  <div class="footer">
-    <div class="footer-note">Based on NFHS Field Hockey Rules · The CoLLab Field Hockey</div>
-    <div class="footer-dot"></div>
-  </div>
-</div>
 </div>
 
 <script>
-  const flows = {
-    hit: [
-      { q: 'Was the ball intentionally lifted on the hit?',
-        hint: 'Consider the body position, stick angle, and apparent intent of the player.',
-        answers: [
-          { l: 'Yes, it was intentional (chip shot)', n: 'hit-illegal' },
-          { l: 'No, it was unintentional or poor skill', n: 'q2-hit' }
-        ]
-      },
-      { q: 'Is the ball dangerous or does it lead to dangerous play?',
-        hint: 'Did any player have to take evasive action to avoid being hit?',
-        answers: [
-          { l: 'Yes, it was dangerous', n: 'hit-foul' },
-          { l: 'No, it was not dangerous', n: 'hit-playon' }
-        ]
-      }
+const drills = [
+  {
+    label: "Drill rep 1 of 3",
+    title: "Make the call.",
+    situation: "During a midfield battle, your midfielder takes a hard hit. The ball lifts off her stick and rises to about waist height. It travels five yards before landing. The nearest defender does not move — she tracks it and receives it cleanly.",
+    fieldKey: "Unintentional lift. Ball travels to waist height. Nearest defender does not react or move to avoid it.",
+    question: "What is your call?",
+    options: [
+      { text: "Dangerous ball. Free hit to the opposing team.", correct: false },
+      { text: "Play on. The ball was not dangerous.", correct: true },
+      { text: "High ball. Stop play immediately.", correct: false },
     ],
-    deflect: [
-      { q: 'Is the deflected ball dangerous or does it lead to dangerous play?',
-        hint: 'Deflections are unintentional. Only assess whether the outcome is dangerous.',
-        answers: [
-          { l: 'Yes, it was dangerous', n: 'def-foul' },
-          { l: 'No, it was not dangerous', n: 'def-playon' }
-        ]
-      }
-    ]
-  };
-
-  const outcomes = {
-    'hit-illegal': { t:'foul', eye:'Illegal play', title:'Free hit to the opposing team', detail:'Intentionally lifting the ball on a hit outside the circle is a chip shot and is not allowed. Award a free hit to the opposing team at the spot of the hit.' },
-    'hit-foul':    { t:'foul', eye:'Dangerous ball', title:'Free hit to the opposing team', detail:'The ball was unintentionally lifted but caused or led to dangerous play. Award a free hit to the opposing team at the spot of the hit.' },
-    'hit-playon':  { t:'play-on', eye:'No call', title:'Play on', detail:'The ball was unintentionally lifted and was not dangerous. Play continues.' },
-    'def-foul':    { t:'foul', eye:'Dangerous deflection', title:'Blow the whistle, free hit', detail:'Stop play immediately. Award a free hit to the team that did not deflect the ball.' },
-    'def-playon':  { t:'play-on', eye:'No call', title:'Play on', detail:'The deflected ball was not dangerous. Play continues.' }
-  };
-
-  let scenario = null, step = 0, hist = [];
-
-  function go(type, btn) {
-    document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    scenario = type; step = 0; hist = [];
-    type === 'popup' ? renderPopup() : renderStep();
-    document.getElementById('flow').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    correctFb: "Correct. The ball was unintentionally lifted and no player had to take evasive action. Height alone does not make a ball dangerous. The standard is whether someone had to get out of the way — and nobody did.",
+    wrongFb: "Not quite. Even though the ball rose to waist height, the key question is not how high it went. It is whether any player had to take evasive action. Nobody moved to avoid it, so the ball was not dangerous.",
+    rule: "The NFHS standard: a ball is dangerous if it causes legitimate evasive action by players."
+  },
+  {
+    label: "Drill rep 2 of 3",
+    title: "Make the call.",
+    situation: "Your forward is in the attacking half. She deliberately chips the ball over an oncoming defender to create space. The ball rises to knee height and lands behind the defender. There is no evasive action — the defender was already moving past the ball.",
+    fieldKey: "Intentional chip shot. Ball rises to knee height. Not a shot at goal. No evasive action by the defender.",
+    question: "What is your call?",
+    options: [
+      { text: "Play on. The ball was below waist height and nobody was in danger.", correct: false },
+      { text: "Free hit to the opposing team at the spot of the hit.", correct: true },
+      { text: "Dangerous ball. Free hit because the ball was lifted.", correct: false },
+    ],
+    correctFb: "Correct. A player cannot intentionally lift the ball on a hit unless it is a shot at goal inside the circle. This was a deliberate chip shot in open play — that is illegal regardless of whether anyone was in danger. Free hit to the opposing team.",
+    wrongFb: "Not quite. Intent is the first question on a hit. When a player deliberately lifts the ball on a hit outside the circle, it is illegal — full stop. It does not matter that nobody was in danger. The chip shot is the violation, not the height.",
+    rule: "A player may only intentionally raise the ball on a hit if it is a shot at goal inside the circle."
+  },
+  {
+    label: "Drill rep 3 of 3",
+    title: "Make the call.",
+    situation: "Two players contest the ball near the sideline. Both sticks come down at the same time. The ball squirts up between them and rises above knee height. Both players flinch and step back to avoid contact with the ball.",
+    fieldKey: "Ball pops up between two players above knee height. Both players take evasive action.",
+    question: "What is your call?",
+    options: [
+      { text: "Play on. Both players caused the ball to rise so neither is at fault.", correct: false },
+      { text: "Stop play and sort out who was responsible before making the call.", correct: false },
+      { text: "Call it immediately. Free hit to the opponent of the last player to touch the ball.", correct: true },
+    ],
+    correctFb: "Correct. When the ball pops up above knee height between two players, you call it immediately. No deliberation needed. The last stick to contact the ball is responsible for the foul. Free hit to the opponent at the spot of the pop-up.",
+    wrongFb: "Not quite. Pop-ups between two players above knee height are an immediate call. You do not wait or deliberate. The last stick to contact the ball is responsible. Award a free hit to the opponent at the spot of the pop-up.",
+    rule: "Pop-ups above knee height between two players are called immediately. The last stick to contact the ball is responsible."
   }
+];
 
-  function bc() {
-    if (!hist.length) return '';
-    return '<div class="breadcrumb"><span style="color:#888;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;">Your path: </span>' +
-      hist.map((h,i) => '<span class="bc-step">'+h+'</span>'+(i<hist.length-1?'<span class="bc-arr">&#8594;</span>':'')).join('') + '</div>';
-  }
+let current = 0;
+let score = 0;
+let answered = false;
 
-  function renderStep() {
-    const s = flows[scenario][step];
-    document.getElementById('flow').innerHTML = bc() +
-      '<div class="q-card">' +
-      '<div class="q-label">Step ' + (step + 2) + ' — Answer this question</div>' +
-      '<div class="q-text">'+s.q+'</div>' +
-      (s.hint ? '<div class="q-hint">'+s.hint+'</div>' : '') +
-      '<div class="a-row">'+s.answers.map(a =>
-        '<button class="a-btn" onclick="pick(\''+esc(a.l)+'\',\''+a.n+'\')">'+a.l+'</button>'
-      ).join('')+'</div></div>';
-  }
+function render() {
+  const d = drills[current];
+  document.getElementById('drill-label').textContent = d.label;
+  document.getElementById('drill-title').textContent = d.title;
+  document.getElementById('situation').innerHTML = d.situation;
+  document.getElementById('field-text').textContent = d.fieldKey;
+  document.getElementById('question').textContent = d.question;
+  document.getElementById('prog-label').textContent = 'Drill ' + (current + 1) + ' of ' + drills.length;
+  document.getElementById('prog-fill').style.width = (current / drills.length * 100) + '%';
+  document.getElementById('score-display').textContent = score;
+  answered = false;
 
-  function renderPopup() {
-    document.getElementById('flow').innerHTML =
-      '<div class="outcome foul"><div class="out-eye">Immediate call</div>' +
-      '<div class="out-title">Free hit to the opponent</div>' +
-      '<div class="out-detail">Call it immediately when the ball rises above knee height between two players. The last stick to contact the ball is responsible. Free hit to the opponent at the spot of the pop-up.</div></div>' +
-      '<button class="restart" onclick="reset()">Start over</button>';
-  }
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.textContent = current < drills.length - 1 ? 'Next drill rep \u2192' : 'See results';
+  nextBtn.classList.remove('show');
 
-  function pick(label, next) {
-    hist.push(label);
-    if (next === 'q2-hit') { step = 1; renderStep(); return; }
-    if (outcomes[next]) {
-      const o = outcomes[next];
-      document.getElementById('flow').innerHTML = bc() +
-        '<div class="outcome '+o.t+'"><div class="out-eye">'+o.eye+'</div>' +
-        '<div class="out-title">'+o.title+'</div>' +
-        '<div class="out-detail">'+o.detail+'</div></div>' +
-        '<button class="restart" onclick="reset()">Start over</button>';
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  fb.classList.remove('show');
+
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  d.options.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = '<span class="opt-indicator">' + String.fromCharCode(65 + i) + '</span>' + o.text;
+    btn.onclick = () => choose(i);
+    opts.appendChild(btn);
+  });
+}
+
+function choose(idx) {
+  if (answered) return;
+  answered = true;
+  const d = drills[current];
+  const btns = document.querySelectorAll('.opt-btn');
+  const isCorrect = d.options[idx].correct;
+
+  if (isCorrect) score++;
+
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (d.options[i].correct) {
+      btn.classList.add(i === idx ? 'correct' : 'reveal');
+      btn.querySelector('.opt-indicator').textContent = '\u2713';
+    } else if (i === idx) {
+      btn.classList.add('wrong');
+      btn.querySelector('.opt-indicator').textContent = '\u2715';
     }
-  }
+  });
 
-  function reset() {
-    scenario = null; step = 0; hist = [];
-    document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('flow').innerHTML = '';
-  }
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback ' + (isCorrect ? 'correct-fb' : 'wrong-fb') + ' show';
+  document.getElementById('fb-result').textContent = isCorrect ? 'Good call.' : 'Not quite.';
+  document.getElementById('fb-text').textContent = isCorrect ? d.correctFb : d.wrongFb;
+  document.getElementById('fb-rule').textContent = 'Rule: ' + d.rule;
 
-  function esc(s) { return s.replace(/'/g, "\\'"); }
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('next-btn').classList.add('show');
+}
+
+function nextDrill() {
+  current++;
+  if (current >= drills.length) {
+    showComplete();
+  } else {
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function showComplete() {
+  document.getElementById('drill-card').style.display = 'none';
+  const cc = document.getElementById('complete-card');
+  cc.classList.add('show');
+  document.getElementById('final-score').textContent = score + '/' + drills.length;
+  document.getElementById('prog-fill').style.width = '100%';
+  document.getElementById('prog-label').textContent = 'Complete';
+  document.getElementById('score-display').textContent = score;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  current = 0;
+  score = 0;
+  document.getElementById('drill-card').style.display = 'block';
+  document.getElementById('complete-card').classList.remove('show');
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+render();
 </script>
 </body>
 </html>
