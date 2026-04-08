@@ -1,0 +1,308 @@
+
+<h2 class="sr-only">The CoLLab Field Hockey content calendar — 16 posts across 4 pillars over 32 weeks</h2>
+<style>
+  .cal { font-family: var(--font-sans); padding: 0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem; }
+  .leg { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); }
+  .leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .filter-btn { font-size: 12px; padding: 4px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-secondary); cursor: pointer; font-family: var(--font-sans); transition: all .15s; }
+  .filter-btn.on { background: #111; color: #c8f135; border-color: #111; }
+  .filter-btn:hover:not(.on) { border-color: var(--color-border-primary); color: var(--color-text-primary); }
+  .posts { display: flex; flex-direction: column; gap: 10px; }
+  .post-row { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; display: grid; grid-template-columns: 52px 1fr auto; gap: 12px; align-items: start; transition: border-color .15s; }
+  .post-row:hover { border-color: var(--color-border-secondary); }
+  .post-row.hidden { display: none; }
+  .week-badge { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .week-num { font-size: 11px; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: .06em; line-height: 1; margin-bottom: 2px; }
+  .week-val { font-size: 20px; font-weight: 500; color: var(--color-text-primary); line-height: 1; }
+  .post-main { min-width: 0; }
+  .post-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 7px; }
+  .pill { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+  .pill-coach { background: #e8f0fe; color: #0C447C; }
+  .pill-player { background: #fce8ff; color: #6a1a8a; }
+  .pill-space { background: #EAF3DE; color: #27500A; }
+  .pill-body { background: #FAEEDA; color: #633806; }
+  .pill-reading { background: #E1F5EE; color: #085041; }
+  .pill-mental { background: #FAECE7; color: #712B13; }
+  .pill-video { background: #f3f4f6; color: #555; }
+  .pill-drill { background: #f0ffd0; color: #2a5000; }
+  .post-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; line-height: 1.35; }
+  .post-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.55; }
+  .post-tool { text-align: right; flex-shrink: 0; }
+  .tool-icon { font-size: 16px; width: 32px; height: 32px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); margin-left: auto; }
+  .cycle-header { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--color-text-tertiary); padding: 8px 0 4px; border-top: 0.5px solid var(--color-border-tertiary); margin-top: 4px; }
+  .cycle-header:first-child { border-top: none; margin-top: 0; }
+</style>
+
+<div class="cal">
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:#378ADD;"></div> Coaches</div>
+    <div class="leg"><div class="leg-dot" style="background:#7e22ce;opacity:.6;"></div> Players</div>
+    <div class="leg"><div class="leg-dot" style="background:#639922;"></div> Space</div>
+    <div class="leg"><div class="leg-dot" style="background:#BA7517;"></div> Body position</div>
+    <div class="leg"><div class="leg-dot" style="background:#1D9E75;"></div> Game reading</div>
+    <div class="leg"><div class="leg-dot" style="background:#D85A30;"></div> Mental game</div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn on" onclick="filter('all',this)">All posts</button>
+    <button class="filter-btn" onclick="filter('coach',this)">Coaches only</button>
+    <button class="filter-btn" onclick="filter('player',this)">Players only</button>
+    <button class="filter-btn" onclick="filter('video',this)">Video posts</button>
+    <button class="filter-btn" onclick="filter('drill',this)">Drill posts</button>
+  </div>
+
+  <div class="posts" id="posts">
+
+    <div class="cycle-header">Cycle 1 — Weeks 1 to 8 · Space + Body Position</div>
+
+    <div class="post-row" data-audience="coach" data-tool="drill" data-pillar="space">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">1</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-coach">Coaches</span>
+          <span class="pill pill-space">Space</span>
+          <span class="pill pill-drill">Drill tool</span>
+        </div>
+        <div class="post-title">Why your team keeps getting pressed into a corner</div>
+        <div class="post-desc">Teach coaches why "make the court big" is not a cue — it is a system. Drill: three scenarios where team shape determines how much space is available.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127919;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="player" data-tool="video" data-pillar="space">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">3</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-player">Players</span>
+          <span class="pill pill-space">Space</span>
+          <span class="pill pill-video">Video</span>
+        </div>
+        <div class="post-title">The one question to ask before you receive the ball</div>
+        <div class="post-desc">Where is the space right now? Teach players to scan before the ball arrives. Video: demonstration of scanning habit in live practice situations.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127916;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="coach" data-tool="drill" data-pillar="body">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">5</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-coach">Coaches</span>
+          <span class="pill pill-body">Body position</span>
+          <span class="pill pill-drill">Drill tool</span>
+        </div>
+        <div class="post-title">What your players' body position tells you about your practice</div>
+        <div class="post-desc">Triple Threat and Dynamic First Touch as coachable habits. Drill: three reception scenarios — coaches identify what to correct and why.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127919;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="player" data-tool="video" data-pillar="body">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">7</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-player">Players</span>
+          <span class="pill pill-body">Body position</span>
+          <span class="pill pill-video">Video</span>
+        </div>
+        <div class="post-title">Your first touch is a decision, not a reflex</div>
+        <div class="post-desc">Crabbing, Arching, and Dynamic First Touch as micro-decisions. Video: before and after demonstration showing how angle on reception changes every option available.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127916;</div></div>
+    </div>
+
+    <div class="cycle-header">Cycle 2 — Weeks 9 to 16 · Game Reading + Mental Game</div>
+
+    <div class="post-row" data-audience="coach" data-tool="drill" data-pillar="reading">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">9</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-coach">Coaches</span>
+          <span class="pill pill-reading">Game reading</span>
+          <span class="pill pill-drill">Drill tool</span>
+        </div>
+        <div class="post-title">The framework that turns game chaos into clear decisions</div>
+        <div class="post-desc">W.H.A.T. as a between-quarters tool. Drill: three press decision scenarios using the full W.H.A.T. framework. Already built.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127919;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="player" data-tool="drill" data-pillar="reading">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">11</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-player">Players</span>
+          <span class="pill pill-reading">Game reading</span>
+          <span class="pill pill-drill">Drill tool</span>
+        </div>
+        <div class="post-title">How to read a game like a coach — from the field</div>
+        <div class="post-desc">W.H.A.T. from the player's perspective. Drill: three game situations where players read and communicate what they see. Already built.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127919;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="coach" data-tool="video" data-pillar="mental">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">13</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-coach">Coaches</span>
+          <span class="pill pill-mental">Mental game</span>
+          <span class="pill pill-video">Video</span>
+        </div>
+        <div class="post-title">How to teach mental skills without making practice feel like therapy</div>
+        <div class="post-desc">IPR, Reset Point, and 2 Min Mentality as coachable skills. Video: how to introduce one mental tool per week and build it into your practice structure.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127916;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="player" data-tool="drill" data-pillar="mental">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">15</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-player">Players</span>
+          <span class="pill pill-mental">Mental game</span>
+          <span class="pill pill-drill">Drill tool</span>
+        </div>
+        <div class="post-title">What to do in the 10 seconds after a mistake</div>
+        <div class="post-desc">IPR and Reset Point made practical. Drill: three tough game moments — players walk through what IPR looks like in each situation and choose their reset.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127919;</div></div>
+    </div>
+
+    <div class="cycle-header">Cycle 3 — Weeks 17 to 24 · Space + Body Position (new scenarios)</div>
+
+    <div class="post-row" data-audience="coach" data-tool="drill" data-pillar="space">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">17</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-coach">Coaches</span>
+          <span class="pill pill-space">Space</span>
+          <span class="pill pill-drill">Drill tool</span>
+        </div>
+        <div class="post-title">When to switch your press and when to hold</div>
+        <div class="post-desc">Using space analysis to make smarter press decisions mid-game. Drill: read the game situation and decide — hold the press, adjust it, or switch entirely.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127919;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="player" data-tool="video" data-pillar="space">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">19</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-player">Players</span>
+          <span class="pill pill-space">Space</span>
+          <span class="pill pill-video">Video</span>
+        </div>
+        <div class="post-title">Left Foot Magic — why going right is almost always right</div>
+        <div class="post-desc">The left foot of the defender as a compass. Video: demonstration of reading the defender's left foot and using it to choose direction every time.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127916;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="coach" data-tool="video" data-pillar="body">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">21</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-coach">Coaches</span>
+          <span class="pill pill-body">Body position</span>
+          <span class="pill pill-video">Video</span>
+        </div>
+        <div class="post-title">The drill that teaches Triple Threat in 10 minutes</div>
+        <div class="post-desc">A concrete practice drill for coaching Triple Threat as a habit. Video: running the drill live with players and coaching the key moments to correct.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127916;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="player" data-tool="drill" data-pillar="body">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">23</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-player">Players</span>
+          <span class="pill pill-body">Body position</span>
+          <span class="pill pill-drill">Drill tool</span>
+        </div>
+        <div class="post-title">Reading your defender before you receive the ball</div>
+        <div class="post-desc">Feet, hips, and stick as a reading system. Drill: three 1v1 situations — read the defender and choose the right move. Already built.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127919;</div></div>
+    </div>
+
+    <div class="cycle-header">Cycle 4 — Weeks 25 to 32 · Game Reading + Mental Game (new scenarios)</div>
+
+    <div class="post-row" data-audience="coach" data-tool="drill" data-pillar="reading">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">25</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-coach">Coaches</span>
+          <span class="pill pill-reading">Game reading</span>
+          <span class="pill pill-drill">Drill tool</span>
+        </div>
+        <div class="post-title">Sharp corners — how the best teams execute under pressure</div>
+        <div class="post-desc">Corner decision making and calling. Drill: three corner situations — coaches read the defense and call the right play.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127919;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="player" data-tool="video" data-pillar="reading">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">27</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-player">Players</span>
+          <span class="pill pill-reading">Game reading</span>
+          <span class="pill pill-video">Video</span>
+        </div>
+        <div class="post-title">How to spot patterns your opponent does not know they have</div>
+        <div class="post-desc">Pattern recognition as a competitive skill. Video: walkthrough of a game film clip identifying tendencies and communicating them to teammates.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127916;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="coach" data-tool="drill" data-pillar="mental">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">29</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-coach">Coaches</span>
+          <span class="pill pill-mental">Mental game</span>
+          <span class="pill pill-drill">Drill tool</span>
+        </div>
+        <div class="post-title">Game management when the momentum has shifted</div>
+        <div class="post-desc">2 Min Mentality and game management decisions under pressure. Drill: three game situations where momentum has changed — coaches decide what to do next.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127919;</div></div>
+    </div>
+
+    <div class="post-row" data-audience="player" data-tool="video" data-pillar="mental">
+      <div class="week-badge"><div class="week-num">wk</div><div class="week-val">31</div></div>
+      <div class="post-main">
+        <div class="post-pills">
+          <span class="pill pill-player">Players</span>
+          <span class="pill pill-mental">Mental game</span>
+          <span class="pill pill-video">Video</span>
+        </div>
+        <div class="post-title">1% Better — why small habits beat big goals every time</div>
+        <div class="post-desc">The math behind 1% Better and how to build it into daily training. Video: what a 1% Better habit actually looks like in practice — one concrete example.</div>
+      </div>
+      <div class="post-tool"><div class="tool-icon">&#127916;</div></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function filter(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.post-row').forEach(row => {
+    const aud = row.dataset.audience;
+    const tool = row.dataset.tool;
+    const show = type === 'all' ||
+      (type === 'coach' && aud === 'coach') ||
+      (type === 'player' && aud === 'player') ||
+      (type === 'video' && tool === 'video') ||
+      (type === 'drill' && tool === 'drill');
+    row.classList.toggle('hidden', !show);
+  });
+}
+</script>
