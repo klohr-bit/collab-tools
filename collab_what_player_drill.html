@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W.H.A.T. Game Reading Drill · Players · The CoLLab Field Hockey</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 16px 40px; }
+  .wrap { width: 100%; max-width: 580px; }
+
+  .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .logo-text { font-size: 13px; font-weight: 900; color: #111; line-height: 1.05; }
+  .logo-text .o { color: #3a8c00; }
+  .logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 7px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; border-radius: 3px; margin-top: 3px; }
+  .progress-wrap { flex: 1; margin: 0 20px; }
+  .progress-label { font-size: 11px; color: #999; text-align: center; margin-bottom: 6px; font-weight: 600; letter-spacing: .04em; }
+  .progress-track { background: #e0e0e0; border-radius: 4px; height: 6px; }
+  .progress-fill { background: #c8f135; border-radius: 4px; height: 6px; transition: width .4s ease; }
+  .score-badge { font-size: 13px; font-weight: 700; color: #555; white-space: nowrap; }
+  .score-badge span { color: #111; }
+
+  .card { background: #fff; border-radius: 16px; border: 1px solid #e0e0e0; overflow: hidden; margin-bottom: 16px; }
+  .card-header { background: #111; padding: 20px 24px 18px; border-bottom: 3px solid #c8f135; }
+  .drill-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 8px; }
+  .drill-title { font-size: 20px; font-weight: 800; color: #fff; line-height: 1.25; }
+
+  .card-body { padding: 22px 24px; }
+
+  .situation-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .situation { font-size: 15px; color: #111; line-height: 1.75; margin-bottom: 18px; }
+
+  .what-framework { background: #f9f9f9; border-radius: 12px; padding: 16px 18px; margin-bottom: 20px; border: 1px solid #e0e0e0; }
+  .what-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #555; margin-bottom: 12px; }
+  .what-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+  .what-row:last-child { margin-bottom: 0; }
+  .what-letter { width: 28px; height: 28px; border-radius: 6px; background: #c8f135; color: #111; font-size: 14px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .what-content { flex: 1; }
+  .what-word { font-size: 12px; font-weight: 700; color: #111; margin-bottom: 2px; }
+  .what-obs { font-size: 13px; color: #555; line-height: 1.5; font-style: italic; }
+
+  .question-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .question { font-size: 17px; font-weight: 700; color: #111; margin-bottom: 18px; line-height: 1.4; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn { background: #f9f9f9; border: 2px solid #e0e0e0; border-radius: 10px; padding: 14px 18px; font-size: 14px; color: #333; cursor: pointer; text-align: left; font-family: inherit; font-weight: 500; line-height: 1.45; transition: all .15s; display: flex; align-items: center; gap: 12px; }
+  .opt-btn:hover:not(:disabled) { border-color: #111; background: #f0f0f0; }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: #f0fff4; border-color: #22c55e; color: #155a2e; }
+  .opt-btn.wrong { background: #fff5f5; border-color: #ef4444; color: #7a0000; }
+  .opt-btn.reveal { background: #f0fff4; border-color: #22c55e; color: #155a2e; opacity: .7; }
+  .opt-indicator { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #ddd; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #bbb; background: #fff; transition: all .15s; }
+  .opt-btn.correct .opt-indicator { background: #22c55e; border-color: #22c55e; color: #fff; }
+  .opt-btn.wrong .opt-indicator { background: #ef4444; border-color: #ef4444; color: #fff; }
+  .opt-btn.reveal .opt-indicator { background: #22c55e; border-color: #22c55e; color: #fff; }
+
+  .feedback { margin-top: 18px; border-radius: 10px; padding: 16px 18px; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: #f0fff4; border: 1.5px solid #99e6b3; }
+  .feedback.wrong-fb { background: #fff5f5; border: 1.5px solid #ffbbbb; }
+  .fb-result { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+  .correct-fb .fb-result { color: #1a7a3c; }
+  .wrong-fb .fb-result { color: #cc0000; }
+  .fb-text { font-size: 14px; line-height: 1.7; }
+  .correct-fb .fb-text { color: #155a2e; }
+  .wrong-fb .fb-text { color: #7a0000; }
+  .fb-rule { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,.06); font-size: 12px; font-style: italic; line-height: 1.6; }
+  .correct-fb .fb-rule { color: #2a7a4c; }
+  .wrong-fb .fb-rule { color: #8a2020; }
+
+  .next-btn { width: 100%; margin-top: 16px; background: #111; color: #fff; border: none; border-radius: 10px; padding: 15px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: opacity .15s; display: none; }
+  .next-btn.show { display: block; }
+  .next-btn:hover { opacity: .85; }
+
+  .complete-card { background: #fff; border-radius: 16px; border: 1px solid #e0e0e0; overflow: hidden; display: none; }
+  .complete-card.show { display: block; }
+  .complete-header { background: #111; padding: 28px 24px 24px; border-bottom: 3px solid #c8f135; text-align: center; }
+  .complete-icon { font-size: 36px; margin-bottom: 10px; }
+  .complete-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .complete-sub { font-size: 14px; color: #888; }
+  .complete-body { padding: 24px; }
+  .score-display { background: #f0ffd0; border: 2px solid #c8f135; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; }
+  .score-num { font-size: 48px; font-weight: 800; color: #111; line-height: 1; margin-bottom: 4px; }
+  .score-label { font-size: 13px; color: #555; font-weight: 500; }
+  .takeaway { background: #f9f9f9; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+  .takeaway-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .takeaway-text { font-size: 14px; color: #333; line-height: 1.75; }
+  .practice-prompt { background: #111; border-radius: 10px; padding: 18px; margin-bottom: 20px; }
+  .practice-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #c8f135; margin-bottom: 10px; }
+  .practice-text { font-size: 14px; color: #ccc; line-height: 1.75; }
+  .retry-btn { width: 100%; background: #f5f5f5; border: 2px solid #e0e0e0; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: 700; color: #555; cursor: pointer; font-family: inherit; transition: all .15s; }
+  .retry-btn:hover { border-color: #111; color: #111; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-bar">
+    <div>
+      <div class="logo-text">THE C<span class="o">o</span>L LAB</div>
+      <div class="logo-pill">FIELD HOCKEY</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label" id="prog-label">Rep 1 of 3</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="score-badge">Score: <span id="score-display">0</span>/3</div>
+  </div>
+
+  <div class="card" id="drill-card">
+    <div class="card-header">
+      <div class="drill-label" id="drill-label">W.H.A.T. Game Reading · Player · Rep 1</div>
+      <div class="drill-title">Read the game before your coach does.</div>
+    </div>
+    <div class="card-body">
+      <div class="situation-label">Game situation</div>
+      <div class="situation" id="situation"></div>
+      <div class="what-framework" id="what-framework"></div>
+      <div class="question-label">Your read</div>
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback">
+        <div class="fb-result" id="fb-result"></div>
+        <div class="fb-text" id="fb-text"></div>
+        <div class="fb-rule" id="fb-rule"></div>
+      </div>
+      <button class="next-btn" id="next-btn" onclick="nextDrill()">Next rep &#8594;</button>
+    </div>
+  </div>
+
+  <div class="complete-card" id="complete-card">
+    <div class="complete-header">
+      <div class="complete-icon">&#127942;</div>
+      <div class="complete-title">Drill complete.</div>
+      <div class="complete-sub">Now take W.H.A.T. to the field.</div>
+    </div>
+    <div class="complete-body">
+      <div class="score-display">
+        <div class="score-num" id="final-score">0/3</div>
+        <div class="score-label">reads correct</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-label">The key takeaway</div>
+        <div class="takeaway-text">Players who use W.H.A.T. do not wait to be told what is happening. They observe during play, process between breaks, and communicate what they see to their teammates and coach. That is what Hockey IQ looks like from the inside. The more you practice reading the game this way, the faster it becomes automatic.</div>
+      </div>
+      <div class="practice-prompt">
+        <div class="practice-label">Take this to practice</div>
+        <div class="practice-text">At your next scrimmage, pick one thing to observe every time the opponent has the ball. Just one — their first pass direction, where their forwards position, how their backs outlet. Run your own W.H.A.T. at the quarter break and share what you noticed with a teammate. Start small. Build the habit.</div>
+      </div>
+      <button class="retry-btn" onclick="restart()">Run the drill again</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const drills = [
+  {
+    label: "W.H.A.T. Game Reading · Player · Rep 1",
+    situation: "You are playing midfield. It is the second quarter and every time your team wins the ball your forward receives it and immediately loses it under pressure. The opponent's press is forcing turnovers in the same spot every time — just past the center line on the left side.",
+    what: [
+      { letter: "W", word: "What is the opponent doing?", obs: "Their left forward is sprinting immediately when we win possession and arriving before our forward can turn. They are pressing the left side of our outlet hard." },
+      { letter: "H", word: "How did we respond?", obs: "We keep playing the outlet to the same spot on the left. Our forward is getting closed down before she can move." },
+      { letter: "A", word: "Another way forward is...?", obs: "Change the outlet direction. Play the first pass to the right side where there is less pressure. Or play backward to create a new angle." },
+      { letter: "T", word: "The way forward is...", obs: "Your read — choose below." }
+    ],
+    question: "Your team keeps losing the ball in the same spot. What do you communicate to your teammates?",
+    options: [
+      { text: "Tell your forward to fight harder and hold the ball longer under pressure.", correct: false },
+      { text: "Call for the outlet on the right side and change the direction of the first pass.", correct: true },
+      { text: "Drop deeper to receive the ball yourself and take the pressure.", correct: false },
+    ],
+    correctFb: "Good read. The opponent has figured out your outlet pattern and is consistently closing the left side. The solution is not to fight the same pressure harder — it is to change where the first pass goes. Calling for the ball on the right side forces the opponent to reorganize their press and creates a new outlet that they have not prepared for.",
+    wrongFb: "Think about what W.H.A.T. is showing you. The opponent is winning because your team keeps making the same pass into the same pressure. Fighting harder in the same spot does not solve the pattern — it just makes the same mistake with more effort. The answer is to change the direction of the outlet so the opponent has to reset.",
+    rule: "When the opponent is consistently winning the ball in the same spot, change the direction of play — not the effort."
+  },
+  {
+    label: "W.H.A.T. Game Reading · Player · Rep 2",
+    situation: "You are a back. Third quarter, tied game. Your team is in possession in your own half. You notice the opponent's two forwards are staying very high — near your center line — instead of pressing. Every time your team has the ball the forwards stay back and wait.",
+    what: [
+      { letter: "W", word: "What is the opponent doing?", obs: "Their forwards are sitting high and not pressing. They are leaving space in front of them but blocking the direct route forward." },
+      { letter: "H", word: "How did we respond?", obs: "Our mids are staying in their usual positions and not taking advantage of the space the opponent is leaving in front of the forwards." },
+      { letter: "A", word: "Another way forward is...?", obs: "Move the ball quickly before the forwards drop. Or use the space they are leaving by having our mids drive into it." },
+      { letter: "T", word: "The way forward is...", obs: "Your read — choose below." }
+    ],
+    question: "The opponent's forwards are sitting high and leaving space in front of them. What do you communicate?",
+    options: [
+      { text: "Play it safe and keep possession in the back. Let them come to you.", correct: false },
+      { text: "Call for your mids to move into the space the forwards are leaving and play quickly before they drop.", correct: true },
+      { text: "Play a long ball over the top of the forwards and hope your forwards win it.", correct: false },
+    ],
+    correctFb: "Good read. When the opponent sits high and leaves space in front of them, that space is an invitation. Your mids moving into it forces the opponent's forwards to make a decision — drop and defend the space, or stay high and let you build through it. Either way you are dictating the game. Move quickly before they adjust.",
+    wrongFb: "Think about what W.H.A.T. is showing you. The opponent is giving you space deliberately — they want you to play slow and predictable. Keeping it safe in the back gives them exactly what they want. The space in front of their forwards is yours to use. Your mids moving into it puts the pressure back on the opponent to respond.",
+    rule: "When the opponent gives you space, use it quickly before they can take it back."
+  },
+  {
+    label: "W.H.A.T. Game Reading · Player · Rep 3",
+    situation: "Final quarter, your team is down by one. You are a forward. You notice that every time the opponent's right back has the ball she looks left first — always. She has not once looked right or played a ball to the right side in the entire game. Their right side is being ignored.",
+    what: [
+      { letter: "W", word: "What is the opponent doing?", obs: "Their right back consistently plays left. Their right side of the field has barely been used. It is a pattern that has repeated all game." },
+      { letter: "H", word: "How did we respond?", obs: "Our team has been defending the middle and left side where most of their play goes. Nobody has mentioned or exploited the right side." },
+      { letter: "A", word: "Another way forward is...?", obs: "Position yourself on their right side to intercept or create pressure when their right back has the ball. Force the error or win possession there." },
+      { letter: "T", word: "The way forward is...", obs: "Your read — choose below." }
+    ],
+    question: "You have spotted a consistent pattern in the opponent's right back. What do you do?",
+    options: [
+      { text: "Keep defending the same way. One observation is not enough to act on.", correct: false },
+      { text: "Tell your coach what you have noticed and position yourself to exploit the right side on the next possession.", correct: true },
+      { text: "Try to steal the ball yourself without telling anyone else.", correct: false },
+    ],
+    correctFb: "Good read. Spotting a pattern and communicating it is exactly what W.H.A.T. is designed to produce. You share what you have observed so your team can act on it together. Positioning yourself on the right side puts pressure on a weakness the opponent does not even know they have. This is Hockey IQ in action.",
+    wrongFb: "One observation repeated consistently is absolutely worth acting on. W.H.A.T. asks you to observe and then decide and communicate. Keeping the pattern to yourself or acting alone wastes the intelligence you have gathered. Share it with your coach and teammates so your whole team can exploit it together.",
+    rule: "Spot a pattern, communicate it, and position your team to exploit it. Individual observations become team advantages."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function render() {
+  const d = drills[current];
+  document.getElementById('drill-label').textContent = d.label;
+  document.getElementById('situation').textContent = d.situation;
+  document.getElementById('question').textContent = d.question;
+  document.getElementById('prog-label').textContent = 'Rep ' + (current + 1) + ' of ' + drills.length;
+  document.getElementById('prog-fill').style.width = (current / drills.length * 100) + '%';
+  document.getElementById('score-display').textContent = score;
+  answered = false;
+
+  const wf = document.getElementById('what-framework');
+  wf.innerHTML = '<div class="what-label">W.H.A.T. Analysis</div>' +
+    d.what.map(w =>
+      '<div class="what-row">' +
+      '<div class="what-letter">' + w.letter + '</div>' +
+      '<div class="what-content"><div class="what-word">' + w.word + '</div>' +
+      '<div class="what-obs">' + w.obs + '</div></div></div>'
+    ).join('');
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.textContent = current < drills.length - 1 ? 'Next rep \u2192' : 'See results';
+  nextBtn.classList.remove('show');
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  d.options.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = '<span class="opt-indicator">' + String.fromCharCode(65 + i) + '</span>' + o.text;
+    btn.onclick = () => choose(i);
+    opts.appendChild(btn);
+  });
+}
+
+function choose(idx) {
+  if (answered) return;
+  answered = true;
+  const d = drills[current];
+  const btns = document.querySelectorAll('.opt-btn');
+  const isCorrect = d.options[idx].correct;
+  if (isCorrect) score++;
+
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (d.options[i].correct) {
+      btn.classList.add(i === idx ? 'correct' : 'reveal');
+      btn.querySelector('.opt-indicator').textContent = '\u2713';
+    } else if (i === idx) {
+      btn.classList.add('wrong');
+      btn.querySelector('.opt-indicator').textContent = '\u2715';
+    }
+  });
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback ' + (isCorrect ? 'correct-fb' : 'wrong-fb') + ' show';
+  document.getElementById('fb-result').textContent = isCorrect ? 'Good read.' : 'Think again.';
+  document.getElementById('fb-text').textContent = isCorrect ? d.correctFb : d.wrongFb;
+  document.getElementById('fb-rule').textContent = 'Key principle: ' + d.rule;
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('next-btn').classList.add('show');
+}
+
+function nextDrill() {
+  current++;
+  if (current >= drills.length) {
+    showComplete();
+  } else {
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function showComplete() {
+  document.getElementById('drill-card').style.display = 'none';
+  const cc = document.getElementById('complete-card');
+  cc.classList.add('show');
+  document.getElementById('final-score').textContent = score + '/' + drills.length;
+  document.getElementById('prog-fill').style.width = '100%';
+  document.getElementById('prog-label').textContent = 'Complete';
+  document.getElementById('score-display').textContent = score;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  current = 0;
+  score = 0;
+  document.getElementById('drill-card').style.display = 'block';
+  document.getElementById('complete-card').classList.remove('show');
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+render();
+</script>
+</body>
+</html>
