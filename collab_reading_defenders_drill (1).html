@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading Your Defender · The CoLLab Field Hockey</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 16px 40px; }
+  .wrap { width: 100%; max-width: 580px; }
+
+  .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .logo-text { font-size: 13px; font-weight: 900; color: #111; line-height: 1.05; }
+  .logo-text .o { color: #3a8c00; }
+  .logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 7px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; border-radius: 3px; margin-top: 3px; }
+  .progress-wrap { flex: 1; margin: 0 20px; }
+  .progress-label { font-size: 11px; color: #999; text-align: center; margin-bottom: 6px; font-weight: 600; letter-spacing: .04em; }
+  .progress-track { background: #e0e0e0; border-radius: 4px; height: 6px; }
+  .progress-fill { background: #c8f135; border-radius: 4px; height: 6px; transition: width .4s ease; }
+  .score-badge { font-size: 13px; font-weight: 700; color: #555; white-space: nowrap; }
+  .score-badge span { color: #111; }
+
+  .card { background: #fff; border-radius: 16px; border: 1px solid #e0e0e0; overflow: hidden; margin-bottom: 16px; }
+
+  .card-header { background: #111; padding: 20px 24px 18px; border-bottom: 3px solid #c8f135; }
+  .drill-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 8px; }
+  .drill-title { font-size: 20px; font-weight: 800; color: #fff; line-height: 1.25; }
+
+  .card-body { padding: 22px 24px; }
+
+  .situation-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .situation { font-size: 16px; color: #111; line-height: 1.75; margin-bottom: 18px; }
+
+  .read-strip { border-radius: 10px; padding: 14px 16px; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 12px; }
+  .read-strip.feet { background: #f0f7ff; border: 1.5px solid #b3d4ff; }
+  .read-strip.hips { background: #fff8f0; border: 1.5px solid #ffd4a3; }
+  .read-strip.both { background: #f0ffd0; border: 1.5px solid #c8f135; }
+
+  .read-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px; }
+  .feet .read-icon { background: #ddeeff; }
+  .hips .read-icon { background: #ffe8cc; }
+  .both .read-icon { background: #c8f135; }
+
+  .read-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+  .feet .read-label { color: #1a5aaa; }
+  .hips .read-label { color: #aa5500; }
+  .both .read-label { color: #2a5000; }
+
+  .read-text { font-size: 13px; line-height: 1.55; font-weight: 500; }
+  .feet .read-text { color: #1a4a8a; }
+  .hips .read-text { color: #8a4400; }
+  .both .read-text { color: #2a5000; }
+
+  .question-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .question { font-size: 17px; font-weight: 700; color: #111; margin-bottom: 18px; line-height: 1.4; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn { background: #f9f9f9; border: 2px solid #e0e0e0; border-radius: 10px; padding: 14px 18px; font-size: 15px; color: #333; cursor: pointer; text-align: left; font-family: inherit; font-weight: 500; line-height: 1.4; transition: all .15s; display: flex; align-items: center; gap: 12px; }
+  .opt-btn:hover:not(:disabled) { border-color: #111; background: #f0f0f0; }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: #f0fff4; border-color: #22c55e; color: #155a2e; }
+  .opt-btn.wrong { background: #fff5f5; border-color: #ef4444; color: #7a0000; }
+  .opt-btn.reveal { background: #f0fff4; border-color: #22c55e; color: #155a2e; opacity: .7; }
+  .opt-indicator { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #ddd; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #bbb; background: #fff; transition: all .15s; }
+  .opt-btn.correct .opt-indicator { background: #22c55e; border-color: #22c55e; color: #fff; }
+  .opt-btn.wrong .opt-indicator { background: #ef4444; border-color: #ef4444; color: #fff; }
+  .opt-btn.reveal .opt-indicator { background: #22c55e; border-color: #22c55e; color: #fff; }
+
+  .feedback { margin-top: 18px; border-radius: 10px; padding: 16px 18px; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: #f0fff4; border: 1.5px solid #99e6b3; }
+  .feedback.wrong-fb { background: #fff5f5; border: 1.5px solid #ffbbbb; }
+  .fb-result { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+  .correct-fb .fb-result { color: #1a7a3c; }
+  .wrong-fb .fb-result { color: #cc0000; }
+  .fb-text { font-size: 14px; line-height: 1.7; }
+  .correct-fb .fb-text { color: #155a2e; }
+  .wrong-fb .fb-text { color: #7a0000; }
+  .fb-rule { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,.06); font-size: 12px; font-style: italic; line-height: 1.6; }
+  .correct-fb .fb-rule { color: #2a7a4c; }
+  .wrong-fb .fb-rule { color: #8a2020; }
+
+  .next-btn { width: 100%; margin-top: 16px; background: #111; color: #fff; border: none; border-radius: 10px; padding: 15px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: opacity .15s; display: none; }
+  .next-btn.show { display: block; }
+  .next-btn:hover { opacity: .85; }
+
+  .complete-card { background: #fff; border-radius: 16px; border: 1px solid #e0e0e0; overflow: hidden; display: none; }
+  .complete-card.show { display: block; }
+  .complete-header { background: #111; padding: 28px 24px 24px; border-bottom: 3px solid #c8f135; text-align: center; }
+  .complete-icon { font-size: 36px; margin-bottom: 10px; }
+  .complete-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .complete-sub { font-size: 14px; color: #888; }
+  .complete-body { padding: 24px; }
+  .score-display { background: #f0ffd0; border: 2px solid #c8f135; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; }
+  .score-num { font-size: 48px; font-weight: 800; color: #111; line-height: 1; margin-bottom: 4px; }
+  .score-label { font-size: 13px; color: #555; font-weight: 500; }
+  .takeaway { background: #f9f9f9; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+  .takeaway-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .takeaway-text { font-size: 14px; color: #333; line-height: 1.75; }
+  .practice-prompt { background: #111; border-radius: 10px; padding: 18px; margin-bottom: 20px; }
+  .practice-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #c8f135; margin-bottom: 10px; }
+  .practice-text { font-size: 14px; color: #ccc; line-height: 1.75; }
+  .retry-btn { width: 100%; background: #f5f5f5; border: 2px solid #e0e0e0; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: 700; color: #555; cursor: pointer; font-family: inherit; transition: all .15s; }
+  .retry-btn:hover { border-color: #111; color: #111; }
+
+  @media (max-width: 400px) {
+    .opt-btn { font-size: 14px; padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-bar">
+    <div>
+      <div class="logo-text">THE C<span class="o">o</span>L LAB</div>
+      <div class="logo-pill">FIELD HOCKEY</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label" id="prog-label">Rep 1 of 3</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="score-badge">Score: <span id="score-display">0</span>/3</div>
+  </div>
+
+  <div class="card" id="drill-card">
+    <div class="card-header">
+      <div class="drill-label" id="drill-label">Reading Your Defender · Rep 1</div>
+      <div class="drill-title">What do you see? What do you do?</div>
+    </div>
+    <div class="card-body">
+      <div class="situation-label">The situation</div>
+      <div class="situation" id="situation"></div>
+      <div id="read-strip-container"></div>
+      <div class="question-label">Your decision</div>
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback">
+        <div class="fb-result" id="fb-result"></div>
+        <div class="fb-text" id="fb-text"></div>
+        <div class="fb-rule" id="fb-rule"></div>
+      </div>
+      <button class="next-btn" id="next-btn" onclick="nextDrill()">Next rep &#8594;</button>
+    </div>
+  </div>
+
+  <div class="complete-card" id="complete-card">
+    <div class="complete-header">
+      <div class="complete-icon">&#127942;</div>
+      <div class="complete-title">Drill complete.</div>
+      <div class="complete-sub">Take these reads to your next practice.</div>
+    </div>
+    <div class="complete-body">
+      <div class="score-display">
+        <div class="score-num" id="final-score">0/3</div>
+        <div class="score-label">reads correct</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-label">The key takeaway</div>
+        <div class="takeaway-text">Great players do not react faster — they read earlier. Check your defender before the ball arrives. Feet tell you their weight. Hips tell you their direction. Stick tells you what they are protecting. Read all three and your decision is already made by the time the ball gets to you.</div>
+      </div>
+      <div class="practice-prompt">
+        <div class="practice-label">Take this to practice</div>
+        <div class="practice-text">Pick one thing to focus on in your next training session: scanning your defender before you receive. Every time the ball is traveling to you, your eyes go to the defender first. Do it for one full practice and notice how much earlier your decisions come.</div>
+      </div>
+      <button class="retry-btn" onclick="restart()">Run the drill again</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const drills = [
+  {
+    label: "Reading Your Defender · Rep 1",
+    situation: "You receive the ball in midfield with one defender between you and the space ahead. You scan before the ball arrives. The defender's weight is balanced, feet shoulder-width apart. They have not committed in any direction. They are waiting for you to move first.",
+    readStrip: {
+      type: "feet",
+      icon: "&#128065;",
+      label: "What you read",
+      text: "Weight balanced. Feet shoulder-width apart. No commitment yet in either direction."
+    },
+    question: "What is your best decision here?",
+    options: [
+      { text: "Accelerate directly at the defender to try to beat them with pace.", correct: false },
+      { text: "Slow down slightly, stay patient, and force the defender to commit first.", correct: true },
+      { text: "Pass the ball immediately to avoid the 1v1 situation.", correct: false },
+    ],
+    correctFb: "Good read. A defender who has not committed yet will recover if you just run at them. Slow down, get into a strong ball-carrying position, and make them move first. The moment they lean one way, you have your decision made.",
+    wrongFb: "Not the best option here. When a defender has not committed, running straight at them just gives them time to adjust. The better play is to be patient and force their commitment. Once they lean, you know exactly where your space is.",
+    rule: "A balanced defender has not given you information yet. Make them commit before you decide."
+  },
+  {
+    label: "Reading Your Defender · Rep 2",
+    situation: "You are carrying the ball toward the circle. A defender closes hard and fast from your left side. They are moving at full speed to cut off your path. You have the ball on your forehand.",
+    readStrip: {
+      type: "hips",
+      icon: "&#9889;",
+      label: "What you read",
+      text: "Defender closing fast from your left. Weight committed forward. Moving at full speed. Cannot change direction quickly."
+    },
+    question: "What is your best decision here?",
+    options: [
+      { text: "Speed up and try to outrun them to the space ahead.", correct: false },
+      { text: "Use a quick pull back or change of angle to let their momentum carry them past you.", correct: true },
+      { text: "Shield the ball and wait for support from a teammate.", correct: false },
+    ],
+    correctFb: "Good read. A defender closing at full speed has committed their weight forward. They cannot change direction quickly. A pull back or change of angle gets them moving past you while you move into the space they just vacated. Use their momentum against them.",
+    wrongFb: "Think about what the defender's speed tells you. A defender closing at full speed has committed their weight forward — they cannot stop or change direction quickly. Running away in a straight line just lets them keep chasing. Changing your angle forces them to deal with their own momentum.",
+    rule: "A defender closing fast has committed their weight forward. Change your angle to use that momentum against them."
+  },
+  {
+    label: "Reading Your Defender · Rep 3",
+    situation: "You receive the ball on the left side of the field. The defender in front of you is positioned with their body angled slightly to your right — they are shading you toward the left boards. There is open space to your right but the defender is between you and the center.",
+    readStrip: {
+      type: "both",
+      icon: "&#128270;",
+      label: "What you read",
+      text: "Defender shading you left. Body angled to your right. They are giving you the left boards and protecting the center."
+    },
+    question: "What is your best decision here?",
+    options: [
+      { text: "Go left toward the boards since that is the direction the defender is leaving open.", correct: false },
+      { text: "Go right and find the space through the center that the defender is protecting.", correct: false },
+      { text: "Recognize that the left is a trap. Change your angle and look to exploit the other side or play back.", correct: true },
+    ],
+    correctFb: "Good read. A defender who is channeling you has already decided which way they want you to go. The open side is not an invitation — it is a trap. They want you on the boards where they have the advantage. Recognize the channel, change your angle, and find a different solution.",
+    wrongFb: "Think about why the defender left that side open. It is rarely an accident at this level. A defender shading you in one direction is channeling you — they want you to go that way. Going exactly where they want you to go gives them the advantage. Recognize the trap and change your plan.",
+    rule: "A defender shading you in one direction is channeling you. The open side is often a trap. Read the channel and find a different solution."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function render() {
+  const d = drills[current];
+  document.getElementById('drill-label').textContent = d.label;
+  document.getElementById('situation').textContent = d.situation;
+  document.getElementById('question').textContent = d.question;
+  document.getElementById('prog-label').textContent = 'Rep ' + (current + 1) + ' of ' + drills.length;
+  document.getElementById('prog-fill').style.width = (current / drills.length * 100) + '%';
+  document.getElementById('score-display').textContent = score;
+  answered = false;
+
+  const rs = d.readStrip;
+  document.getElementById('read-strip-container').innerHTML =
+    '<div class="read-strip ' + rs.type + '">' +
+    '<div class="read-icon">' + rs.icon + '</div>' +
+    '<div><div class="read-label">' + rs.label + '</div>' +
+    '<div class="read-text">' + rs.text + '</div></div></div>';
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.textContent = current < drills.length - 1 ? 'Next rep \u2192' : 'See results';
+  nextBtn.classList.remove('show');
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  d.options.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = '<span class="opt-indicator">' + String.fromCharCode(65 + i) + '</span>' + o.text;
+    btn.onclick = () => choose(i);
+    opts.appendChild(btn);
+  });
+}
+
+function choose(idx) {
+  if (answered) return;
+  answered = true;
+  const d = drills[current];
+  const btns = document.querySelectorAll('.opt-btn');
+  const isCorrect = d.options[idx].correct;
+  if (isCorrect) score++;
+
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (d.options[i].correct) {
+      btn.classList.add(i === idx ? 'correct' : 'reveal');
+      btn.querySelector('.opt-indicator').textContent = '\u2713';
+    } else if (i === idx) {
+      btn.classList.add('wrong');
+      btn.querySelector('.opt-indicator').textContent = '\u2715';
+    }
+  });
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback ' + (isCorrect ? 'correct-fb' : 'wrong-fb') + ' show';
+  document.getElementById('fb-result').textContent = isCorrect ? 'Good read.' : 'Think again.';
+  document.getElementById('fb-text').textContent = isCorrect ? d.correctFb : d.wrongFb;
+  document.getElementById('fb-rule').textContent = 'Key principle: ' + d.rule;
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('next-btn').classList.add('show');
+}
+
+function nextDrill() {
+  current++;
+  if (current >= drills.length) {
+    showComplete();
+  } else {
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function showComplete() {
+  document.getElementById('drill-card').style.display = 'none';
+  const cc = document.getElementById('complete-card');
+  cc.classList.add('show');
+  document.getElementById('final-score').textContent = score + '/' + drills.length;
+  document.getElementById('prog-fill').style.width = '100%';
+  document.getElementById('prog-label').textContent = 'Complete';
+  document.getElementById('score-display').textContent = score;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  current = 0;
+  score = 0;
+  document.getElementById('drill-card').style.display = 'block';
+  document.getElementById('complete-card').classList.remove('show');
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+render();
+</script>
+</body>
+</html>
