@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reading the Press · Experience 2 · The CoLLab Field Hockey</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 16px 40px; }
+  .wrap { width: 100%; max-width: 580px; }
+
+  .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .logo-text { font-size: 13px; font-weight: 900; color: #111; line-height: 1.05; }
+  .logo-text .o { color: #3a8c00; }
+  .logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 7px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; border-radius: 3px; margin-top: 3px; }
+  .progress-wrap { flex: 1; margin: 0 20px; }
+  .progress-label { font-size: 11px; color: #999; text-align: center; margin-bottom: 6px; font-weight: 600; letter-spacing: .04em; }
+  .progress-track { background: #e0e0e0; border-radius: 4px; height: 6px; }
+  .progress-fill { background: #c8f135; border-radius: 4px; height: 6px; transition: width .4s ease; }
+  .score-badge { font-size: 13px; font-weight: 700; color: #555; white-space: nowrap; }
+  .score-badge span { color: #111; }
+
+  .card { background: #fff; border-radius: 16px; border: 1px solid #e0e0e0; overflow: hidden; margin-bottom: 16px; }
+  .card-header { background: #111; padding: 20px 24px 18px; border-bottom: 3px solid #c8f135; }
+  .lesson-tag { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 8px; }
+  .lesson-title { font-size: 22px; font-weight: 800; color: #fff; line-height: 1.25; }
+  .lesson-sub { font-size: 13px; color: #888; margin-top: 6px; }
+  .card-body { padding: 22px 24px; }
+
+  .press-nav { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 20px; }
+  .press-nav-btn { padding: 8px 6px; font-size: 11px; font-weight: 700; color: #888; background: #f9f9f9; border: 1.5px solid #e0e0e0; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all .15s; text-align: center; }
+  .press-nav-btn.active { background: #111; color: #c8f135; border-color: #111; }
+  .press-nav-btn.done { background: #f0ffd0; color: #2a5000; border-color: #c8f135; }
+  .press-nav-btn:hover:not(.active) { border-color: #999; color: #333; }
+
+  .press-content { display: none; }
+  .press-content.active { display: block; }
+
+  .press-type-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 12px; }
+  .badge-zone { background: #eff6ff; color: #1d4ed8; }
+  .badge-m2m { background: #fdf4ff; color: #7e22ce; }
+  .badge-hybrid { background: #fff7ed; color: #c2410c; }
+
+  .concept-text { font-size: 15px; color: #111; line-height: 1.8; margin-bottom: 16px; }
+  .concept-text b { font-weight: 700; }
+
+  .press-title { font-size: 19px; font-weight: 800; color: #111; margin-bottom: 6px; }
+
+  .diagram-wrap { background: #f9f9f9; border-radius: 12px; padding: 14px; margin-bottom: 14px; border: 1px solid #e0e0e0; }
+  .diagram-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #555; margin-bottom: 10px; text-align: center; }
+
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .do-card { background: #f0ffd0; border: 1.5px solid #c8f135; border-radius: 8px; padding: 12px; }
+  .dont-card { background: #fff5f5; border: 1.5px solid #ffbbbb; border-radius: 8px; padding: 12px; }
+  .do-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #2a5000; margin-bottom: 6px; }
+  .dont-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #aa0000; margin-bottom: 6px; }
+  .do-text { font-size: 12px; color: #2a5000; line-height: 1.6; }
+  .dont-text { font-size: 12px; color: #7a0000; line-height: 1.6; }
+
+  .check-section { background: #f9f9f9; border-radius: 10px; padding: 16px; margin-bottom: 8px; border: 1px solid #e0e0e0; }
+  .check-q { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 14px; line-height: 1.4; }
+  .check-opts { display: flex; flex-direction: column; gap: 8px; }
+  .check-btn { background: #fff; border: 2px solid #e0e0e0; border-radius: 8px; padding: 12px 16px; font-size: 14px; color: #333; cursor: pointer; text-align: left; font-family: inherit; font-weight: 500; transition: all .15s; }
+  .check-btn:hover:not(:disabled) { border-color: #111; background: #f0f0f0; }
+  .check-btn.correct { background: #f0fff4; border-color: #22c55e; color: #155a2e; }
+  .check-btn.wrong { background: #fff5f5; border-color: #ef4444; color: #7a0000; }
+  .check-btn.reveal { background: #f0fff4; border-color: #22c55e; color: #155a2e; opacity: .7; }
+  .check-fb { padding: 12px 14px; border-radius: 8px; font-size: 13px; line-height: 1.65; display: none; margin-top: 10px; }
+  .check-fb.show { display: block; }
+  .check-fb.correct { background: #f0fff4; border: 1px solid #99e6b3; color: #155a2e; }
+  .check-fb.wrong { background: #fff5f5; border: 1px solid #ffbbbb; color: #7a0000; }
+
+  .next-press-btn { width: 100%; background: #111; color: #fff; border: none; border-radius: 10px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: opacity .15s; margin-top: 14px; display: none; }
+  .next-press-btn.show { display: block; }
+  .next-press-btn:hover { opacity: .85; }
+
+  .complete-strip { background: #111; border-radius: 12px; padding: 20px 24px; text-align: center; margin-top: 16px; display: none; }
+  .complete-strip.show { display: block; }
+  .complete-strip-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .complete-strip-sub { font-size: 13px; color: #888; margin-bottom: 16px; }
+  .next-exp-btn { display: inline-block; background: #c8f135; color: #111; font-size: 14px; font-weight: 700; padding: 12px 28px; border-radius: 8px; text-decoration: none; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #555; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-bar">
+    <div>
+      <div class="logo-text">THE C<span class="o">o</span>L LAB</div>
+      <div class="logo-pill">FIELD HOCKEY</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">Experience 2 of 3 · Reading the Press</div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:66%"></div>
+      </div>
+    </div>
+    <div class="score-badge">Done: <span id="done-count">0</span>/4</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="lesson-tag">Player Learning Series · Experience 2</div>
+      <div class="lesson-title">Reading the Press: What Are They Running?</div>
+      <div class="lesson-sub">Learn to identify four presses on sight — and know your Key for each one.</div>
+    </div>
+    <div class="card-body">
+
+      <div style="font-size:14px;color:#555;line-height:1.7;margin-bottom:16px;">Select each press to learn it. Answer the check question before moving to the next one.</div>
+
+      <div class="press-nav">
+        <button class="press-nav-btn active" id="nav-x" onclick="showPress('x')">X Press</button>
+        <button class="press-nav-btn" id="nav-german" onclick="showPress('german')">German</button>
+        <button class="press-nav-btn" id="nav-arrow" onclick="showPress('arrow')">Arrow</button>
+        <button class="press-nav-btn" id="nav-clark" onclick="showPress('clark')">Clark M2M</button>
+      </div>
+
+      <!-- X PRESS -->
+      <div class="press-content active" id="press-x">
+        <div class="press-type-badge badge-zone">Zone</div>
+        <div class="press-title">X Press</div>
+        <div class="concept-text">The X Press uses a V-shape at the front with two forwards and a mid forming a triangle that blocks the center of the court. The backs sit behind to intercept anything that gets through. <b>The center is locked. The boards are the outlet.</b></div>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">X Press — center locked, boards available</div>
+          <svg width="100%" viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="260" height="300" rx="4" fill="#e8d5b0" stroke="#999" stroke-width="1.5"/>
+            <line x1="10" y1="160" x2="270" y2="160" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+            <ellipse cx="140" cy="270" rx="55" ry="38" fill="none" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+            <rect x="103" y="292" width="74" height="16" rx="2" fill="#ccc" stroke="#999" stroke-width="1"/>
+
+            <!-- Red zone - center V blocked -->
+            <polygon points="140,30 80,130 200,130" fill="#ef4444" opacity=".2"/>
+            <!-- Green zones - boards available -->
+            <rect x="10" y="30" width="55" height="120" fill="#c8f135" opacity=".25" rx="2"/>
+            <rect x="215" y="30" width="55" height="120" fill="#c8f135" opacity=".25" rx="2"/>
+
+            <!-- Pressing defenders -->
+            <circle cx="90" cy="65" r="15" fill="#cc0000" opacity=".85"/>
+            <text x="90" y="70" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">F</text>
+            <circle cx="190" cy="65" r="15" fill="#cc0000" opacity=".85"/>
+            <text x="190" y="70" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">F</text>
+            <circle cx="140" cy="120" r="15" fill="#cc0000" opacity=".85"/>
+            <text x="140" y="125" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">M</text>
+            <circle cx="90" cy="195" r="14" fill="#777" opacity=".8"/>
+            <text x="90" y="200" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">B</text>
+            <circle cx="190" cy="195" r="14" fill="#777" opacity=".8"/>
+            <text x="190" y="200" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">B</text>
+
+            <!-- Do not enter label -->
+            <text x="140" y="90" font-family="Arial, sans-serif" font-size="9" fill="#cc0000" font-weight="700" text-anchor="middle">DO NOT</text>
+            <text x="140" y="102" font-family="Arial, sans-serif" font-size="9" fill="#cc0000" font-weight="700" text-anchor="middle">ENTER</text>
+
+            <!-- Key labels -->
+            <text x="37" y="90" font-family="Arial, sans-serif" font-size="9" fill="#2a5000" font-weight="700" text-anchor="middle">KEY</text>
+            <text x="243" y="90" font-family="Arial, sans-serif" font-size="9" fill="#2a5000" font-weight="700" text-anchor="middle">KEY</text>
+
+            <!-- Ball -->
+            <circle cx="140" cy="28" r="6" fill="#f97316" stroke="#ea580c" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#ef4444;opacity:.6;"></div> Locked — do not enter</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#c8f135;"></div> Key — use the boards</div>
+        </div>
+
+        <div class="do-dont">
+          <div class="do-card">
+            <div class="do-label">Key — do this</div>
+            <div class="do-text">Transfer quickly to the boards. Use shape changes and overloads on the side. High ball speed to move before they close.</div>
+          </div>
+          <div class="dont-card">
+            <div class="dont-label">Lock — avoid this</div>
+            <div class="dont-text">Trying to force the ball through the center V. That is exactly where they want it to go.</div>
+          </div>
+        </div>
+
+        <div class="check-section">
+          <div class="check-q">You have the ball in your backcourt. You see two red forwards forming a V with a mid behind them blocking the center. Which press is this?</div>
+          <div class="check-opts" id="x-opts">
+            <button class="check-btn" onclick="pressCheck(this, true, 'x-fb', 'x')">X Press — zone press with a V blocking the center.</button>
+            <button class="check-btn" onclick="pressCheck(this, false, 'x-fb', 'x')">German Press — diagonal press pushing play one way.</button>
+            <button class="check-btn" onclick="pressCheck(this, false, 'x-fb', 'x')">Clark Press — man to man with individual assignments.</button>
+          </div>
+          <div class="check-fb" id="x-fb"></div>
+          <button class="next-press-btn" id="next-x" onclick="showPress('german')">Next: German Press &#8594;</button>
+        </div>
+      </div>
+
+      <!-- GERMAN PRESS -->
+      <div class="press-content" id="press-german">
+        <div class="press-type-badge badge-zone">Zone</div>
+        <div class="press-title">German Press</div>
+        <div class="concept-text">The German Press channels play to one side — specifically pushing you toward the left boards. A diagonal line of defenders pressures your forehand and blocks the left side. <b>Do not go left. Go right.</b> This was Team USA's press of choice in the 2024-25 Indoor season.</div>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">German Press — diagonal line, go right</div>
+          <svg width="100%" viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="260" height="300" rx="4" fill="#e8d5b0" stroke="#999" stroke-width="1.5"/>
+            <line x1="10" y1="160" x2="270" y2="160" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+            <ellipse cx="140" cy="270" rx="55" ry="38" fill="none" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+            <rect x="103" y="292" width="74" height="16" rx="2" fill="#ccc" stroke="#999" stroke-width="1"/>
+
+            <!-- Diagonal lock zone (left side) -->
+            <polygon points="10,10 140,10 90,160 10,160" fill="#ef4444" opacity=".2"/>
+            <!-- Key space right side -->
+            <rect x="165" y="20" width="105" height="140" fill="#c8f135" opacity=".2" rx="2"/>
+
+            <!-- Pressing defenders - diagonal line -->
+            <circle cx="75" cy="55" r="15" fill="#cc0000" opacity=".85"/>
+            <text x="75" y="60" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">F</text>
+            <circle cx="175" cy="75" r="15" fill="#cc0000" opacity=".85"/>
+            <text x="175" y="80" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">F</text>
+            <circle cx="115" cy="135" r="15" fill="#cc0000" opacity=".85"/>
+            <text x="115" y="140" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">M</text>
+            <circle cx="75" cy="205" r="14" fill="#777" opacity=".8"/>
+            <text x="75" y="210" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">B</text>
+            <circle cx="185" cy="215" r="14" fill="#777" opacity=".8"/>
+            <text x="185" y="220" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">B</text>
+
+            <!-- Labels -->
+            <text x="55" y="100" font-family="Arial, sans-serif" font-size="9" fill="#cc0000" font-weight="700" text-anchor="middle">LOCKED</text>
+            <text x="55" y="112" font-family="Arial, sans-serif" font-size="9" fill="#cc0000" font-weight="700" text-anchor="middle">GO LEFT</text>
+            <text x="215" y="80" font-family="Arial, sans-serif" font-size="9" fill="#2a5000" font-weight="700" text-anchor="middle">KEY</text>
+            <text x="215" y="92" font-family="Arial, sans-serif" font-size="9" fill="#2a5000" font-weight="700" text-anchor="middle">GO RIGHT</text>
+
+            <!-- Arrow showing go right -->
+            <line x1="160" y1="110" x2="230" y2="110" stroke="#2a5000" stroke-width="2" marker-end="url(#arr)"/>
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M2 1L8 5L2 9" fill="none" stroke="#2a5000" stroke-width="1.5" stroke-linecap="round"/>
+              </marker>
+            </defs>
+
+            <!-- Ball -->
+            <circle cx="140" cy="28" r="6" fill="#f97316" stroke="#ea580c" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <div class="do-dont">
+          <div class="do-card">
+            <div class="do-label">Key — do this</div>
+            <div class="do-text">Go right. Use the right side boards and the open space. Deceptive passes off the left foot of the pressing forward. Change shape to create overloads on the strong side.</div>
+          </div>
+          <div class="dont-card">
+            <div class="dont-label">Lock — avoid this</div>
+            <div class="dont-text">Going left toward the boards. That is where they are channeling you. It is a trap.</div>
+          </div>
+        </div>
+
+        <div class="check-section">
+          <div class="check-q">The opponent's forwards form a diagonal line that pressures your left side and blocks that direction. Where is your Key?</div>
+          <div class="check-opts" id="german-opts">
+            <button class="check-btn" onclick="pressCheck(this, false, 'german-fb', 'german')">Go left — they left the boards open so use them.</button>
+            <button class="check-btn" onclick="pressCheck(this, true, 'german-fb', 'german')">Go right — the diagonal press is channeling you left so the Key is on the right side.</button>
+            <button class="check-btn" onclick="pressCheck(this, false, 'german-fb', 'german')">Play backward — wait for them to press higher before moving forward.</button>
+          </div>
+          <div class="check-fb" id="german-fb"></div>
+          <button class="next-press-btn" id="next-german" onclick="showPress('arrow')">Next: Arrow Press &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ARROW PRESS -->
+      <div class="press-content" id="press-arrow">
+        <div class="press-type-badge badge-zone">Zone</div>
+        <div class="press-title">Arrow Press</div>
+        <div class="concept-text">The Arrow Press uses a forward point — one forward pressing hard at the top of an arrow shape — with the other defenders spreading behind them. <b>The center channel is locked hard. Play to the outside, then look to exploit space behind the press.</b></div>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">Arrow Press — center locked, play wide</div>
+          <svg width="100%" viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="260" height="300" rx="4" fill="#e8d5b0" stroke="#999" stroke-width="1.5"/>
+            <line x1="10" y1="160" x2="270" y2="160" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+            <ellipse cx="140" cy="270" rx="55" ry="38" fill="none" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+            <rect x="103" y="292" width="74" height="16" rx="2" fill="#ccc" stroke="#999" stroke-width="1"/>
+
+            <!-- Arrow lock zone -->
+            <polygon points="140,30 80,160 200,160" fill="#ef4444" opacity=".2"/>
+            <!-- Wide key zones -->
+            <rect x="10" y="30" width="60" height="140" fill="#c8f135" opacity=".2" rx="2"/>
+            <rect x="210" y="30" width="60" height="140" fill="#c8f135" opacity=".2" rx="2"/>
+
+            <!-- Arrow press formation -->
+            <circle cx="140" cy="55" r="15" fill="#cc0000" opacity=".85"/>
+            <text x="140" y="60" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">F</text>
+            <circle cx="90" cy="120" r="15" fill="#cc0000" opacity=".85"/>
+            <text x="90" y="125" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">F</text>
+            <circle cx="190" cy="120" r="15" fill="#cc0000" opacity=".85"/>
+            <text x="190" y="125" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">M</text>
+            <circle cx="90" cy="200" r="14" fill="#777" opacity=".8"/>
+            <text x="90" y="205" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">B</text>
+            <circle cx="190" cy="200" r="14" fill="#777" opacity=".8"/>
+            <text x="190" y="205" font-family="Arial, sans-serif" font-size="11" fill="#fff" font-weight="800" text-anchor="middle">B</text>
+
+            <text x="140" y="100" font-family="Arial, sans-serif" font-size="9" fill="#cc0000" font-weight="700" text-anchor="middle">LOCKED</text>
+            <text x="40" y="80" font-family="Arial, sans-serif" font-size="9" fill="#2a5000" font-weight="700" text-anchor="middle">KEY</text>
+            <text x="240" y="80" font-family="Arial, sans-serif" font-size="9" fill="#2a5000" font-weight="700" text-anchor="middle">KEY</text>
+
+            <circle cx="140" cy="28" r="6" fill="#f97316" stroke="#ea580c" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <div class="do-dont">
+          <div class="do-card">
+            <div class="do-label">Key — do this</div>
+            <div class="do-text">Play wide to the outside. Use the boards. Move into the Arrow pocket behind the point forward. Change shape to create overloads.</div>
+          </div>
+          <div class="dont-card">
+            <div class="dont-label">Lock — avoid this</div>
+            <div class="dont-text">Playing into the center channel where the arrow tip is waiting. That is where the pressure is concentrated.</div>
+          </div>
+        </div>
+
+        <div class="check-section">
+          <div class="check-q">One forward is pressing hard from the top center and two defenders spread wide behind them. Where is your Key?</div>
+          <div class="check-opts" id="arrow-opts">
+            <button class="check-btn" onclick="pressCheck(this, false, 'arrow-fb', 'arrow')">Play through the center — the point forward cannot cover everything alone.</button>
+            <button class="check-btn" onclick="pressCheck(this, true, 'arrow-fb', 'arrow')">Play wide to the outside boards where the arrow cannot cover, then find space behind.</button>
+            <button class="check-btn" onclick="pressCheck(this, false, 'arrow-fb', 'arrow')">Play long over the top — get the ball past all their defenders at once.</button>
+          </div>
+          <div class="check-fb" id="arrow-fb"></div>
+          <button class="next-press-btn" id="next-arrow" onclick="showPress('clark')">Next: Clark M2M &#8594;</button>
+        </div>
+      </div>
+
+      <!-- CLARK M2M -->
+      <div class="press-content" id="press-clark">
+        <div class="press-type-badge badge-m2m">Man to Man</div>
+        <div class="press-title">Clark M2M</div>
+        <div class="concept-text">Named after Caitlin Clark's aggressive man-to-man defense. Each defender has one job: follow their assigned player everywhere and prevent them from receiving the ball. <b>The Key is movement. Create space through leading runs and space balls.</b></div>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">Clark M2M — every player is marked, move to unlock</div>
+          <svg width="100%" viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="260" height="300" rx="4" fill="#e8d5b0" stroke="#999" stroke-width="1.5"/>
+            <line x1="10" y1="160" x2="270" y2="160" stroke="#999" stroke-width="1" stroke-dasharray="4 3"/>
+            <ellipse cx="140" cy="270" rx="55" ry="38" fill="none" stroke="#999" stroke-width="1" stroke-dasharray="3 3"/>
+            <rect x="103" y="292" width="74" height="16" rx="2" fill="#ccc" stroke="#999" stroke-width="1"/>
+
+            <!-- Your team (lime) with defenders close behind -->
+            <circle cx="80" cy="50" r="14" fill="#c8f135" stroke="#3a8c00" stroke-width="2"/>
+            <text x="80" y="55" font-family="Arial, sans-serif" font-size="10" fill="#111" font-weight="800" text-anchor="middle">F</text>
+            <circle cx="98" cy="65" r="11" fill="#ef4444" opacity=".85"/>
+            <text x="98" y="70" font-family="Arial, sans-serif" font-size="9" fill="#fff" font-weight="800" text-anchor="middle">D</text>
+            <line x1="80" y1="50" x2="98" y2="65" stroke="#ef4444" stroke-width="1" stroke-dasharray="2 2" opacity=".7"/>
+
+            <circle cx="200" cy="75" r="14" fill="#c8f135" stroke="#3a8c00" stroke-width="2"/>
+            <text x="200" y="80" font-family="Arial, sans-serif" font-size="10" fill="#111" font-weight="800" text-anchor="middle">F</text>
+            <circle cx="218" cy="90" r="11" fill="#ef4444" opacity=".85"/>
+            <text x="218" y="95" font-family="Arial, sans-serif" font-size="9" fill="#fff" font-weight="800" text-anchor="middle">D</text>
+            <line x1="200" y1="75" x2="218" y2="90" stroke="#ef4444" stroke-width="1" stroke-dasharray="2 2" opacity=".7"/>
+
+            <circle cx="140" cy="130" r="14" fill="#c8f135" stroke="#3a8c00" stroke-width="2"/>
+            <text x="140" y="135" font-family="Arial, sans-serif" font-size="10" fill="#111" font-weight="800" text-anchor="middle">M</text>
+            <circle cx="157" cy="145" r="11" fill="#ef4444" opacity=".85"/>
+            <text x="157" y="150" font-family="Arial, sans-serif" font-size="9" fill="#fff" font-weight="800" text-anchor="middle">D</text>
+            <line x1="140" y1="130" x2="157" y2="145" stroke="#ef4444" stroke-width="1" stroke-dasharray="2 2" opacity=".7"/>
+
+            <circle cx="90" cy="205" r="14" fill="#c8f135" stroke="#3a8c00" stroke-width="2"/>
+            <text x="90" y="210" font-family="Arial, sans-serif" font-size="10" fill="#111" font-weight="800" text-anchor="middle">B</text>
+            <circle cx="108" cy="220" r="11" fill="#ef4444" opacity=".85"/>
+            <text x="108" y="225" font-family="Arial, sans-serif" font-size="9" fill="#fff" font-weight="800" text-anchor="middle">D</text>
+            <line x1="90" y1="205" x2="108" y2="220" stroke="#ef4444" stroke-width="1" stroke-dasharray="2 2" opacity=".7"/>
+
+            <circle cx="195" cy="210" r="14" fill="#c8f135" stroke="#3a8c00" stroke-width="2"/>
+            <text x="195" y="215" font-family="Arial, sans-serif" font-size="10" fill="#111" font-weight="800" text-anchor="middle">B</text>
+            <circle cx="213" cy="225" r="11" fill="#ef4444" opacity=".85"/>
+            <text x="213" y="230" font-family="Arial, sans-serif" font-size="9" fill="#fff" font-weight="800" text-anchor="middle">D</text>
+            <line x1="195" y1="210" x2="213" y2="225" stroke="#ef4444" stroke-width="1" stroke-dasharray="2 2" opacity=".7"/>
+
+            <circle cx="140" cy="28" r="6" fill="#f97316" stroke="#ea580c" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#c8f135;border:2px solid #3a8c00;"></div> Your team</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div> Assigned defender</div>
+        </div>
+
+        <div class="do-dont">
+          <div class="do-card">
+            <div class="do-label">Key — do this</div>
+            <div class="do-text">Move constantly. Lead into space and make your defender follow. Space balls to teammates cutting. Midfield movement to clear space for forwards. Use your marker against the press.</div>
+          </div>
+          <div class="dont-card">
+            <div class="dont-label">Lock — avoid this</div>
+            <div class="dont-text">Standing still and waiting for the ball. In M2M if you do not move, your defender does not move — and the space never opens.</div>
+          </div>
+        </div>
+
+        <div class="check-section">
+          <div class="check-q">Every player on your team has a red defender right behind them. You do not have the ball. What is the most important thing you can do right now?</div>
+          <div class="check-opts" id="clark-opts">
+            <button class="check-btn" onclick="pressCheck(this, false, 'clark-fb', 'clark')">Stay in position and wait for the ball to come to you.</button>
+            <button class="check-btn" onclick="pressCheck(this, false, 'clark-fb', 'clark')">Call for the ball loudly so your teammate knows you are available.</button>
+            <button class="check-btn" onclick="pressCheck(this, true, 'clark-fb', 'clark')">Move into space and make your defender follow — create separation before the ball arrives.</button>
+          </div>
+          <div class="check-fb" id="clark-fb"></div>
+          <button class="next-press-btn" id="next-clark" onclick="showComplete()">Complete Experience 2 &#8594;</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="complete-strip" id="complete-strip">
+    <div class="complete-strip-title">Experience 2 complete.</div>
+    <div class="complete-strip-sub">You can identify four presses and know your Key for each one. Now put it all together with W.H.A.T.</div>
+    <a href="collab_what_player_drill.html" class="next-exp-btn">Experience 3: W.H.A.T. Game Reading Drill &#8594;</a>
+  </div>
+
+</div>
+
+<script>
+let doneCount = 0;
+const pressOrder = ['x', 'german', 'arrow', 'clark'];
+const feedbackTexts = {
+  'x': {
+    correct: 'Correct. The V shape blocking the center with backs behind is the X Press. The Key is the boards on either side.',
+    wrong: 'Not quite. The diagonal line is the German Press. The Clark is man to man. The V blocking the center with backs waiting behind is the X Press.'
+  },
+  'german': {
+    correct: 'Correct. The German Press channels you left deliberately. The right side is where your Key is. Go right.',
+    wrong: 'Not quite. Going left is exactly what they want. The left boards look open because they are forcing you there. The Key is going right — away from the diagonal pressure.'
+  },
+  'arrow': {
+    correct: 'Correct. The Arrow point blocks the center hard. The Key is the wide outside space that the arrow shape cannot cover.',
+    wrong: 'Not quite. The arrow tip is sitting right in the center waiting for that pass. The Key in the Arrow Press is wide — use the boards and find the space behind the press from there.'
+  },
+  'clark': {
+    correct: 'Correct. In Man to Man, movement is everything. If you stand still your defender stands still and the space never opens. Move and make them follow.',
+    wrong: 'Not quite. Calling for the ball tells your teammate you are available but does not create space. Moving your defender out of position is what unlocks M2M. Lead into space first.'
+  }
+};
+
+function showPress(press) {
+  document.querySelectorAll('.press-content').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.press-nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('press-' + press).classList.add('active');
+  document.getElementById('nav-' + press).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function pressCheck(btn, correct, fbId, press) {
+  const opts = btn.parentElement;
+  if (opts.dataset.answered) return;
+  opts.dataset.answered = 'true';
+
+  Array.from(opts.children).forEach(b => {
+    b.disabled = true;
+    if (b === btn) b.classList.add(correct ? 'correct' : 'wrong');
+    else if (b.onclick.toString().includes('true,')) b.classList.add('reveal');
+  });
+
+  const fb = document.getElementById(fbId);
+  fb.className = 'check-fb show ' + (correct ? 'correct' : 'wrong');
+  fb.textContent = correct ? feedbackTexts[press].correct : feedbackTexts[press].wrong;
+
+  document.getElementById('next-' + press).classList.add('show');
+
+  if (!document.getElementById('nav-' + press).classList.contains('done')) {
+    document.getElementById('nav-' + press).classList.add('done');
+    doneCount++;
+    document.getElementById('done-count').textContent = doneCount;
+  }
+}
+
+function showComplete() {
+  document.getElementById('complete-strip').classList.add('show');
+  document.getElementById('complete-strip').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
+</body>
+</html>
