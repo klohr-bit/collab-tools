@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W.H.A.T. Press Decision Drill · Coaches · The CoLLab Field Hockey</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px 16px 40px; }
+  .wrap { width: 100%; max-width: 580px; }
+
+  .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .logo-text { font-size: 13px; font-weight: 900; color: #111; line-height: 1.05; }
+  .logo-text .o { color: #3a8c00; }
+  .logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 7px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; border-radius: 3px; margin-top: 3px; }
+  .progress-wrap { flex: 1; margin: 0 20px; }
+  .progress-label { font-size: 11px; color: #999; text-align: center; margin-bottom: 6px; font-weight: 600; letter-spacing: .04em; }
+  .progress-track { background: #e0e0e0; border-radius: 4px; height: 6px; }
+  .progress-fill { background: #c8f135; border-radius: 4px; height: 6px; transition: width .4s ease; }
+  .score-badge { font-size: 13px; font-weight: 700; color: #555; white-space: nowrap; }
+  .score-badge span { color: #111; }
+
+  .card { background: #fff; border-radius: 16px; border: 1px solid #e0e0e0; overflow: hidden; margin-bottom: 16px; }
+  .card-header { background: #111; padding: 20px 24px 18px; border-bottom: 3px solid #c8f135; }
+  .drill-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 8px; }
+  .drill-title { font-size: 20px; font-weight: 800; color: #fff; line-height: 1.25; }
+
+  .card-body { padding: 22px 24px; }
+
+  .situation-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .situation { font-size: 15px; color: #111; line-height: 1.75; margin-bottom: 18px; }
+
+  .what-framework { background: #f9f9f9; border-radius: 12px; padding: 16px 18px; margin-bottom: 20px; border: 1px solid #e0e0e0; }
+  .what-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #555; margin-bottom: 12px; }
+  .what-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start; }
+  .what-row:last-child { margin-bottom: 0; }
+  .what-letter { width: 28px; height: 28px; border-radius: 6px; background: #c8f135; color: #111; font-size: 14px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .what-content { flex: 1; }
+  .what-word { font-size: 12px; font-weight: 700; color: #111; margin-bottom: 2px; }
+  .what-obs { font-size: 13px; color: #555; line-height: 1.5; font-style: italic; }
+
+  .question-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .question { font-size: 17px; font-weight: 700; color: #111; margin-bottom: 18px; line-height: 1.4; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn { background: #f9f9f9; border: 2px solid #e0e0e0; border-radius: 10px; padding: 14px 18px; font-size: 14px; color: #333; cursor: pointer; text-align: left; font-family: inherit; font-weight: 500; line-height: 1.45; transition: all .15s; display: flex; align-items: center; gap: 12px; }
+  .opt-btn:hover:not(:disabled) { border-color: #111; background: #f0f0f0; }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: #f0fff4; border-color: #22c55e; color: #155a2e; }
+  .opt-btn.wrong { background: #fff5f5; border-color: #ef4444; color: #7a0000; }
+  .opt-btn.reveal { background: #f0fff4; border-color: #22c55e; color: #155a2e; opacity: .7; }
+  .opt-indicator { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #ddd; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: #bbb; background: #fff; transition: all .15s; }
+  .opt-btn.correct .opt-indicator { background: #22c55e; border-color: #22c55e; color: #fff; }
+  .opt-btn.wrong .opt-indicator { background: #ef4444; border-color: #ef4444; color: #fff; }
+  .opt-btn.reveal .opt-indicator { background: #22c55e; border-color: #22c55e; color: #fff; }
+
+  .feedback { margin-top: 18px; border-radius: 10px; padding: 16px 18px; display: none; }
+  .feedback.show { display: block; }
+  .feedback.correct-fb { background: #f0fff4; border: 1.5px solid #99e6b3; }
+  .feedback.wrong-fb { background: #fff5f5; border: 1.5px solid #ffbbbb; }
+  .fb-result { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+  .correct-fb .fb-result { color: #1a7a3c; }
+  .wrong-fb .fb-result { color: #cc0000; }
+  .fb-text { font-size: 14px; line-height: 1.7; }
+  .correct-fb .fb-text { color: #155a2e; }
+  .wrong-fb .fb-text { color: #7a0000; }
+  .fb-rule { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,.06); font-size: 12px; font-style: italic; line-height: 1.6; }
+  .correct-fb .fb-rule { color: #2a7a4c; }
+  .wrong-fb .fb-rule { color: #8a2020; }
+
+  .next-btn { width: 100%; margin-top: 16px; background: #111; color: #fff; border: none; border-radius: 10px; padding: 15px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: opacity .15s; display: none; }
+  .next-btn.show { display: block; }
+  .next-btn:hover { opacity: .85; }
+
+  .complete-card { background: #fff; border-radius: 16px; border: 1px solid #e0e0e0; overflow: hidden; display: none; }
+  .complete-card.show { display: block; }
+  .complete-header { background: #111; padding: 28px 24px 24px; border-bottom: 3px solid #c8f135; text-align: center; }
+  .complete-icon { font-size: 36px; margin-bottom: 10px; }
+  .complete-title { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .complete-sub { font-size: 14px; color: #888; }
+  .complete-body { padding: 24px; }
+  .score-display { background: #f0ffd0; border: 2px solid #c8f135; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; }
+  .score-num { font-size: 48px; font-weight: 800; color: #111; line-height: 1; margin-bottom: 4px; }
+  .score-label { font-size: 13px; color: #555; font-weight: 500; }
+  .takeaway { background: #f9f9f9; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+  .takeaway-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; margin-bottom: 10px; }
+  .takeaway-text { font-size: 14px; color: #333; line-height: 1.75; }
+  .practice-prompt { background: #111; border-radius: 10px; padding: 18px; margin-bottom: 20px; }
+  .practice-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #c8f135; margin-bottom: 10px; }
+  .practice-text { font-size: 14px; color: #ccc; line-height: 1.75; }
+  .retry-btn { width: 100%; background: #f5f5f5; border: 2px solid #e0e0e0; border-radius: 10px; padding: 14px; font-size: 14px; font-weight: 700; color: #555; cursor: pointer; font-family: inherit; transition: all .15s; }
+  .retry-btn:hover { border-color: #111; color: #111; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-bar">
+    <div>
+      <div class="logo-text">THE C<span class="o">o</span>L LAB</div>
+      <div class="logo-pill">FIELD HOCKEY</div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label" id="prog-label">Rep 1 of 3</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="score-badge">Score: <span id="score-display">0</span>/3</div>
+  </div>
+
+  <div class="card" id="drill-card">
+    <div class="card-header">
+      <div class="drill-label" id="drill-label">W.H.A.T. Press Decision · Coach · Rep 1</div>
+      <div class="drill-title">What do you see? What do you do?</div>
+    </div>
+    <div class="card-body">
+      <div class="situation-label">Game situation</div>
+      <div class="situation" id="situation"></div>
+      <div class="what-framework" id="what-framework"></div>
+      <div class="question-label">Your decision</div>
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback">
+        <div class="fb-result" id="fb-result"></div>
+        <div class="fb-text" id="fb-text"></div>
+        <div class="fb-rule" id="fb-rule"></div>
+      </div>
+      <button class="next-btn" id="next-btn" onclick="nextDrill()">Next rep &#8594;</button>
+    </div>
+  </div>
+
+  <div class="complete-card" id="complete-card">
+    <div class="complete-header">
+      <div class="complete-icon">&#127942;</div>
+      <div class="complete-title">Drill complete.</div>
+      <div class="complete-sub">Take W.H.A.T. to your next game.</div>
+    </div>
+    <div class="complete-body">
+      <div class="score-display">
+        <div class="score-num" id="final-score">0/3</div>
+        <div class="score-label">decisions correct</div>
+      </div>
+      <div class="takeaway">
+        <div class="takeaway-label">The key takeaway</div>
+        <div class="takeaway-text">W.H.A.T. is not a post-game tool. It is a between-quarters tool. The goal is to move through all four steps efficiently enough to make a clear decision before the next period starts. Observe during the game. Review and brainstorm at the break. Decide and communicate before play resumes. Train it at practice so it becomes automatic in games.</div>
+      </div>
+      <div class="practice-prompt">
+        <div class="practice-label">Take this to practice</div>
+        <div class="practice-text">Run a scrimmage and pause it at the end of each period. Give your players 60 seconds to run through W.H.A.T. as a team before play resumes. Make it a habit at practice and it will show up in games without prompting.</div>
+      </div>
+      <button class="retry-btn" onclick="restart()">Run the drill again</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const drills = [
+  {
+    label: "W.H.A.T. Press Decision · Coach · Rep 1",
+    situation: "You are running an X Press. It is the second quarter and the opponent has broken through your front V cleanly three times in a row. Each time they have used quick ball movement through your center. Your backs are working hard but giving up too much ground.",
+    what: [
+      { letter: "W", word: "What is the opponent doing?", obs: "Playing through the center of your V with quick one-touch passes. They are finding the gap between your two forwards consistently." },
+      { letter: "H", word: "How did we respond?", obs: "Your forwards are pressing but arriving a half-second late. Your mid is dropping to help but creating space behind." },
+      { letter: "A", word: "Another way forward is...?", obs: "Switch to a press that takes away the center option entirely. Or adjust your X Press shape to tighten the V." },
+      { letter: "T", word: "The way forward is...", obs: "Your decision — choose below." }
+    ],
+    question: "The opponent has broken your X Press through the center three times. What is your decision?",
+    options: [
+      { text: "Stay in the X Press but tighten the front V and increase pressure on the ball carrier.", correct: false },
+      { text: "Switch to the Arrow Press which takes away the center space and forces play to the outside.", correct: true },
+      { text: "Drop into a deeper defensive shape and absorb pressure until halftime.", correct: false },
+    ],
+    correctFb: "Good decision. When a press is broken systematically through the same channel two or three times, that is your signal to switch. The Arrow Press takes away the center space that the opponent has been exploiting. Switching also disrupts their rhythm — they have found their way through your X and now they have to solve a new problem.",
+    wrongFb: "Think about the W.H.A.T. analysis. The opponent has broken your press through the center three times intentionally. Tightening the V might help once but they have already figured out the shape. When a press is broken systematically, the answer is to change the press — not adjust the same one they have already solved.",
+    rule: "Switch presses when a press is broken systematically two to three times through the same channel."
+  },
+  {
+    label: "W.H.A.T. Press Decision · Coach · Rep 2",
+    situation: "It is the third quarter. You are up by one goal. Your opponent has switched to a more patient build-up, moving the ball side to side in their backcourt rather than trying to break your press quickly. Your team is working hard to press but starting to show fatigue.",
+    what: [
+      { letter: "W", word: "What is the opponent doing?", obs: "Playing patient possession in their backcourt. Moving the ball laterally to tire your press rather than break it quickly." },
+      { letter: "H", word: "How did we respond?", obs: "Your press is intact but players are chasing more and recovering slower. The press is not broken but it is costing energy." },
+      { letter: "A", word: "Another way forward is...?", obs: "Drop into a zone that conserves energy and protects the lead. Or switch to a different press that requires less running." },
+      { letter: "T", word: "The way forward is...", obs: "Your decision — choose below." }
+    ],
+    question: "You are up by one, your team is fatiguing, and the opponent is playing patient possession. What is your decision?",
+    options: [
+      { text: "Keep the same press. Fatigue is a mental barrier and pushing through it builds character.", correct: false },
+      { text: "Switch to a zone press that protects the lead and conserves energy for the final quarter.", correct: true },
+      { text: "Pull all players back into a deep defensive block and protect the goal at all costs.", correct: false },
+    ],
+    correctFb: "Good decision. Fatigue is a legitimate tactical reason to switch presses. A zone press conserves energy by reducing individual running requirements while still applying pressure. You protect the lead and give your team a chance to recover for the final quarter. Staying in a high-energy press when your players are fatiguing is how leads disappear.",
+    wrongFb: "Fatigue is not just a mental barrier — it is a tactical problem. An opponent playing patient possession is deliberately trying to exhaust your press. If you stay in a high-energy press with fatiguing players the quality of your pressure will drop and gaps will open. A zone press conserves energy while protecting your lead.",
+    rule: "Fatigue is a legitimate reason to switch presses. Adjust tactically to protect your team's energy when the game situation allows it."
+  },
+  {
+    label: "W.H.A.T. Press Decision · Coach · Rep 3",
+    situation: "Final quarter, tied game. The opponent has not broken your Clark M2M press once but your own team is struggling to outlet effectively. Every time you win the ball your players are making rushed decisions under pressure and giving possession back within two passes.",
+    what: [
+      { letter: "W", word: "What is the opponent doing?", obs: "Their press is not breaking yours but their forwards are applying immediate pressure on your backs when you win possession." },
+      { letter: "H", word: "How did we respond?", obs: "We are winning the ball but losing it immediately. The press is working defensively but our transition is breaking down." },
+      { letter: "A", word: "Another way forward is...?", obs: "Keep the press but work on outlet shape. Switch to a press that gives your backs more time on the ball. Or use shape changes to create cleaner outlet options." },
+      { letter: "T", word: "The way forward is...", obs: "Your decision — choose below." }
+    ],
+    question: "Your press is working defensively but your outlet is failing. It is a tied game with one quarter left. What is your decision?",
+    options: [
+      { text: "Switch to a different press that might solve the outlet problem.", correct: false },
+      { text: "Keep the Clark press but implement shape changes on transition to give your backs better outlet options.", correct: true },
+      { text: "Tell your players to slow down and stop rushing. The press is fine.", correct: false },
+    ],
+    correctFb: "Good decision. The press itself is working — do not abandon what is winning you the ball. The problem is your outlet shape on transition. Implementing shape changes like switching your Ls or creating a star formation gives your backs cleaner options when they win possession. Fix the transition without changing what is working defensively.",
+    wrongFb: "The W.H.A.T. analysis shows the press is working — you are winning the ball. Switching presses would change what is working. The problem is the outlet after you win possession. Implementing shape changes on transition gives your backs better options without abandoning a press that is doing its job.",
+    rule: "Diagnose the real problem before switching presses. If the press is working but transition is failing, fix the transition — not the press."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function render() {
+  const d = drills[current];
+  document.getElementById('drill-label').textContent = d.label;
+  document.getElementById('situation').textContent = d.situation;
+  document.getElementById('question').textContent = d.question;
+  document.getElementById('prog-label').textContent = 'Rep ' + (current + 1) + ' of ' + drills.length;
+  document.getElementById('prog-fill').style.width = (current / drills.length * 100) + '%';
+  document.getElementById('score-display').textContent = score;
+  answered = false;
+
+  const wf = document.getElementById('what-framework');
+  wf.innerHTML = '<div class="what-label">W.H.A.T. Analysis</div>' +
+    d.what.map(w =>
+      '<div class="what-row">' +
+      '<div class="what-letter">' + w.letter + '</div>' +
+      '<div class="what-content"><div class="what-word">' + w.word + '</div>' +
+      '<div class="what-obs">' + w.obs + '</div></div></div>'
+    ).join('');
+
+  const nextBtn = document.getElementById('next-btn');
+  nextBtn.textContent = current < drills.length - 1 ? 'Next rep \u2192' : 'See results';
+  nextBtn.classList.remove('show');
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  d.options.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = '<span class="opt-indicator">' + String.fromCharCode(65 + i) + '</span>' + o.text;
+    btn.onclick = () => choose(i);
+    opts.appendChild(btn);
+  });
+}
+
+function choose(idx) {
+  if (answered) return;
+  answered = true;
+  const d = drills[current];
+  const btns = document.querySelectorAll('.opt-btn');
+  const isCorrect = d.options[idx].correct;
+  if (isCorrect) score++;
+
+  btns.forEach((btn, i) => {
+    btn.disabled = true;
+    if (d.options[i].correct) {
+      btn.classList.add(i === idx ? 'correct' : 'reveal');
+      btn.querySelector('.opt-indicator').textContent = '\u2713';
+    } else if (i === idx) {
+      btn.classList.add('wrong');
+      btn.querySelector('.opt-indicator').textContent = '\u2715';
+    }
+  });
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback ' + (isCorrect ? 'correct-fb' : 'wrong-fb') + ' show';
+  document.getElementById('fb-result').textContent = isCorrect ? 'Good decision.' : 'Think again.';
+  document.getElementById('fb-text').textContent = isCorrect ? d.correctFb : d.wrongFb;
+  document.getElementById('fb-rule').textContent = 'Key principle: ' + d.rule;
+  document.getElementById('score-display').textContent = score;
+  document.getElementById('next-btn').classList.add('show');
+}
+
+function nextDrill() {
+  current++;
+  if (current >= drills.length) {
+    showComplete();
+  } else {
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function showComplete() {
+  document.getElementById('drill-card').style.display = 'none';
+  const cc = document.getElementById('complete-card');
+  cc.classList.add('show');
+  document.getElementById('final-score').textContent = score + '/' + drills.length;
+  document.getElementById('prog-fill').style.width = '100%';
+  document.getElementById('prog-label').textContent = 'Complete';
+  document.getElementById('score-display').textContent = score;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restart() {
+  current = 0;
+  score = 0;
+  document.getElementById('drill-card').style.display = 'block';
+  document.getElementById('complete-card').classList.remove('show');
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+render();
+</script>
+</body>
+</html>
