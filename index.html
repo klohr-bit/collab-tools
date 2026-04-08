@@ -1,206 +1,811 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Coaching Tools from The CoLLab · Field Hockey</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The CoLLab Field Hockey — Coach Resource Library</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-  .nav { background: #111; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; }
-  .nav-logo-text { font-size: 14px; font-weight: 900; color: #fff; line-height: 1.05; }
-  .nav-logo-text .o { color: #c8f135; }
-  .nav-logo-pill { display: inline-block; background: #c8f135; color: #111; font-size: 7px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; border-radius: 3px; margin-top: 4px; }
-  .nav-right { font-size: 13px; color: #666; }
+    body {
+      background: #f5f5f5;
+      color: #111111;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  .hero { background: #111; padding: 64px 32px 56px; border-bottom: 4px solid #c8f135; text-align: center; }
-  .hero-inner { max-width: 640px; margin: 0 auto; }
-  .hero-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: #c8f135; margin-bottom: 14px; }
-  .hero-title { font-size: 48px; font-weight: 800; color: #fff; line-height: 1.1; margin-bottom: 14px; }
-  .hero-sub { font-size: 17px; color: #888; line-height: 1.75; max-width: 480px; margin: 0 auto; }
+    /* ─── HEADER ─── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 300;
+      background: #111111;
+    }
 
-  .main { max-width: 920px; margin: 0 auto; padding: 40px 32px; }
+    .header-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
-  .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #999; }
+    .wordmark {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
 
-  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .filter-btn { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; border: 1.5px solid #e0e0e0; background: #fff; color: #888; cursor: pointer; font-family: inherit; transition: all .15s; }
-  .filter-btn:hover { border-color: #111; color: #111; }
-  .filter-btn.active { background: #111; color: #fff; border-color: #111; }
+    .wm-top {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
 
-  .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+    .wm-top .o { color: #c8f135; }
 
-  .tool-card { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; transition: border-color .15s; }
-  .tool-card:hover { border-color: #bbb; }
-  .tool-card.featured { border-color: #c8f135; border-width: 2px; }
-  .tool-card.hidden { display: none; }
+    .wm-pill {
+      display: inline-block;
+      background: #c8f135;
+      color: #111111;
+      font-size: 0.45rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      padding: 2px 7px;
+      border-radius: 3px;
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
 
-  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+    .header-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #555555;
+    }
 
-  .audience-pill { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
-  .pill-coaches { background: #e8f0fe; color: #1a3a8a; }
-  .pill-players { background: #fce8ff; color: #6a1a8a; }
-  .pill-everyone { background: #e8fff0; color: #1a6a3a; }
+    /* ─── HERO ─── */
+    .hero {
+      background: #111111;
+      padding: 4rem 2rem 3.5rem;
+      border-bottom: 4px solid #c8f135;
+      position: relative;
+      overflow: hidden;
+    }
 
-  .tool-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: 3px 10px; border-radius: 20px; margin-bottom: 12px; }
-  .tool-card.featured .tool-badge { background: #f0ffd0; color: #2a5000; }
-  .tool-card:not(.featured) .tool-badge { background: #f3f4f6; color: #888; }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 70% at 88% 50%, rgba(200,241,53,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-  .tool-name { font-size: 16px; font-weight: 700; color: #111; margin-bottom: 8px; line-height: 1.3; }
-  .tool-desc { font-size: 13px; color: #666; line-height: 1.65; margin-bottom: 18px; flex: 1; }
+    .hero-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      position: relative;
+    }
 
-  .tool-btn { display: inline-block; font-size: 13px; font-weight: 700; padding: 10px 18px; border-radius: 8px; text-decoration: none; text-align: center; transition: opacity .15s; }
-  .tool-card.featured .tool-btn { background: #c8f135; color: #111; }
-  .tool-card.featured .tool-btn:hover { opacity: .85; }
-  .tool-card:not(.featured) .tool-btn { background: #111; color: #fff; }
-  .tool-card:not(.featured) .tool-btn:hover { opacity: .85; }
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #c8f135;
+      margin-bottom: 0.85rem;
+    }
 
-  .coming-card { background: #fafafa; border: 1.5px dashed #ddd; border-radius: 12px; padding: 22px; display: flex; align-items: center; justify-content: center; min-height: 160px; }
-  .coming-inner { text-align: center; }
-  .coming-title { font-size: 14px; font-weight: 600; color: #bbb; margin-bottom: 6px; }
-  .coming-sub { font-size: 12px; color: #ccc; line-height: 1.5; }
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      margin-bottom: 1.1rem;
+    }
 
-  .substack-strip { background: #111; border-radius: 12px; padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 16px; }
-  .strip-text { flex: 1; }
-  .strip-title { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 6px; line-height: 1.35; }
-  .strip-sub { font-size: 14px; color: #888; line-height: 1.6; }
-  .strip-btn { display: inline-block; background: #c8f135; color: #111; font-size: 13px; font-weight: 700; padding: 12px 22px; border-radius: 8px; text-decoration: none; white-space: nowrap; flex-shrink: 0; transition: opacity .15s; }
-  .strip-btn:hover { opacity: .85; }
+    .hero h1 .hl { color: #c8f135; }
 
-  .footer { background: #fff; border-top: 1px solid #e0e0e0; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; }
-  .footer-left { font-size: 12px; color: #bbb; }
-  .footer-right { font-size: 12px; color: #ddd; }
+    .hero-desc {
+      font-size: 0.95rem;
+      color: #888888;
+      max-width: 480px;
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
 
-  @media (max-width: 560px) {
-    .tools-grid { grid-template-columns: 1fr; }
-    .substack-strip { flex-direction: column; text-align: center; }
-    .hero-title { font-size: 30px; }
-    .hero { padding: 40px 20px 36px; }
-    .nav { padding: 14px 20px; }
-    .main { padding: 28px 16px; }
-  }
-</style>
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: #c8f135;
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #555555;
+      display: block;
+    }
+
+    /* ─── PILLAR NAV ─── */
+    .pillar-nav {
+      background: #ffffff;
+      border-bottom: 1.5px solid #e8e8e8;
+      position: sticky;
+      top: 62px;
+      z-index: 200;
+    }
+
+    .pillar-nav-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .pillar-nav-inner::-webkit-scrollbar { display: none; }
+
+    .plink {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #aaaaaa;
+      text-decoration: none;
+      padding: 0.85rem 1rem;
+      border-bottom: 2.5px solid transparent;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .plink:hover { color: #111111; }
+    .plink.active { color: #111111; border-bottom-color: #c8f135; }
+
+    /* ─── MAIN ─── */
+    main {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    /* ─── PILLAR SECTION ─── */
+    .pillar-section {
+      padding-top: 3.5rem;
+    }
+
+    .pillar-section + .pillar-section {
+      margin-top: 1rem;
+      border-top: 1.5px solid #e8e8e8;
+    }
+
+    .pillar-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .pillar-bar {
+      width: 4px;
+      height: 44px;
+      background: #c8f135;
+      border-radius: 2px;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .pillar-head h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.75rem;
+      letter-spacing: 0.04em;
+      color: #111111;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .pillar-head p {
+      font-size: 0.83rem;
+      color: #888888;
+      max-width: 520px;
+      line-height: 1.6;
+    }
+
+    /* ─── POST GROUP ─── */
+    .post-group {
+      padding-top: 1.75rem;
+      margin-top: 0.25rem;
+      border-top: 1px solid #e8e8e8;
+    }
+
+    .post-group + .post-group { margin-top: 0.5rem; }
+
+    .pg-meta {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #bbbbbb;
+      margin-bottom: 0.4rem;
+    }
+
+    .pg-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #111111;
+      line-height: 1.3;
+      margin-bottom: 0.3rem;
+    }
+
+    .pg-desc {
+      font-size: 0.82rem;
+      color: #888888;
+      max-width: 580px;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .pg-badges {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.1rem;
+    }
+
+    /* ─── BADGES ─── */
+    .badge {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 20px;
+    }
+
+    .b-drill  { background: #f0ffd0; color: #2a5000; }
+    .b-video  { background: #fff4e0; color: #7a4400; }
+    .b-coach  { background: #e8f0fe; color: #1a3a8a; }
+    .b-player { background: #fce8ff; color: #6a1a8a; }
+    .b-series { background: #ede8ff; color: #3a1a8a; }
+    .b-rules  { background: #ffe8e8; color: #8a1a1a; }
+    .b-coming { background: #f3f3f3; color: #bbbbbb; }
+
+    /* ─── CARD GRID ─── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(275px, 1fr));
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ─── TOOL CARD ─── */
+    .tool-card {
+      background: #ffffff;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 12px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1.25rem;
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    }
+
+    .tool-card:hover {
+      border-color: #c8f135;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+
+    .tool-card.dimmed {
+      opacity: 0.42;
+      pointer-events: none;
+      background: #fafafa;
+      border-style: dashed;
+    }
+
+    .card-badges {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      font-size: 0.975rem;
+      font-weight: 700;
+      color: #111111;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.8rem;
+      color: #777777;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .card-cta {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #2a5000;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .card-cta svg {
+      width: 11px;
+      height: 11px;
+      transition: transform 0.15s;
+    }
+
+    .tool-card:hover .card-cta svg { transform: translateX(3px); }
+    .card-cta.muted { color: #cccccc; }
+
+    /* ─── VIDEO FLAG ─── */
+    .video-flag {
+      background: #fffbf0;
+      border: 1.5px dashed #e8c870;
+      border-radius: 12px;
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .vf-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #a07010;
+    }
+
+    .vf-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: #111111;
+      line-height: 1.3;
+    }
+
+    .vf-note {
+      font-size: 0.77rem;
+      color: #888888;
+      line-height: 1.6;
+    }
+
+    /* ─── SUBSTACK CTA ─── */
+    .substack-cta {
+      margin-top: 4.5rem;
+      background: #111111;
+      border-radius: 12px;
+      padding: 2.25rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .cta-text h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+      line-height: 1.35;
+    }
+
+    .cta-text p {
+      font-size: 0.83rem;
+      color: #888888;
+      max-width: 400px;
+      line-height: 1.65;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #c8f135;
+      color: #111111;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 1.75rem;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: opacity 0.15s, transform 0.15s;
+      flex-shrink: 0;
+    }
+
+    .cta-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #ffffff;
+      border-top: 1px solid #e8e8e8;
+      padding: 1.25rem 2rem;
+    }
+
+    .footer-inner {
+      max-width: 1060px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .footer-inner p { font-size: 0.73rem; color: #cccccc; }
+    .footer-inner a { color: #aaaaaa; text-decoration: none; transition: color 0.15s; }
+    .footer-inner a:hover { color: #111111; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 600px) {
+      .hero { padding: 2.75rem 1.25rem 2.5rem; }
+      main { padding: 0 1.25rem 5rem; }
+      .header-inner { padding: 0 1.25rem; }
+      .pillar-nav-inner { padding: 0 1.25rem; }
+      .substack-cta { padding: 1.5rem; flex-direction: column; }
+      .header-label { display: none; }
+      footer { padding: 1.25rem; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="nav">
-  <div>
-    <div class="nav-logo-text">THE C<span class="o">o</span>L LAB</div>
-    <div class="nav-logo-pill">FIELD HOCKEY</div>
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="/" class="wordmark">
+      <span class="wm-top">THE C<span class="o">o</span>L LAB</span>
+      <span class="wm-pill">Field Hockey</span>
+    </a>
+    <span class="header-label">Coach Resource Library</span>
   </div>
-  <div class="nav-right">Free Coaching Tools</div>
-</div>
+</header>
 
-<div class="hero">
+<!-- HERO -->
+<section class="hero">
   <div class="hero-inner">
-    <div class="hero-tag">Free resource library</div>
-    <div class="hero-title">Free Coaching Tools<br>from The CoLLab</div>
-    <div class="hero-sub">Interactive drills and guides built from real field hockey coaching experience. For coaches, players, and everyone in between.</div>
-  </div>
-</div>
-
-<div class="main">
-
-  <div class="section-header">
-    <div class="section-label">Available now</div>
-    <div class="filter-row">
-      <button class="filter-btn active" onclick="filter('all', this)">All</button>
-      <button class="filter-btn" onclick="filter('coaches', this)">Coaches</button>
-      <button class="filter-btn" onclick="filter('players', this)">Players</button>
-      <button class="filter-btn" onclick="filter('everyone', this)">Everyone</button>
+    <p class="hero-eyebrow">Coach Resource Library</p>
+    <h1>Tools Built for<br><span class="hl">Coaches</span><br>Who Coach.</h1>
+    <p class="hero-desc">Organized by pillar. Use them in your own prep. Send the player tools to your group before practice. New resources drop with every Substack post.</p>
+    <div class="hero-stats">
+      <div><span class="stat-num">6</span><span class="stat-label">Tools Live</span></div>
+      <div><span class="stat-num">4</span><span class="stat-label">Pillars</span></div>
+      <div><span class="stat-num">32</span><span class="stat-label">Weeks of Content</span></div>
     </div>
   </div>
+</section>
 
-  <div class="tools-grid" id="tools-grid">
+<!-- PILLAR NAV -->
+<nav class="pillar-nav">
+  <div class="pillar-nav-inner">
+    <a href="#game-reading"  class="plink active">Game Reading</a>
+    <a href="#body-position" class="plink">Body Position</a>
+    <a href="#space"         class="plink">Space</a>
+    <a href="#mental-game"   class="plink">Mental Game</a>
+    <a href="#rules"         class="plink">Rules &amp; Officiating</a>
+  </div>
+</nav>
 
-    <div class="tool-card" data-audience="coaches">
-      <div class="card-top">
-        <span class="tool-badge">Rules drill</span>
-        <span class="audience-pill pill-coaches">Coaches</span>
+<!-- MAIN -->
+<main>
+
+  <!-- ══ GAME READING ══ -->
+  <section class="pillar-section" id="game-reading">
+    <div class="pillar-head">
+      <div class="pillar-bar"></div>
+      <div>
+        <h2>Game Reading</h2>
+        <p>W.H.A.T. in practice. Reading the press, communicating what you see, making decisions under pressure before the quarter ends.</p>
       </div>
-      <div class="tool-name">High Balls: Dangerous or Not?</div>
-      <div class="tool-desc">Three real game scenarios. Make the call, get immediate feedback, and learn the reasoning behind each decision. Built from NFHS field hockey rules.</div>
-      <a href="collab_highball_drill.html" class="tool-btn">Start drill</a>
-
     </div>
 
-    <div class="tool-card" data-audience="players">
-      <div class="card-top">
-        <span class="tool-badge">Decision drill</span>
-        <span class="audience-pill pill-players">Players</span>
+    <div class="post-group">
+      <p class="pg-meta">Post 9 &mdash; Cycle 2</p>
+      <p class="pg-title">The framework that turns game chaos into clear decisions</p>
+      <p class="pg-desc">W.H.A.T. as a between-quarters coaching tool. How to run it in under two minutes and train your players to use it themselves.</p>
+      <div class="pg-badges">
+        <span class="badge b-drill">Drill Post</span>
+        <span class="badge b-coach">Coach Tool</span>
+        <span class="badge b-player">Player Prep</span>
       </div>
-      <div class="tool-name">Reading Your Defender</div>
-      <div class="tool-desc">Three 1v1 situations. Read what the defender is giving you and choose your move. Builds the decision-making habit that separates good players from great ones.</div>
-      <a href="collab_reading_defenders_drill.html" class="tool-btn">Start drill</a>
+      <div class="card-grid">
+        <a href="collab_what_coach_drill.html" class="tool-card">
+          <div class="card-badges">
+            <span class="badge b-drill">Drill</span>
+            <span class="badge b-coach">Coaches</span>
+          </div>
+          <p class="card-title">W.H.A.T. Press Decisions</p>
+          <p class="card-desc">Three real game scenarios. Work through the W.H.A.T. framework and make the right press decision under pressure. Builds analysis over reaction.</p>
+          <span class="card-cta">Start drill <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </a>
+        <a href="collab_what_player_drill.html" class="tool-card">
+          <div class="card-badges">
+            <span class="badge b-drill">Drill</span>
+            <span class="badge b-player">Player Prep</span>
+          </div>
+          <p class="card-title">W.H.A.T. Game Reading</p>
+          <p class="card-desc">Three game situations from a player's perspective. Read what is happening on the field and communicate it before your coach calls it out. Send before practice.</p>
+          <span class="card-cta">Send to players <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </a>
+      </div>
     </div>
 
-    <div class="tool-card" data-audience="coaches">
-      <div class="card-top">
-        <span class="tool-badge">Decision drill</span>
-        <span class="audience-pill pill-coaches">Coaches</span>
+    <div class="post-group">
+      <p class="pg-meta">Post 11 &mdash; Cycle 2</p>
+      <p class="pg-title">How to make your press decisions before the quarter ends</p>
+      <p class="pg-desc">Press identification and switching decisions under time pressure. X Press, German, Arrow, Clark. When each is right and when to switch.</p>
+      <div class="pg-badges">
+        <span class="badge b-series">Learning Series</span>
+        <span class="badge b-player">Player Prep</span>
       </div>
-      <div class="tool-name">W.H.A.T. Press Decisions</div>
-      <div class="tool-desc">Three real game scenarios. Work through the W.H.A.T. framework and make the right press decision under pressure. Builds the habit of analysis over reaction.</div>
-      <a href="collab_what_coach_drill.html" class="tool-btn">Start drill</a>
+      <div class="card-grid">
+        <a href="collab_press_experience1.html" class="tool-card">
+          <div class="card-badges">
+            <span class="badge b-series">3-Part Series</span>
+            <span class="badge b-player">Player Prep</span>
+          </div>
+          <p class="card-title">Understanding the Press</p>
+          <p class="card-desc">Lock and Key, X Press, German, Arrow, Clark M2M. Players identify each press on sight and apply W.H.A.T. in real game situations. Three experiences, start to finish.</p>
+          <span class="card-cta">Start series <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </a>
+      </div>
     </div>
 
-    <div class="tool-card featured" data-audience="players">
-      <div class="card-top">
-        <span class="tool-badge">Learning series · 3 experiences</span>
-        <span class="audience-pill pill-players">Players</span>
+  </section>
+
+  <!-- ══ BODY POSITION ══ -->
+  <section class="pillar-section" id="body-position">
+    <div class="pillar-head">
+      <div class="pillar-bar"></div>
+      <div>
+        <h2>Body Position</h2>
+        <p>Triple Threat, Dynamic First Touch, Crabbing, Arching. The individual skills that turn space into opportunity before the defender reacts.</p>
       </div>
-      <div class="tool-name">Understanding the Press</div>
-      <div class="tool-desc">A three-part learning series. Learn what a press is, identify the X Press, German, Arrow, and Clark M2M on sight, then apply W.H.A.T. in real game situations. Start at Experience 1 and work through all three.</div>
-      <a href="collab_press_experience1.html" class="tool-btn">Start series</a>
     </div>
 
-    <div class="tool-card" data-audience="players">
-      <div class="card-top">
-        <span class="tool-badge">Game reading drill</span>
-        <span class="audience-pill pill-players">Players</span>
+    <div class="post-group">
+      <p class="pg-meta">Post 7 &mdash; Cycle 1</p>
+      <p class="pg-title">Crabbing and Arching — why your players keep losing the ball on reception</p>
+      <p class="pg-desc">Teaching Crabbing and Arching as micro-decisions, not techniques. The coaching cue that sticks and when to use it versus letting it develop.</p>
+      <div class="pg-badges">
+        <span class="badge b-video">Video Post</span>
+        <span class="badge b-player">Player Prep</span>
       </div>
-      <div class="tool-name">W.H.A.T. Game Reading</div>
-      <div class="tool-desc">Three game situations from a player's perspective. Practice reading what is happening on the field and communicating it before your coach has to call it out. Part of the press learning series.</div>
-      <a href="collab_what_player_drill.html" class="tool-btn">Start drill</a>
+      <div class="card-grid">
+        <a href="collab_reading_defenders_drill.html" class="tool-card">
+          <div class="card-badges">
+            <span class="badge b-drill">Drill</span>
+            <span class="badge b-player">Player Prep</span>
+          </div>
+          <p class="card-title">Reading Your Defender</p>
+          <p class="card-desc">Three 1v1 situations. Read what the defender is giving you and choose your move. Builds the decision-making habit before the ball arrives.</p>
+          <span class="card-cta">Send to players <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </a>
+        <div class="video-flag">
+          <p class="vf-label">Video Opportunity</p>
+          <p class="vf-title">Show the angle change on reception — Crabbing and Arching in one take</p>
+          <p class="vf-note">60 to 90 seconds. Ground-level or drone overhead. Film the arc and angle change on reception with one player. This is the post where the movement needs to be seen. Text and diagrams only get you so far.</p>
+        </div>
+      </div>
     </div>
 
+    <div class="post-group">
+      <p class="pg-meta">Post 5 &mdash; Cycle 1</p>
+      <p class="pg-title">What your players' first touch is telling you about your practice</p>
+      <p class="pg-desc">Triple Threat and Dynamic First Touch as coachable habits. How to spot breakdowns in a game and trace them back to reception angle.</p>
+      <div class="pg-badges">
+        <span class="badge b-drill">Drill Post</span>
+        <span class="badge b-player">Player Prep</span>
+      </div>
+      <div class="card-grid">
+        <div class="tool-card dimmed">
+          <div class="card-badges">
+            <span class="badge b-coming">Coming Soon</span>
+            <span class="badge b-player">Player Prep</span>
+          </div>
+          <p class="card-title">Body Position Decision Drill</p>
+          <p class="card-desc">Players choose their reception angle in three situations and see what each choice opens or closes down. Drops with Post 5.</p>
+          <span class="card-cta muted">Coming soon</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══ SPACE ══ -->
+  <section class="pillar-section" id="space">
+    <div class="pillar-head">
+      <div class="pillar-bar"></div>
+      <div>
+        <h2>Space</h2>
+        <p>Width and depth as a system, not a cue. How to build the spatial habit so your players stop collapsing the court before you have to say a word.</p>
+      </div>
+    </div>
+
+    <div class="post-group">
+      <p class="pg-meta">Post 1 &mdash; Cycle 1</p>
+      <p class="pg-title">Why your team keeps getting pressed into a corner</p>
+      <p class="pg-desc">Court width and depth as a system. What small court looks like from the sideline and how to correct it during a session.</p>
+      <div class="pg-badges">
+        <span class="badge b-drill">Drill Post</span>
+        <span class="badge b-player">Player Prep</span>
+      </div>
+      <div class="card-grid">
+        <div class="tool-card dimmed">
+          <div class="card-badges">
+            <span class="badge b-coming">Coming Soon</span>
+            <span class="badge b-player">Player Prep</span>
+          </div>
+          <p class="card-title">Space Recognition Drill</p>
+          <p class="card-desc">Three possession situations. Players identify where the space is and where to move before they receive. Drops with Post 1.</p>
+          <span class="card-cta muted">Coming soon</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="post-group">
+      <p class="pg-meta">Post 3 &mdash; Cycle 1</p>
+      <p class="pg-title">How to coach Left Foot Magic without stopping practice every two minutes</p>
+      <p class="pg-desc">Teaching Left Foot Magic as a read, not a rule. How to incentivize it in scrimmages and when to coach it versus letting it develop.</p>
+      <div class="pg-badges">
+        <span class="badge b-video">Video Post</span>
+        <span class="badge b-player">Player Prep</span>
+      </div>
+      <div class="card-grid">
+        <div class="tool-card dimmed">
+          <div class="card-badges">
+            <span class="badge b-coming">Coming Soon</span>
+            <span class="badge b-player">Player Prep</span>
+          </div>
+          <p class="card-title">Left Foot Magic Decision Drill</p>
+          <p class="card-desc">Three 1v1 situations. Players read the defender's left foot and choose their direction. Drops with Post 3.</p>
+          <span class="card-cta muted">Coming soon</span>
+        </div>
+        <div class="video-flag">
+          <p class="vf-label">Video Opportunity</p>
+          <p class="vf-title">Film the Left Foot Magic read in a live 1v1 moment</p>
+          <p class="vf-note">60 to 90 seconds. Ground-level. One take of you coaching the read in real time. This is one of her named concepts. Coaches need to see it executed, not described.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══ MENTAL GAME ══ -->
+  <section class="pillar-section" id="mental-game">
+    <div class="pillar-head">
+      <div class="pillar-bar"></div>
+      <div>
+        <h2>Mental Game</h2>
+        <p>IPR, Reset Point, 1% Better, Breathe. The tools that make everything else work when the game is hard and momentum has shifted.</p>
+      </div>
+    </div>
+
+    <div class="post-group">
+      <p class="pg-meta">Posts 13 &amp; 15 &mdash; Cycle 2</p>
+      <p class="pg-title">How to teach mental skills without making practice feel like therapy</p>
+      <p class="pg-desc">IPR, Reset Point, and 2 Min Mentality as coachable habits. How to introduce one mental tool per week and build it into practice structure.</p>
+      <div class="pg-badges">
+        <span class="badge b-video">Video Post</span>
+        <span class="badge b-drill">Drill Post</span>
+        <span class="badge b-player">Player Prep</span>
+      </div>
+      <div class="card-grid">
+        <div class="tool-card dimmed">
+          <div class="card-badges">
+            <span class="badge b-coming">Coming Soon</span>
+            <span class="badge b-player">Player Prep</span>
+          </div>
+          <p class="card-title">IPR Decision Drill</p>
+          <p class="card-desc">Three tough game moments. Players walk through what IPR looks like in each situation and choose their reset action. Drops with Post 15.</p>
+          <span class="card-cta muted">Coming soon</span>
+        </div>
+        <div class="video-flag">
+          <p class="vf-label">Video Opportunity</p>
+          <p class="vf-title">Show how you introduce a mental tool at the start of practice</p>
+          <p class="vf-note">Talking-head, no court needed. 60 seconds. Coaches need to see your delivery, not just read the concept. This is the post where your voice and presence do the work.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══ RULES AND OFFICIATING ══ -->
+  <section class="pillar-section" id="rules">
+    <div class="pillar-head">
+      <div class="pillar-bar"></div>
+      <div>
+        <h2>Rules &amp; Officiating</h2>
+        <p>Know the call before the whistle blows. Rules reference drills so coaches and players stop guessing on the sideline.</p>
+      </div>
+    </div>
+
+    <div class="post-group">
+      <p class="pg-meta">Rules Reference</p>
+      <p class="pg-title">High balls — dangerous or not?</p>
+      <p class="pg-desc">Three real game scenarios. Make the call, get immediate feedback, and understand the reasoning behind each decision. Built from NFHS field hockey rules.</p>
+      <div class="pg-badges">
+        <span class="badge b-rules">Rules Drill</span>
+        <span class="badge b-coach">For Coaches</span>
+      </div>
+      <div class="card-grid">
+        <a href="collab_highball_drill.html" class="tool-card">
+          <div class="card-badges">
+            <span class="badge b-rules">Rules Drill</span>
+            <span class="badge b-coach">Coaches</span>
+          </div>
+          <p class="card-title">High Balls: Dangerous or Not?</p>
+          <p class="card-desc">Three real game scenarios. Make the call, get immediate feedback, and learn the reasoning behind each decision. Built from NFHS field hockey rules.</p>
+          <span class="card-cta">Start drill <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SUBSTACK CTA -->
+  <div class="substack-cta">
+    <div class="cta-text">
+      <h3>New tools drop with every post.</h3>
+      <p>Each Substack post comes with a new coaching resource or player prep tool. Subscribe to get them as they publish.</p>
+    </div>
+    <a href="https://daniellebaumgardner.substack.com/" class="cta-btn">Subscribe on Substack &#8599;</a>
   </div>
 
-  <div class="section-label" style="margin-bottom:16px;">Get new tools first</div>
-  <div class="substack-strip">
-    <div class="strip-text">
-      <div class="strip-title">Each new post comes with a new tool.</div>
-      <div class="strip-sub">Subscribe to The CoLLab on Substack and get new coaching tools before anyone else.</div>
-    </div>
-    <a href="SUBSTACK-URL-HERE" class="strip-btn">Subscribe on Substack</a>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <p>The CoLLab Field Hockey &mdash; <a href="https://thecollabfieldhockey.com">thecollabfieldhockey.com</a></p>
+    <p>Built by <a href="https://foundationforward.consulting">Foundation Forward Consulting</a></p>
   </div>
-
-</div>
-
-<div class="footer">
-  <div class="footer-left">Free Coaching Tools from The CoLLab Field Hockey</div>
-  <div class="footer-right">Built by Foundation Forward Consulting</div>
-</div>
+</footer>
 
 <script>
-function filter(type, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('#tools-grid > *').forEach(card => {
-    if (type === 'all') {
-      card.classList.remove('hidden');
-    } else {
-      const audience = card.getAttribute('data-audience');
-      if (audience === type || audience === 'everyone') {
-        card.classList.remove('hidden');
-      } else {
-        card.classList.add('hidden');
+  const sections = document.querySelectorAll('.pillar-section');
+  const links    = document.querySelectorAll('.plink');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.plink[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
       }
-    }
-  });
-}
+    });
+  }, { rootMargin: '-35% 0px -55% 0px' });
+  sections.forEach(s => io.observe(s));
 </script>
 
 </body>
