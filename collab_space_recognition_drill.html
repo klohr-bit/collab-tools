@@ -9,10 +9,10 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: #111111;
-      color: #ffffff;
+      background: #0e0e0e;
+      color: #f0f0f0;
       font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.6;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
@@ -20,7 +20,7 @@
 
     /* ── HEADER ── */
     .top-bar {
-      background: #111111;
+      background: #0e0e0e;
       border-bottom: 3px solid #c8f135;
       padding: 0 1.5rem;
       height: 56px;
@@ -37,7 +37,7 @@
     }
 
     .logo-top {
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 900;
       color: #ffffff;
       letter-spacing: 0.04em;
@@ -50,32 +50,32 @@
       display: inline-block;
       background: #c8f135;
       color: #111;
-      font-size: 0.38rem;
+      font-size: 0.42rem;
       font-weight: 800;
       letter-spacing: 0.1em;
-      padding: 1px 5px;
+      padding: 2px 6px;
       border-radius: 2px;
       text-transform: uppercase;
     }
 
     .tool-label {
-      font-size: 0.65rem;
+      font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #555555;
+      color: #888888;
     }
 
-    /* ── HERO ── */
-    .hero {
-      padding: 2.5rem 1.5rem 2rem;
-      text-align: center;
+    /* ── INTRO ── */
+    .intro {
       max-width: 560px;
       margin: 0 auto;
+      padding: 2.5rem 1.5rem 0;
+      text-align: center;
     }
 
-    .hero-eyebrow {
-      font-size: 0.65rem;
+    .intro-eyebrow {
+      font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -83,63 +83,125 @@
       margin-bottom: 0.6rem;
     }
 
-    .hero h1 {
+    .intro h1 {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.6rem;
+      font-size: 2.8rem;
       letter-spacing: 0.03em;
       color: #ffffff;
       line-height: 1;
+      margin-bottom: 0.85rem;
+    }
+
+    .intro h1 span { color: #c8f135; }
+
+    /* ── CONTEXT BOX ── */
+    .context-box {
+      background: #1c1c1c;
+      border: 1px solid #333333;
+      border-left: 4px solid #c8f135;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0 1.75rem;
+      text-align: left;
+    }
+
+    .context-box p {
+      font-size: 0.95rem;
+      color: #d8d8d8;
+      line-height: 1.7;
       margin-bottom: 0.75rem;
     }
 
-    .hero h1 span { color: #c8f135; }
+    .context-box p:last-child { margin-bottom: 0; }
 
-    .hero-desc {
-      font-size: 0.9rem;
-      color: #888888;
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
+    .context-box strong { color: #ffffff; }
+
+    .context-box .context-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #c8f135;
+      margin-bottom: 0.6rem;
+      display: block;
     }
 
-    /* Progress dots */
+    /* ── HOW TO READ ── */
+    .legend {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 1.75rem;
+      padding: 0 1.5rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      color: #aaaaaa;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .legend-space {
+      width: 20px;
+      height: 12px;
+      border-radius: 3px;
+      flex-shrink: 0;
+      background: rgba(200,241,53,0.35);
+      border: 1px solid rgba(200,241,53,0.6);
+    }
+
+    /* Progress */
+    .progress-wrap {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 0 1.5rem 0.5rem;
+      text-align: center;
+    }
+
     .progress {
       display: flex;
       gap: 0.5rem;
       justify-content: center;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
     .dot {
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: #333333;
       transition: background 0.3s;
     }
 
     .dot.active { background: #c8f135; }
-    .dot.done   { background: #5a7a20; }
 
     .progress-label {
-      font-size: 0.65rem;
+      font-size: 0.68rem;
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #555555;
+      color: #888888;
     }
 
     /* ── MAIN ── */
     main {
       max-width: 560px;
       margin: 0 auto;
-      padding: 0 1.5rem 4rem;
+      padding: 1rem 1.5rem 4rem;
     }
 
-    /* ── SCENARIO CARD ── */
-    .scenario {
-      display: none;
-    }
-
+    /* ── SCENARIO ── */
+    .scenario { display: none; }
     .scenario.active {
       display: block;
       animation: fadeIn 0.3s ease;
@@ -151,17 +213,17 @@
     }
 
     .scenario-num {
-      font-size: 0.65rem;
+      font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: #c8f135;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
     .scenario-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
+      font-size: 1.65rem;
       letter-spacing: 0.03em;
       color: #ffffff;
       line-height: 1.1;
@@ -170,11 +232,19 @@
 
     /* ── COURT DIAGRAM ── */
     .court-wrap {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
+      background: #1a2a1a;
+      border: 1px solid #2a3a2a;
       border-radius: 10px;
-      padding: 1.25rem;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .court-caption {
+      font-size: 0.72rem;
+      color: #aaaaaa;
+      text-align: center;
       margin-bottom: 1.25rem;
+      line-height: 1.5;
     }
 
     .court-wrap svg {
@@ -185,104 +255,131 @@
 
     /* ── SITUATION ── */
     .situation-box {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
+      background: #1c1c1c;
+      border: 1px solid #333333;
       border-radius: 8px;
       padding: 1.1rem 1.25rem;
       margin-bottom: 1.25rem;
     }
 
     .situation-label {
-      font-size: 0.62rem;
+      font-size: 0.65rem;
       font-weight: 700;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #555555;
-      margin-bottom: 0.4rem;
+      color: #aaaaaa;
+      margin-bottom: 0.5rem;
+      display: block;
     }
 
     .situation-text {
-      font-size: 0.9rem;
-      color: #cccccc;
-      line-height: 1.65;
+      font-size: 0.95rem;
+      color: #e0e0e0;
+      line-height: 1.7;
     }
+
+    .situation-text strong { color: #ffffff; }
+
+    /* ── YOUR JOB ── */
+    .your-job {
+      background: #1a1f1a;
+      border: 1px solid #2d3d2d;
+      border-radius: 8px;
+      padding: 0.9rem 1.25rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .your-job-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .your-job-text {
+      font-size: 0.88rem;
+      color: #d0d0d0;
+      line-height: 1.6;
+    }
+
+    .your-job-text strong { color: #c8f135; }
 
     /* ── QUESTION ── */
     .question {
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 700;
       color: #ffffff;
       margin-bottom: 1rem;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     /* ── OPTIONS ── */
     .options {
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.7rem;
       margin-bottom: 1rem;
     }
 
     .option-btn {
-      background: #1a1a1a;
-      border: 1.5px solid #2a2a2a;
+      background: #1c1c1c;
+      border: 1.5px solid #383838;
       border-radius: 8px;
       padding: 1rem 1.25rem;
       text-align: left;
       cursor: pointer;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.875rem;
-      color: #cccccc;
-      line-height: 1.5;
+      font-size: 0.925rem;
+      color: #e0e0e0;
+      line-height: 1.55;
       transition: border-color 0.15s, background 0.15s, color 0.15s;
       display: flex;
       align-items: flex-start;
-      gap: 0.75rem;
+      gap: 0.85rem;
     }
 
     .option-btn:hover:not(:disabled) {
       border-color: #c8f135;
       color: #ffffff;
-      background: #1e1e1e;
+      background: #222222;
     }
 
     .option-btn:disabled { cursor: default; }
 
     .option-letter {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1rem;
-      color: #555555;
+      font-size: 1.1rem;
+      color: #888888;
       flex-shrink: 0;
-      line-height: 1.4;
+      line-height: 1.35;
       transition: color 0.15s;
+      min-width: 16px;
     }
 
     .option-btn.correct {
       border-color: #c8f135;
-      background: rgba(200,241,53,0.08);
+      background: rgba(200,241,53,0.1);
       color: #ffffff;
     }
 
     .option-btn.correct .option-letter { color: #c8f135; }
 
     .option-btn.wrong {
-      border-color: #ff5a5a;
-      background: rgba(255,90,90,0.06);
-      color: #888888;
+      border-color: #ff6b6b;
+      background: rgba(255,107,107,0.08);
+      color: #aaaaaa;
     }
 
-    .option-btn.wrong .option-letter { color: #ff5a5a; }
-
-    .option-btn.dimmed {
-      opacity: 0.35;
-    }
+    .option-btn.wrong .option-letter { color: #ff6b6b; }
+    .option-btn.dimmed { opacity: 0.3; }
 
     /* ── FEEDBACK ── */
     .feedback {
       display: none;
       border-radius: 8px;
-      padding: 1.1rem 1.25rem;
+      padding: 1.2rem 1.35rem;
       margin-bottom: 1.25rem;
       animation: fadeIn 0.25s ease;
     }
@@ -290,30 +387,31 @@
     .feedback.show { display: block; }
 
     .feedback.correct-fb {
-      background: rgba(200,241,53,0.07);
-      border: 1px solid rgba(200,241,53,0.25);
+      background: rgba(200,241,53,0.08);
+      border: 1px solid rgba(200,241,53,0.3);
     }
 
     .feedback.wrong-fb {
-      background: rgba(255,90,90,0.06);
-      border: 1px solid rgba(255,90,90,0.2);
+      background: rgba(255,107,107,0.07);
+      border: 1px solid rgba(255,107,107,0.25);
     }
 
     .feedback-result {
-      font-size: 0.68rem;
+      font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.5rem;
+      display: block;
     }
 
     .feedback.correct-fb .feedback-result { color: #c8f135; }
-    .feedback.wrong-fb   .feedback-result { color: #ff5a5a; }
+    .feedback.wrong-fb   .feedback-result { color: #ff6b6b; }
 
     .feedback-text {
-      font-size: 0.875rem;
-      color: #cccccc;
-      line-height: 1.65;
+      font-size: 0.925rem;
+      color: #d8d8d8;
+      line-height: 1.7;
     }
 
     .feedback-text strong { color: #ffffff; }
@@ -325,7 +423,7 @@
       background: #c8f135;
       color: #111111;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -344,54 +442,66 @@
     .score-screen {
       display: none;
       text-align: center;
-      padding: 2rem 0;
+      padding: 2.5rem 0;
       animation: fadeIn 0.4s ease;
     }
 
     .score-screen.show { display: block; }
 
-    .score-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
+    .score-icon { font-size: 3rem; margin-bottom: 1rem; }
 
     .score-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 2.4rem;
       letter-spacing: 0.03em;
       color: #c8f135;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
     .score-num {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.2rem;
-      color: #555555;
+      font-size: 1.1rem;
+      color: #888888;
       letter-spacing: 0.1em;
       margin-bottom: 1.5rem;
     }
 
     .score-message {
-      font-size: 0.9rem;
-      color: #888888;
-      line-height: 1.7;
-      max-width: 380px;
+      font-size: 0.95rem;
+      color: #d0d0d0;
+      line-height: 1.75;
+      max-width: 400px;
       margin: 0 auto 2rem;
     }
 
-    .score-message strong { color: #cccccc; }
+    .score-message strong { color: #ffffff; }
+
+    .score-takeaway {
+      background: #1c1c1c;
+      border: 1px solid #333333;
+      border-left: 4px solid #c8f135;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      color: #d8d8d8;
+      line-height: 1.7;
+    }
+
+    .score-takeaway strong { color: #ffffff; }
 
     .restart-btn {
       display: inline-block;
       background: transparent;
-      border: 1.5px solid #333333;
-      color: #888888;
+      border: 1.5px solid #444444;
+      color: #aaaaaa;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 0.75rem 1.5rem;
+      padding: 0.8rem 1.75rem;
       border-radius: 8px;
       cursor: pointer;
       transition: border-color 0.15s, color 0.15s;
@@ -401,27 +511,18 @@
 
     /* ── FOOTER ── */
     footer {
-      border-top: 1px solid #1e1e1e;
+      border-top: 1px solid #222222;
       padding: 1.25rem 1.5rem;
       text-align: center;
     }
 
-    footer p {
-      font-size: 0.7rem;
-      color: #333333;
-    }
-
-    footer a {
-      color: #444444;
-      text-decoration: none;
-      transition: color 0.15s;
-    }
-
+    footer p { font-size: 0.72rem; color: #555555; }
+    footer a { color: #666666; text-decoration: none; transition: color 0.15s; }
     footer a:hover { color: #c8f135; }
 
     @media (max-width: 480px) {
-      .hero { padding: 2rem 0 1.5rem; }
-      .hero h1 { font-size: 2rem; }
+      .intro h1 { font-size: 2.2rem; }
+      .legend { gap: 0.85rem; }
     }
   </style>
 </head>
@@ -436,17 +537,46 @@
   <span class="tool-label">Space Recognition</span>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-  <p class="hero-eyebrow">Player Prep Drill</p>
+<!-- INTRO -->
+<div class="intro">
+  <p class="intro-eyebrow">Player Prep Drill</p>
   <h1>Space<br><span>Recognition</span></h1>
-  <p class="hero-desc">Three possession situations. Identify where the space is. Decide where to move before the ball arrives.</p>
+
+  <div class="context-box">
+    <span class="context-label">Before you start</span>
+    <p>In indoor field hockey, the court is small and the press comes fast. The teams that handle pressure well are not just more skilled — they read space earlier. They know where to move <strong>before</strong> the ball arrives.</p>
+    <p>This drill gives you three game situations. In each one, your team has possession and the opposition is pressing. Your job is to find the space and decide where to move. There is no ball coming yet. You are making the read first.</p>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#c8f135;"></div>
+    <span>Your team</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#ff6b6b;"></div>
+    <span>Opposition</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:#ffffff; border: 2px solid #c8f135; box-sizing:border-box;"></div>
+    <span>You</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-space"></div>
+    <span>Open space</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
   <div class="progress">
     <div class="dot active" id="dot-0"></div>
     <div class="dot" id="dot-1"></div>
     <div class="dot" id="dot-2"></div>
   </div>
-  <p class="progress-label" id="progress-label">Scenario 1 of 3</p>
+  <p class="progress-label" id="progress-label">Situation 1 of 3</p>
 </div>
 
 <!-- MAIN -->
@@ -454,124 +584,137 @@
 
   <!-- ── SCENARIO 1 ── -->
   <div class="scenario active" id="scenario-0">
-    <p class="scenario-num">Scenario 01</p>
-    <h2 class="scenario-title">Your team has the ball.<br>The court is small.</h2>
+    <p class="scenario-num">Situation 01</p>
+    <h2 class="scenario-title">The court has collapsed.<br>The boards are empty.</h2>
 
-    <!-- Court diagram: compact formation -->
     <div class="court-wrap">
-      <svg viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
-        <!-- Court outline -->
-        <rect x="10" y="10" width="280" height="400" fill="#1e2e1e" rx="4" stroke="#2a3a2a" stroke-width="1.5"/>
+      <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Court -->
+        <rect x="8" y="8" width="284" height="384" fill="#142014" rx="4" stroke="#1e3a1e" stroke-width="1.5"/>
         <!-- Center line -->
-        <line x1="10" y1="210" x2="290" y2="210" stroke="#2a3a2a" stroke-width="1" stroke-dasharray="6,4"/>
-        <!-- Shooting circles -->
-        <ellipse cx="150" cy="70" rx="80" ry="55" fill="none" stroke="#2a3a2a" stroke-width="1.5"/>
-        <ellipse cx="150" cy="350" rx="80" ry="55" fill="none" stroke="#2a3a2a" stroke-width="1.5"/>
+        <line x1="8" y1="200" x2="292" y2="200" stroke="#1e3a1e" stroke-width="1.5" stroke-dasharray="7,5"/>
+        <!-- Circles -->
+        <ellipse cx="150" cy="65" rx="78" ry="52" fill="none" stroke="#1e3a1e" stroke-width="1.5"/>
+        <ellipse cx="150" cy="335" rx="78" ry="52" fill="none" stroke="#1e3a1e" stroke-width="1.5"/>
         <!-- Goals -->
-        <rect x="115" y="10" width="70" height="14" fill="#2a3a2a" rx="2"/>
-        <rect x="115" y="396" width="70" height="14" fill="#2a3a2a" rx="2"/>
+        <rect x="113" y="8" width="74" height="13" fill="#1e3a1e" rx="2"/>
+        <rect x="113" y="379" width="74" height="13" fill="#1e3a1e" rx="2"/>
 
-        <!-- YOUR TEAM — clustered in middle (small court) -->
+        <!-- SPACE — wide zones, clearly visible -->
+        <rect x="10" y="155" width="68" height="90" fill="#c8f135" opacity="0.22" rx="4"/>
+        <rect x="222" y="155" width="68" height="90" fill="#c8f135" opacity="0.22" rx="4"/>
+        <text x="44" y="201" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#c8f135" opacity="0.85">SPACE</text>
+        <text x="256" y="201" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#c8f135" opacity="0.85">SPACE</text>
+
         <!-- Ball carrier -->
-        <circle cx="150" cy="230" r="10" fill="#c8f135" opacity="0.9"/>
-        <circle cx="150" cy="230" r="5" fill="#111" opacity="0.6"/>
-        <text x="150" y="254" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#888">ball</text>
+        <circle cx="150" cy="228" r="11" fill="#c8f135" opacity="1"/>
+        <circle cx="150" cy="228" r="5" fill="#111" opacity="0.7"/>
 
-        <!-- Teammates too close -->
-        <circle cx="120" cy="220" r="9" fill="#c8f135" opacity="0.5"/>
-        <circle cx="175" cy="225" r="9" fill="#c8f135" opacity="0.5"/>
-        <circle cx="148" cy="195" r="9" fill="#c8f135" opacity="0.5"/>
-        <circle cx="135" cy="260" r="9" fill="#c8f135" opacity="0.5"/>
+        <!-- Teammates clustered around ball -->
+        <circle cx="118" cy="218" r="9" fill="#c8f135" opacity="0.7"/>
+        <circle cx="178" cy="222" r="9" fill="#c8f135" opacity="0.7"/>
+        <circle cx="148" cy="192" r="9" fill="#c8f135" opacity="0.7"/>
+        <circle cx="155" cy="260" r="9" fill="#c8f135" opacity="0.7"/>
 
-        <!-- Opponents -->
-        <circle cx="118" cy="180" r="9" fill="#ff5a5a" opacity="0.7"/>
-        <circle cx="178" cy="185" r="9" fill="#ff5a5a" opacity="0.7"/>
-        <circle cx="150" cy="160" r="9" fill="#ff5a5a" opacity="0.7"/>
+        <!-- YOU — clustered in middle -->
+        <circle cx="130" cy="255" r="10" fill="#ffffff" opacity="0.95" stroke="#c8f135" stroke-width="2.5"/>
+        <text x="130" y="244" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#c8f135">YOU</text>
 
-        <!-- Space indicators — wide zones empty -->
-        <rect x="14" y="170" width="60" height="80" fill="#c8f135" opacity="0.06" rx="3"/>
-        <rect x="226" y="170" width="60" height="80" fill="#c8f135" opacity="0.06" rx="3"/>
-        <text x="44" y="215" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#c8f135" opacity="0.5">space</text>
-        <text x="256" y="215" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#c8f135" opacity="0.5">space</text>
+        <!-- Opponents pressing ball -->
+        <circle cx="122" cy="178" r="9" fill="#ff6b6b" opacity="0.9"/>
+        <circle cx="180" cy="183" r="9" fill="#ff6b6b" opacity="0.9"/>
+        <circle cx="150" cy="162" r="9" fill="#ff6b6b" opacity="0.9"/>
 
-        <!-- Direction of play -->
-        <text x="150" y="408" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#444">attacking this end</text>
+        <!-- Direction label -->
+        <text x="150" y="396" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#557755">▲ Attacking this end</text>
       </svg>
     </div>
+    <p class="court-caption">Your team (lime) has possession. Opposition (red) is pressing the ball. Both sideboard zones are empty.</p>
 
     <div class="situation-box">
-      <p class="situation-label">The situation</p>
-      <p class="situation-text">Your team wins possession in the middle third. Five players are within 10 yards of the ball. Both sideboard zones are empty. The opposition press is collapsing toward the ball.</p>
+      <span class="situation-label">What is happening</span>
+      <p class="situation-text">Your team just won possession in the middle third. Five of your players are within ten yards of the ball. The opposition has three players pressing tight around the ball carrier. <strong>Both sideboards are completely open.</strong> You are the player marked YOU on the diagram.</p>
     </div>
 
-    <p class="question">Where is the space, and where should you move right now?</p>
+    <div class="your-job">
+      <span class="your-job-icon">👁</span>
+      <p class="your-job-text"><strong>Your job:</strong> Read where the space is and decide where to move before the ball comes to you. The press is collapsing to the center. What does that tell you?</p>
+    </div>
+
+    <p class="question">Where should you move right now?</p>
 
     <div class="options" id="options-0">
       <button class="option-btn" onclick="answer(0, 0, false)">
         <span class="option-letter">A</span>
-        <span>Stay close to the ball carrier and offer a short pass option.</span>
+        <span>Stay close to the ball carrier. Offer a short pass option so she has somewhere to go.</span>
       </button>
       <button class="option-btn" onclick="answer(0, 1, true)">
         <span class="option-letter">B</span>
-        <span>Move wide to the sideboard zone. Create a long outlet and stretch the press horizontally.</span>
+        <span>Move wide to one of the sideboard zones. Get into the space the press has left open.</span>
       </button>
       <button class="option-btn" onclick="answer(0, 2, false)">
         <span class="option-letter">C</span>
-        <span>Push forward toward the attacking circle to be ready for a through ball.</span>
+        <span>Push forward toward the attacking circle. Be ready if the ball breaks through the press.</span>
       </button>
     </div>
 
     <div class="feedback" id="feedback-0">
-      <p class="feedback-result" id="feedback-result-0"></p>
+      <span class="feedback-result" id="feedback-result-0"></span>
       <p class="feedback-text" id="feedback-text-0"></p>
     </div>
 
-    <button class="next-btn" id="next-0" onclick="nextScenario(1)">Next Scenario &rarr;</button>
+    <button class="next-btn" id="next-0" onclick="nextScenario(1)">Next Situation &rarr;</button>
   </div>
 
   <!-- ── SCENARIO 2 ── -->
   <div class="scenario" id="scenario-1">
-    <p class="scenario-num">Scenario 02</p>
-    <h2 class="scenario-title">You are off the ball.<br>The back has space.</h2>
+    <p class="scenario-num">Situation 02</p>
+    <h2 class="scenario-title">Your back is trapped.<br>The press has overloaded one side.</h2>
 
     <div class="court-wrap">
-      <svg viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
-        <rect x="10" y="10" width="280" height="400" fill="#1e2e1e" rx="4" stroke="#2a3a2a" stroke-width="1.5"/>
-        <line x1="10" y1="210" x2="290" y2="210" stroke="#2a3a2a" stroke-width="1" stroke-dasharray="6,4"/>
-        <ellipse cx="150" cy="70" rx="80" ry="55" fill="none" stroke="#2a3a2a" stroke-width="1.5"/>
-        <ellipse cx="150" cy="350" rx="80" ry="55" fill="none" stroke="#2a3a2a" stroke-width="1.5"/>
-        <rect x="115" y="10" width="70" height="14" fill="#2a3a2a" rx="2"/>
-        <rect x="115" y="396" width="70" height="14" fill="#2a3a2a" rx="2"/>
+      <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="8" width="284" height="384" fill="#142014" rx="4" stroke="#1e3a1e" stroke-width="1.5"/>
+        <line x1="8" y1="200" x2="292" y2="200" stroke="#1e3a1e" stroke-width="1.5" stroke-dasharray="7,5"/>
+        <ellipse cx="150" cy="65" rx="78" ry="52" fill="none" stroke="#1e3a1e" stroke-width="1.5"/>
+        <ellipse cx="150" cy="335" rx="78" ry="52" fill="none" stroke="#1e3a1e" stroke-width="1.5"/>
+        <rect x="113" y="8" width="74" height="13" fill="#1e3a1e" rx="2"/>
+        <rect x="113" y="379" width="74" height="13" fill="#1e3a1e" rx="2"/>
+
+        <!-- SPACE — right side open and clearly marked -->
+        <rect x="200" y="140" width="90" height="120" fill="#c8f135" opacity="0.22" rx="4"/>
+        <text x="245" y="202" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#c8f135" opacity="0.85">SPACE</text>
 
         <!-- Back has ball, deep left -->
-        <circle cx="50" cy="310" r="10" fill="#c8f135" opacity="0.9"/>
-        <circle cx="50" cy="310" r="5" fill="#111" opacity="0.6"/>
-        <text x="50" y="330" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#888">ball</text>
+        <circle cx="45" cy="305" r="11" fill="#c8f135" opacity="1"/>
+        <circle cx="45" cy="305" r="5" fill="#111" opacity="0.7"/>
+        <text x="45" y="325" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#aaaaaa">back</text>
 
-        <!-- You (player) in the middle -->
-        <circle cx="150" cy="260" r="10" fill="#ffffff" opacity="0.9" stroke="#c8f135" stroke-width="2"/>
-        <text x="150" y="278" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#c8f135">you</text>
+        <!-- Other teammates left side -->
+        <circle cx="88" cy="275" r="9" fill="#c8f135" opacity="0.7"/>
+        <circle cx="145" cy="255" r="9" fill="#c8f135" opacity="0.7"/>
 
-        <!-- Other teammates -->
-        <circle cx="90" cy="280" r="9" fill="#c8f135" opacity="0.4"/>
-        <circle cx="200" cy="270" r="9" fill="#c8f135" opacity="0.4"/>
+        <!-- YOU — center, can move either way -->
+        <circle cx="148" cy="210" r="10" fill="#ffffff" opacity="0.95" stroke="#c8f135" stroke-width="2.5"/>
+        <text x="148" y="198" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#c8f135">YOU</text>
 
-        <!-- Opponents pressing left side -->
-        <circle cx="65" cy="260" r="9" fill="#ff5a5a" opacity="0.7"/>
-        <circle cx="110" cy="235" r="9" fill="#ff5a5a" opacity="0.7"/>
-        <circle cx="155" cy="215" r="9" fill="#ff5a5a" opacity="0.7"/>
+        <!-- Opposition overloading left side -->
+        <circle cx="62" cy="258" r="9" fill="#ff6b6b" opacity="0.9"/>
+        <circle cx="105" cy="238" r="9" fill="#ff6b6b" opacity="0.9"/>
+        <circle cx="148" cy="235" r="9" fill="#ff6b6b" opacity="0.9"/>
 
-        <!-- Space — right side and deep -->
-        <rect x="200" y="230" width="85" height="100" fill="#c8f135" opacity="0.06" rx="3"/>
-        <text x="242" y="285" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#c8f135" opacity="0.5">space</text>
-
-        <text x="150" y="408" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#444">attacking this end</text>
+        <text x="150" y="396" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#557755">▲ Attacking this end</text>
       </svg>
     </div>
+    <p class="court-caption">Your back (lime, bottom left) has the ball. Three opposition players are pressing the left side. The right side is open.</p>
 
     <div class="situation-box">
-      <p class="situation-label">The situation</p>
-      <p class="situation-text">Your back has the ball on the left boards. The opposition has three players pressing the left side. The entire right side of the court is open. You are a midfielder standing in the center.</p>
+      <span class="situation-label">What is happening</span>
+      <p class="situation-text">Your back has the ball on the left boards and is under pressure from three opposition players. Your other teammates are also on the left side. <strong>The entire right side of the court is open.</strong> You are the player marked YOU — a midfielder standing in the center. Your back has no clean outlet right now.</p>
+    </div>
+
+    <div class="your-job">
+      <span class="your-job-icon">👁</span>
+      <p class="your-job-text"><strong>Your job:</strong> Your back needs an outlet. The press has committed three players to the left. What does that tell you about where to move?</p>
     </div>
 
     <p class="question">What do you do to help your back find the space?</p>
@@ -579,92 +722,98 @@
     <div class="options" id="options-1">
       <button class="option-btn" onclick="answer(1, 0, false)">
         <span class="option-letter">A</span>
-        <span>Move toward your back to offer a short pass and help her out of pressure.</span>
+        <span>Move toward your back on the left boards. Get close so she has a short pass option.</span>
       </button>
       <button class="option-btn" onclick="answer(1, 1, false)">
         <span class="option-letter">B</span>
-        <span>Hold your position in the center and wait for her to decide.</span>
+        <span>Stay in the center and wait. Give your back time to solve it herself.</span>
       </button>
       <button class="option-btn" onclick="answer(1, 2, true)">
         <span class="option-letter">C</span>
-        <span>Move quickly to the right side boards. Open the diagonal. Give her a way out of the press.</span>
+        <span>Move quickly to the right boards. Open a diagonal outlet that bypasses all three pressing players.</span>
       </button>
     </div>
 
     <div class="feedback" id="feedback-1">
-      <p class="feedback-result" id="feedback-result-1"></p>
+      <span class="feedback-result" id="feedback-result-1"></span>
       <p class="feedback-text" id="feedback-text-1"></p>
     </div>
 
-    <button class="next-btn" id="next-1" onclick="nextScenario(2)">Next Scenario &rarr;</button>
+    <button class="next-btn" id="next-1" onclick="nextScenario(2)">Next Situation &rarr;</button>
   </div>
 
   <!-- ── SCENARIO 3 ── -->
   <div class="scenario" id="scenario-2">
-    <p class="scenario-num">Scenario 03</p>
-    <h2 class="scenario-title">Your team is in possession.<br>The press has adjusted.</h2>
+    <p class="scenario-num">Situation 03</p>
+    <h2 class="scenario-title">The press has shifted.<br>One side is now unguarded.</h2>
 
     <div class="court-wrap">
-      <svg viewBox="0 0 300 420" xmlns="http://www.w3.org/2000/svg">
-        <rect x="10" y="10" width="280" height="400" fill="#1e2e1e" rx="4" stroke="#2a3a2a" stroke-width="1.5"/>
-        <line x1="10" y1="210" x2="290" y2="210" stroke="#2a3a2a" stroke-width="1" stroke-dasharray="6,4"/>
-        <ellipse cx="150" cy="70" rx="80" ry="55" fill="none" stroke="#2a3a2a" stroke-width="1.5"/>
-        <ellipse cx="150" cy="350" rx="80" ry="55" fill="none" stroke="#2a3a2a" stroke-width="1.5"/>
-        <rect x="115" y="10" width="70" height="14" fill="#2a3a2a" rx="2"/>
-        <rect x="115" y="396" width="70" height="14" fill="#2a3a2a" rx="2"/>
+      <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="8" width="284" height="384" fill="#142014" rx="4" stroke="#1e3a1e" stroke-width="1.5"/>
+        <line x1="8" y1="200" x2="292" y2="200" stroke="#1e3a1e" stroke-width="1.5" stroke-dasharray="7,5"/>
+        <ellipse cx="150" cy="65" rx="78" ry="52" fill="none" stroke="#1e3a1e" stroke-width="1.5"/>
+        <ellipse cx="150" cy="335" rx="78" ry="52" fill="none" stroke="#1e3a1e" stroke-width="1.5"/>
+        <rect x="113" y="8" width="74" height="13" fill="#1e3a1e" rx="2"/>
+        <rect x="113" y="379" width="74" height="13" fill="#1e3a1e" rx="2"/>
 
-        <!-- Ball carrier mid right -->
-        <circle cx="210" cy="240" r="10" fill="#c8f135" opacity="0.9"/>
-        <circle cx="210" cy="240" r="5" fill="#111" opacity="0.6"/>
-        <text x="210" y="260" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#888">ball</text>
+        <!-- SPACE — left side clearly open -->
+        <rect x="10" y="130" width="100" height="130" fill="#c8f135" opacity="0.22" rx="4"/>
+        <text x="60" y="197" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#c8f135" opacity="0.85">SPACE</text>
 
-        <!-- Your team spread wide -->
-        <circle cx="40" cy="230" r="9" fill="#c8f135" opacity="0.5"/>
-        <circle cx="150" cy="200" r="9" fill="#c8f135" opacity="0.5"/>
-        <circle cx="170" cy="280" r="9" fill="#c8f135" opacity="0.5"/>
+        <!-- Ball carrier right side -->
+        <circle cx="215" cy="235" r="11" fill="#c8f135" opacity="1"/>
+        <circle cx="215" cy="235" r="5" fill="#111" opacity="0.7"/>
+        <text x="215" y="255" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#aaaaaa">ball</text>
 
-        <!-- You — forward, near circle -->
-        <circle cx="200" cy="160" r="10" fill="#ffffff" opacity="0.9" stroke="#c8f135" stroke-width="2"/>
-        <text x="200" y="148" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#c8f135">you</text>
+        <!-- Teammates right and center -->
+        <circle cx="42" cy="225" r="9" fill="#c8f135" opacity="0.7"/>
+        <circle cx="148" cy="198" r="9" fill="#c8f135" opacity="0.7"/>
+        <circle cx="172" cy="272" r="9" fill="#c8f135" opacity="0.7"/>
 
-        <!-- Opponents shifted right -->
-        <circle cx="230" cy="210" r="9" fill="#ff5a5a" opacity="0.7"/>
-        <circle cx="200" cy="195" r="9" fill="#ff5a5a" opacity="0.7"/>
-        <circle cx="175" cy="220" r="9" fill="#ff5a5a" opacity="0.7"/>
-        <circle cx="240" cy="250" r="9" fill="#ff5a5a" opacity="0.6"/>
+        <!-- YOU — forward near circle, currently marked right -->
+        <circle cx="205" cy="158" r="10" fill="#ffffff" opacity="0.95" stroke="#c8f135" stroke-width="2.5"/>
+        <text x="205" y="147" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" font-weight="700" fill="#c8f135">YOU</text>
 
-        <!-- Space — left side open -->
-        <rect x="14" y="160" width="90" height="100" fill="#c8f135" opacity="0.06" rx="3"/>
-        <text x="59" y="215" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#c8f135" opacity="0.5">space</text>
+        <!-- Opposition all shifted right -->
+        <circle cx="232" cy="205" r="9" fill="#ff6b6b" opacity="0.9"/>
+        <circle cx="200" cy="190" r="9" fill="#ff6b6b" opacity="0.9"/>
+        <circle cx="175" cy="215" r="9" fill="#ff6b6b" opacity="0.9"/>
+        <circle cx="242" cy="248" r="9" fill="#ff6b6b" opacity="0.85"/>
 
-        <text x="150" y="408" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="8" fill="#444">attacking this end</text>
+        <text x="150" y="396" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#557755">▲ Attacking this end</text>
       </svg>
     </div>
+    <p class="court-caption">The opposition (red) has shifted all four players to the right side. The entire left side of the court is unguarded.</p>
 
     <div class="situation-box">
-      <p class="situation-label">The situation</p>
-      <p class="situation-text">The opposition press has shifted to cover the right side where the ball is. The left side of the court is now completely open. You are a forward near the attacking circle, currently marked on the right.</p>
+      <span class="situation-label">What is happening</span>
+      <p class="situation-text">Your team has possession on the right side. The opposition has shifted all four players to press that side. <strong>The entire left side of the court is unguarded.</strong> You are a forward marked on the right near the circle. Your marker is right next to you.</p>
     </div>
 
-    <p class="question">Where is the space, and what is your job right now?</p>
+    <div class="your-job">
+      <span class="your-job-icon">👁</span>
+      <p class="your-job-text"><strong>Your job:</strong> The press has left a huge gap on the left. If your team can switch the ball to that side, the press is beaten. What do you need to do to make that switch happen?</p>
+    </div>
+
+    <p class="question">Where is the space and what is your job right now?</p>
 
     <div class="options" id="options-2">
       <button class="option-btn" onclick="answer(2, 0, true)">
         <span class="option-letter">A</span>
-        <span>Check away from your marker and move to the left side. Pull the press and open the court for a switch.</span>
+        <span>Check away from your marker and move hard to the left side. Create the target for the switch pass.</span>
       </button>
       <button class="option-btn" onclick="answer(2, 1, false)">
         <span class="option-letter">B</span>
-        <span>Stay near the circle and make yourself available for a direct pass to goal.</span>
+        <span>Stay near the circle. If the ball breaks through the press you are already in a scoring position.</span>
       </button>
       <button class="option-btn" onclick="answer(2, 2, false)">
         <span class="option-letter">C</span>
-        <span>Drop back toward the ball to give the ball carrier more passing options nearby.</span>
+        <span>Drop back toward the ball. Give the ball carrier more options in the area where the play is happening.</span>
       </button>
     </div>
 
     <div class="feedback" id="feedback-2">
-      <p class="feedback-result" id="feedback-result-2"></p>
+      <span class="feedback-result" id="feedback-result-2"></span>
       <p class="feedback-text" id="feedback-text-2"></p>
     </div>
 
@@ -674,9 +823,10 @@
   <!-- ── SCORE SCREEN ── -->
   <div class="score-screen" id="score-screen">
     <div class="score-icon" id="score-icon">🏑</div>
-    <h2 class="score-title" id="score-title">Nice Work</h2>
+    <h2 class="score-title" id="score-title"></h2>
     <p class="score-num" id="score-num"></p>
     <p class="score-message" id="score-message"></p>
+    <div class="score-takeaway" id="score-takeaway"></div>
     <button class="restart-btn" onclick="restart()">Run it again</button>
   </div>
 
@@ -692,31 +842,49 @@
     0: {
       correct: {
         result: "Right read.",
-        text: "The space is wide. The press is collapsing to the ball. The moment your teammates move to the boards, the press has to choose — collapse further and leave a free player, or spread out and create gaps. Either way, you win. <strong>Moving wide when the court is small is not abandoning the play. It is the play.</strong>"
+        text: "The press collapsed to the center, which means the boards are wide open. The moment you move wide, the press has a problem — follow you and leave the center, or hold and let you receive free. <strong>Moving wide when the court is small is not abandoning the play. It is the play.</strong> Your coach calls it court width. This is what it feels like from inside the game."
       },
       wrong: [
-        { result: "Not quite.", text: "Staying close to the ball gives the press exactly what it wants — a tight cluster it can cover with fewer players. The space is wide. That is where you need to be. <strong>Moving wide when the court is small is not abandoning the play. It is the play.</strong>" },
-        { result: "Not yet.", text: "Pushing forward when your team is under pressure in the middle third leaves your back outnumbered and cuts off the outlet. Read where the press is first. The space is wide right now — that is your job." }
+        {
+          result: "Not quite.",
+          text: "Staying close to the ball adds another body to an already crowded area. The press now covers two players by standing in one spot. Look at where the press is NOT — the boards are empty. <strong>The space tells you where to go. Move to it before the ball arrives.</strong>"
+        },
+        {
+          result: "Not yet.",
+          text: "Pushing forward when your team is still under pressure in the middle leaves your back without an outlet and puts you too far from the ball to be useful. Read the press first. <strong>The boards are empty right now — that is the space, and that is where you need to be.</strong>"
+        }
       ]
     },
     1: {
       correct: {
         result: "Right read.",
-        text: "When the press overloads one side, the answer is on the other side. Moving to the right boards gives your back a diagonal option that bypasses all three pressing players in one pass. <strong>Your job off the ball is to make the press wrong. One big move does that.</strong>"
+        text: "Three players pressing the left means the right is unguarded. One move to the right boards gives your back a diagonal pass that goes over, around, and past all three pressing players at once. <strong>Your job off the ball is to make the press wrong. Moving away from the problem is how you do it.</strong> One good run solves it."
       },
       wrong: [
-        { result: "Not quite.", text: "Moving toward your back adds another player to an already crowded zone. The press has three players there. You are making their job easier. The space is on the right. <strong>Your job off the ball is to make the press wrong. One big move does that.</strong>" },
-        { result: "Not yet.", text: "Holding your position keeps you in a contested area. Your back has nowhere to go. The entire right side is open and uncovered. Move into it. <strong>Your job off the ball is to make the press wrong. One big move does that.</strong>" }
+        {
+          result: "Not quite.",
+          text: "Moving toward your back means the press now has four players on the left side to cover. You made a crowded area even more crowded. The right side is completely open. <strong>Off-ball movement away from the press — not toward it — is how you create the outlet your teammate needs.</strong>"
+        },
+        {
+          result: "Not yet.",
+          text: "Waiting in the center keeps you in a contested area and gives your back nothing new to work with. She is under pressure right now. <strong>Your run to the right boards is what creates the solution — she cannot pass to a space that has no one in it.</strong> Move first. Give her somewhere to go."
+        }
       ]
     },
     2: {
       correct: {
         result: "Right read.",
-        text: "The press has committed right. Moving left pulls your marker with you — or leaves you free. Either way the left side opens up for a switch pass that puts your team into space behind the press. <strong>Reading where the press is not is as important as reading where the ball is.</strong>"
+        text: "The press has committed four players to the right. Moving left either pulls your marker with you — opening space on the right — or you lose your marker and receive free on the left. <strong>Either way your team wins.</strong> Reading where the press is not is the skill your coach is building in every session. This is what it looks like in a real game moment."
       },
       wrong: [
-        { result: "Not yet.", text: "Staying near the circle keeps you in a heavily marked zone. A direct pass to you is low percentage right now. The press has committed right — your value is on the left. <strong>Reading where the press is not is as important as reading where the ball is.</strong>" },
-        { result: "Not quite.", text: "Dropping back adds to the congestion on the right side. The space the press has left open is on the left. Moving into it is how you make the switch available. <strong>Reading where the press is not is as important as reading where the ball is.</strong>" }
+        {
+          result: "Not yet.",
+          text: "Staying near the circle keeps you in the most crowded part of the court right now. Four opposition players are on the right side. A direct pass to you is heavily contested. <strong>The left side is completely open — your value right now is getting into that space, not staying in the traffic.</strong>"
+        },
+        {
+          result: "Not quite.",
+          text: "Dropping back adds to the congestion on the right and takes you further from the space the press has left open. <strong>The switch pass to the left only works if someone is there to receive it.</strong> Your run to the left is what makes the switch possible. Move into the space."
+        }
       ]
     }
   };
@@ -728,29 +896,27 @@
     const buttons = document.querySelectorAll(`#options-${scenario} .option-btn`);
     buttons.forEach(b => b.disabled = true);
 
-    const chosen = buttons[optionIndex];
-    const feedback = document.getElementById(`feedback-${scenario}`);
-    const result   = document.getElementById(`feedback-result-${scenario}`);
-    const text     = document.getElementById(`feedback-text-${scenario}`);
-    const nextBtn  = document.getElementById(`next-${scenario}`);
+    const chosen     = buttons[optionIndex];
+    const feedback   = document.getElementById(`feedback-${scenario}`);
+    const resultEl   = document.getElementById(`feedback-result-${scenario}`);
+    const textEl     = document.getElementById(`feedback-text-${scenario}`);
+    const nextBtn    = document.getElementById(`next-${scenario}`);
 
     if (isCorrect) {
       chosen.classList.add('correct');
       buttons.forEach((b, i) => { if (i !== optionIndex) b.classList.add('dimmed'); });
       feedback.classList.add('show', 'correct-fb');
-      result.textContent = feedbackData[scenario].correct.result;
-      text.innerHTML     = feedbackData[scenario].correct.text;
-      scores[scenario]   = true;
+      resultEl.textContent = feedbackData[scenario].correct.result;
+      textEl.innerHTML     = feedbackData[scenario].correct.text;
+      scores[scenario]     = true;
     } else {
       chosen.classList.add('wrong');
       const wi = wrongIndexes[scenario] || 0;
       feedback.classList.add('show', 'wrong-fb');
-      result.textContent = feedbackData[scenario].wrong[wi].result;
-      text.innerHTML     = feedbackData[scenario].wrong[wi].text;
+      resultEl.textContent = feedbackData[scenario].wrong[wi].result;
+      textEl.innerHTML     = feedbackData[scenario].wrong[wi].text;
       wrongIndexes[scenario] = wi + 1;
       scores[scenario] = false;
-
-      // Highlight correct after wrong
       buttons.forEach(b => {
         if (b.getAttribute('onclick').includes('true')) {
           b.classList.add('correct');
@@ -762,49 +928,48 @@
     }
 
     nextBtn.classList.add('show');
-    updateDots(scenario, isCorrect);
-  }
-
-  function updateDots(scenario, correct) {
     const dot = document.getElementById(`dot-${scenario}`);
     dot.classList.remove('active');
-    dot.classList.add(correct ? 'done' : 'done');
-    dot.style.background = correct ? '#c8f135' : '#ff5a5a';
+    dot.style.background = isCorrect ? '#c8f135' : '#ff6b6b';
   }
 
   function nextScenario(index) {
     document.getElementById(`scenario-${index - 1}`).classList.remove('active');
     document.getElementById(`scenario-${index}`).classList.add('active');
     document.getElementById(`dot-${index}`).classList.add('active');
-    document.getElementById('progress-label').textContent = `Scenario ${index + 1} of 3`;
+    document.getElementById('progress-label').textContent = `Situation ${index + 1} of 3`;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function showScore() {
     document.getElementById('scenario-2').classList.remove('active');
-    const screen  = document.getElementById('score-screen');
-    const correct = scores.filter(Boolean).length;
+    const correct  = scores.filter(Boolean).length;
+    const screen   = document.getElementById('score-screen');
     screen.classList.add('show');
 
-    const icon    = document.getElementById('score-icon');
-    const title   = document.getElementById('score-title');
-    const num     = document.getElementById('score-num');
-    const message = document.getElementById('score-message');
+    const icon     = document.getElementById('score-icon');
+    const title    = document.getElementById('score-title');
+    const num      = document.getElementById('score-num');
+    const message  = document.getElementById('score-message');
+    const takeaway = document.getElementById('score-takeaway');
 
     num.textContent = `${correct} of 3 correct`;
 
     if (correct === 3) {
-      icon.textContent = '🎯';
-      title.textContent = 'Sharp Read';
-      message.innerHTML = 'You found the space in all three situations. <strong>That is the habit your coach wants to see before the ball arrives.</strong> The next step is reading it this fast when you are tired and under pressure in a real game.';
+      icon.textContent    = '🎯';
+      title.textContent   = 'Sharp Read';
+      message.innerHTML   = 'You found the space in all three situations before the ball arrived. That is the habit. The next step is making the same read when you are tired, under pressure, and the game is on the line.';
+      takeaway.innerHTML  = '<strong>The pattern across all three:</strong> The press tells you where to go. When it collapses to the center, go wide. When it overloads one side, go to the other. Read the press, then move away from it.';
     } else if (correct === 2) {
-      icon.textContent = '🏑';
-      title.textContent = 'Getting There';
-      message.innerHTML = 'You found the space in most situations. <strong>The ones you missed are worth going back to.</strong> In each case, the space was on the side away from the press. That pattern shows up in every game.';
+      icon.textContent    = '🏑';
+      title.textContent   = 'Getting There';
+      message.innerHTML   = 'You found the space in most situations. Go back and look at the one you missed. In every case, the answer was on the side away from where the press committed.';
+      takeaway.innerHTML  = '<strong>The key to all three situations:</strong> Do not look at the ball first. Look at where the press is. The space is always on the opposite side. Move there before the ball arrives.';
     } else {
-      icon.textContent = '👀';
-      title.textContent = 'Keep Looking';
-      message.innerHTML = '<strong>Space reading is a skill, not an instinct.</strong> The key in all three situations: look at where the press is, then move to where it is not. Run this again and look at the court diagrams before you choose.';
+      icon.textContent    = '👀';
+      title.textContent   = 'Keep Looking';
+      message.innerHTML   = 'Space reading is a trained skill — it is not obvious at first. Run this again and before you choose, look at where the opposition players are standing on the diagram.';
+      takeaway.innerHTML  = '<strong>Start here:</strong> In each situation, find where the red players are clustered. The lime green SPACE box shows you what they left open. Your job is to move into that space before the ball arrives.';
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -824,11 +989,11 @@
       });
       const dot = document.getElementById(`dot-${i}`);
       dot.style.background = '';
-      dot.classList.remove('active', 'done');
+      dot.classList.remove('active');
     }
 
     document.getElementById('dot-0').classList.add('active');
-    document.getElementById('progress-label').textContent = 'Scenario 1 of 3';
+    document.getElementById('progress-label').textContent = 'Situation 1 of 3';
     document.getElementById('score-screen').classList.remove('show');
     document.getElementById('scenario-0').classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
