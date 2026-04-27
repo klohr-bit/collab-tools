@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Two-Second Window — One Scenario</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #c8e830;
+    --lime-soft: #f0f8d4;
+    --lime-wash: #f7fbe5;
+    --ink: #0f1410;
+    --paper: #fdfdf8;
+    --paper-edge: #f2f2e9;
+    --rule: #ddd;
+    --muted: #6b706b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--paper-edge);
+    color: var(--ink);
+    line-height: 1.5;
+    padding: 24px 14px 48px;
+    min-height: 100vh;
+  }
+
+  .lab-page {
+    max-width: 560px;
+    margin: 0 auto;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 36px 32px 30px;
+    border-top: 8px solid var(--ink);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+    position: relative;
+  }
+
+  .lab-tag {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em;
+    background: var(--lime); color: var(--ink); padding: 4px 9px;
+    display: inline-block; font-weight: 700; margin-bottom: 12px;
+  }
+
+  .lab-h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 28px; font-weight: 700; line-height: 1.05;
+    letter-spacing: -0.02em; margin: 0 0 6px;
+  }
+  .lab-h1 em { font-style: italic; font-weight: 400; color: var(--muted); }
+
+  .lab-sub {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic; font-size: 15px;
+    color: var(--muted); margin-bottom: 24px;
+  }
+
+  .lab-divider { border-bottom: 1px solid var(--rule); margin-bottom: 26px; }
+
+  .scn-meta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; color: var(--muted); text-transform: uppercase;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+    letter-spacing: 0.05em;
+  }
+  .scn-meta::after { content: ""; flex: 1; height: 1px; background: #eee; }
+
+  .scn-text {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 19px; line-height: 1.4; margin: 0;
+  }
+  .scn-text strong {
+    background: linear-gradient(transparent 65%, rgba(200,232,48,0.45) 65%);
+    font-weight: 700;
+  }
+
+  .call-prompt {
+    margin-top: 26px; margin-bottom: 12px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted); font-weight: 700;
+  }
+
+  .play-stack { display: flex; flex-direction: column; gap: 8px; }
+  .play-row {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    background: #fff;
+    border: 1px solid var(--rule);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .play-row:hover { border-color: var(--ink); transform: translateX(3px); }
+  .play-row .strategy-tab {
+    background: var(--paper-edge);
+    border-right: 1px solid var(--rule);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 16px 6px; gap: 4px;
+    transition: all 0.18s ease;
+  }
+  .play-row:hover .strategy-tab {
+    background: var(--ink); border-right-color: var(--ink);
+  }
+  .play-row:hover .strategy-tab .tab-key,
+  .play-row:hover .strategy-tab .tab-label {
+    color: var(--lime);
+  }
+  .tab-key {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 16px; font-weight: 700; color: var(--ink); line-height: 1;
+  }
+  .tab-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 8px; letter-spacing: 0.15em; color: var(--muted);
+    text-transform: uppercase;
+  }
+  .play-body {
+    padding: 16px 18px;
+    display: flex; align-items: center;
+    font-size: 14px; font-weight: 500; line-height: 1.45;
+  }
+
+  .play-row.called {
+    border: 2px solid var(--ink); background: var(--lime-soft);
+  }
+  .play-row.called .strategy-tab {
+    background: var(--ink); border-right-color: var(--ink);
+  }
+  .play-row.called .tab-key, .play-row.called .tab-label { color: var(--lime); }
+  .play-row.called::after {
+    content: "CALLED";
+    position: absolute; top: 50%; right: 12px;
+    transform: translateY(-50%);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    background: var(--ink); color: var(--lime);
+    padding: 3px 8px; font-weight: 700;
+  }
+  .play-row.faded { opacity: 0.25; pointer-events: none; transform: none; }
+  .play-row.faded:hover { transform: none; }
+
+  .feedback-reveal { margin-top: 28px; display: none; }
+  .feedback-reveal.show { display: block; animation: fadeUp 0.4s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .verdict-row {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+    letter-spacing: 0.05em;
+  }
+  .verdict-line { height: 1px; background: var(--ink); flex: 1; }
+
+  .feedback-body {
+    border-left: 3px solid var(--ink);
+    padding-left: 20px;
+  }
+  .feedback-analysis {
+    font-size: 14px; line-height: 1.6; color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .feedback-coach {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: 15.5px; line-height: 1.55; color: var(--ink);
+    margin: 0;
+  }
+  .feedback-coach::before {
+    content: "— ";
+    color: var(--muted);
+  }
+
+  /* ============ CARRY-IT CARD ============ */
+  .carry-screen { margin-top: 36px; display: none; animation: fadeUp 0.4s ease; text-align: center; }
+  .carry-screen.show { display: block; }
+
+  .carry-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 18px; font-weight: 700;
+  }
+
+  .carry-card {
+    background: var(--ink); color: var(--paper);
+    padding: 40px 30px;
+    box-shadow: 7px 7px 0 var(--lime);
+    margin: 0 auto 16px;
+    max-width: 460px;
+    text-align: left;
+  }
+  .carry-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em; color: var(--lime);
+    margin-bottom: 16px; font-weight: 700;
+  }
+  .carry-line {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 26px; font-weight: 600;
+    line-height: 1.2; letter-spacing: -0.01em;
+  }
+  .carry-line em { font-style: italic; font-weight: 400; }
+
+  .carry-instruction {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 0 auto 32px; font-weight: 700;
+  }
+
+  /* ============ SUBSTACK HANDOFF ============ */
+  .handoff {
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+
+  .handoff-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 14px; font-weight: 700;
+  }
+
+  .handoff-text {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 18px; line-height: 1.45;
+    margin: 0 auto 22px; max-width: 420px;
+  }
+  .handoff-text strong {
+    background: linear-gradient(transparent 65%, rgba(200,232,48,0.45) 65%);
+    font-weight: 700;
+  }
+
+  .handoff-btn {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px; font-weight: 700;
+    padding: 14px 28px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    background: var(--ink); color: var(--paper);
+    border: 1px solid var(--ink);
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.2s;
+  }
+  .handoff-btn:hover {
+    background: var(--lime); color: var(--ink);
+  }
+
+  @media (max-width: 480px) {
+    .lab-page { padding: 28px 22px 24px; }
+    .lab-h1 { font-size: 24px; }
+    .scn-text { font-size: 17px; }
+    .play-row { grid-template-columns: 48px 1fr; }
+    .tab-key { font-size: 14px; }
+    .play-body { padding: 13px 14px; font-size: 13.5px; }
+    .carry-line { font-size: 22px; }
+    .carry-card { padding: 32px 24px; }
+    .feedback-body { padding-left: 16px; }
+    .handoff-text { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lab-page">
+  <span class="lab-tag">IPR // 1 of 5</span>
+  <h1 class="lab-h1">The Two-Second <em>Window.</em></h1>
+  <p class="lab-sub">A coaching scenario. One choice.</p>
+  <div class="lab-divider"></div>
+
+  <div id="stage"></div>
+</div>
+
+<script>
+(function(){
+
+  const scenario = {
+    id: 1,
+    text: "Your player just had a <strong>bad trap</strong> in a 2v2. The ball rolls out. She slams her stick and mouths <em>'sorry'</em> with her head hanging. <strong>You have two seconds before play restarts.</strong>",
+    choices: [
+      { key: 'A', text: "Call her over to discuss the technical error.", label: "REINFORCES_INR",
+        analysis: "Stopping play signals the mistake was big enough to halt the drill. This reinforces the idea that we 'sit' in failure rather than pass through it.",
+        coach: "Teaching moments land better when they're separated from the emotional moment. Technical cues wait for the water break." },
+      { key: 'B', text: "Say nothing. Let her work through it on her own.", label: "PASSIVE_NEUTRAL",
+        analysis: "Silence isn't wrong, but the reset is a trained skill, not a default one. If she could already recover on her own, she would have.",
+        coach: "Silence reads as trust when the athlete has already shown me she can reset. Early in the season, it just reads as absence." },
+      { key: 'C', text: "Make eye contact, point to head, and clap.", label: "EXECUTE_IPR",
+        analysis: "This affirms the athlete while keeping play moving. It models exactly what Instant Positive Response looks like: identify, affirm, restart — all in under two seconds.",
+        coach: "The clap is the part most coaches miss — it turns a correction into a connection." },
+      { key: 'D', text: "Call out a one-word cue and keep play moving.", label: "SHARED_LANGUAGE",
+        analysis: "A shared cue word activates the whole concept in one syllable. Powerful — but only if the team already knows what it means.",
+        coach: "Teach the analogy first. Then the word does the work from thirty yards away." }
+    ]
+  };
+
+  const carry = {
+    label: "For the next two seconds",
+    line: "Point. Clap. <em>Move on.</em>"
+  };
+
+  // CHANGE THIS to her real Substack URL when ready
+  const substackURL = "https://YOUR-SUBSTACK-URL.com";
+
+  const stage = document.getElementById('stage');
+  let answered = false;
+
+  function renderScenario() {
+    stage.innerHTML = `
+      <div class="scn-meta">A scenario from the IPR lab</div>
+      <p class="scn-text">${scenario.text}</p>
+      <div class="call-prompt">Call your play —</div>
+      <div class="play-stack">
+        ${scenario.choices.map(c => `
+          <div class="play-row" data-key="${c.key}">
+            <div class="strategy-tab">
+              <span class="tab-key">${c.key}</span>
+              <span class="tab-label">play</span>
+            </div>
+            <div class="play-body">${c.text}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div id="feedback" class="feedback-reveal"></div>
+      <div id="carry" class="carry-screen"></div>
+      <div id="handoff" class="handoff" style="display: none;"></div>
+    `;
+
+    stage.querySelectorAll('.play-row').forEach(row => {
+      row.addEventListener('click', () => handleSelect(row.dataset.key, row));
+    });
+  }
+
+  function handleSelect(key, el) {
+    if (answered) return;
+    answered = true;
+
+    const choice = scenario.choices.find(c => c.key === key);
+
+    stage.querySelectorAll('.play-row').forEach(r => {
+      r.classList.add('faded');
+      r.style.pointerEvents = 'none';
+    });
+    el.classList.remove('faded');
+    el.classList.add('called');
+
+    document.getElementById('feedback').innerHTML = `
+      <div class="verdict-row"><span>${choice.label}</span><div class="verdict-line"></div></div>
+      <div class="feedback-body">
+        <p class="feedback-analysis">${choice.analysis}</p>
+        <p class="feedback-coach">${choice.coach}</p>
+      </div>
+    `;
+    document.getElementById('feedback').classList.add('show');
+
+    // Reveal carry-it card and handoff after a short beat
+    setTimeout(() => {
+      document.getElementById('carry').innerHTML = `
+        <div class="carry-eyebrow">— what to take with you —</div>
+        <div class="carry-card">
+          <div class="carry-label">${carry.label}</div>
+          <div class="carry-line">${carry.line}</div>
+        </div>
+        <div class="carry-instruction">↑ Screenshot it. Carry it with you.</div>
+      `;
+      document.getElementById('carry').classList.add('show');
+
+      document.getElementById('handoff').innerHTML = `
+        <div class="handoff-eyebrow">Want the full lab?</div>
+        <p class="handoff-text">Four more scenarios on the <strong>two seconds after a mistake</strong> — silent shutdowns, snapping at teammates, the walk-off whistle.</p>
+        <a href="${substackURL}" target="_blank" rel="noopener" class="handoff-btn">Open the full lab →</a>
+      `;
+      document.getElementById('handoff').style.display = 'block';
+
+      document.getElementById('carry').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 600);
+  }
+
+  renderScenario();
+})();
+</script>
+</body>
+</html>
