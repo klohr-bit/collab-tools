@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Two-Second Window — IPR Coaching Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #c8e830;
+    --lime-soft: #f0f8d4;
+    --lime-wash: #f7fbe5;
+    --ink: #0f1410;
+    --paper: #fdfdf8;
+    --paper-edge: #f2f2e9;
+    --rule: #ddd;
+    --muted: #6b706b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--paper-edge);
+    color: var(--ink);
+    line-height: 1.5;
+    padding: 32px 16px 56px;
+    min-height: 100vh;
+  }
+
+  .lab-page {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 44px 40px 36px;
+    border-top: 8px solid var(--ink);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+    position: relative;
+  }
+
+  .lab-tag {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em;
+    background: var(--lime); color: var(--ink); padding: 4px 9px;
+    display: inline-block; font-weight: 700; margin-bottom: 14px;
+  }
+
+  .lab-h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 34px; font-weight: 700; line-height: 1.05;
+    letter-spacing: -0.02em; margin: 0 0 28px;
+  }
+  .lab-h1 em { font-style: italic; font-weight: 400; color: var(--muted); }
+
+  .lab-divider { border-bottom: 1px solid var(--rule); margin-bottom: 30px; }
+
+  .commit-screen { animation: fadeUp 0.4s ease; }
+  .commit-prompt {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 21px; line-height: 1.4; margin: 0 0 8px;
+  }
+  .commit-prompt strong {
+    background: linear-gradient(transparent 65%, rgba(200,232,48,0.45) 65%);
+    font-weight: 700;
+  }
+  .commit-sub {
+    font-size: 14px; color: var(--muted);
+    margin-bottom: 26px; font-style: italic;
+  }
+
+  .commit-options { display: flex; flex-direction: column; gap: 8px; }
+  .commit-option {
+    background: #fff;
+    border: 1px solid var(--rule);
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    text-align: left;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14.5px;
+    color: var(--ink);
+    line-height: 1.45;
+    width: 100%;
+  }
+  .commit-option:hover { border-color: var(--ink); background: var(--lime-wash); transform: translateX(3px); }
+  .commit-option.chosen {
+    border: 2px solid var(--ink); background: var(--lime-soft); padding: 15px 19px;
+  }
+  .commit-option.faded { opacity: 0.3; pointer-events: none; }
+  .commit-option.faded:hover { transform: none; }
+
+  .commit-receipt {
+    margin-top: 28px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 24px 26px;
+    display: none;
+    animation: fadeUp 0.4s ease;
+  }
+  .commit-receipt.show { display: block; }
+  .commit-receipt-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    color: var(--lime); margin-bottom: 10px; font-weight: 700;
+  }
+  .commit-receipt-text {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic; font-size: 16px; line-height: 1.5;
+  }
+
+  .scn-meta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; color: var(--muted); text-transform: uppercase;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+    letter-spacing: 0.05em;
+  }
+  .scn-meta::after { content: ""; flex: 1; height: 1px; background: #eee; }
+
+  .scn-text {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 21px; line-height: 1.4; margin: 0;
+  }
+  .scn-text strong {
+    background: linear-gradient(transparent 65%, rgba(200,232,48,0.45) 65%);
+    font-weight: 700;
+  }
+
+  .call-prompt {
+    margin-top: 30px; margin-bottom: 14px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted); font-weight: 700;
+  }
+
+  .play-stack { display: flex; flex-direction: column; gap: 8px; }
+  .play-row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    background: #fff;
+    border: 1px solid var(--rule);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .play-row:hover { border-color: var(--ink); transform: translateX(3px); }
+  .play-row .strategy-tab {
+    background: var(--paper-edge);
+    border-right: 1px solid var(--rule);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 18px 6px; gap: 4px;
+    transition: all 0.18s ease;
+  }
+  .play-row:hover .strategy-tab {
+    background: var(--ink); border-right-color: var(--ink);
+  }
+  .play-row:hover .strategy-tab .tab-key,
+  .play-row:hover .strategy-tab .tab-label {
+    color: var(--lime);
+  }
+  .tab-key {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 18px; font-weight: 700; color: var(--ink); line-height: 1;
+  }
+  .tab-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 8px; letter-spacing: 0.15em; color: var(--muted);
+    text-transform: uppercase;
+  }
+  .play-body {
+    padding: 18px 22px;
+    display: flex; align-items: center;
+    font-size: 14.5px; font-weight: 500; line-height: 1.45;
+  }
+
+  .play-row.called {
+    border: 2px solid var(--ink); background: var(--lime-soft);
+  }
+  .play-row.called .strategy-tab {
+    background: var(--ink); border-right-color: var(--ink);
+  }
+  .play-row.called .tab-key, .play-row.called .tab-label { color: var(--lime); }
+  .play-row.called::after {
+    content: "CALLED";
+    position: absolute; top: 50%; right: 14px;
+    transform: translateY(-50%);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    background: var(--ink); color: var(--lime);
+    padding: 3px 8px; font-weight: 700;
+  }
+  .play-row.faded { opacity: 0.25; pointer-events: none; transform: none; }
+  .play-row.faded:hover { transform: none; }
+
+  .feedback-reveal { margin-top: 32px; display: none; }
+  .feedback-reveal.show { display: block; animation: fadeUp 0.4s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .verdict-row {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+    letter-spacing: 0.05em;
+  }
+  .verdict-line { height: 1px; background: var(--ink); flex: 1; }
+
+  .feedback-body {
+    border-left: 3px solid var(--ink);
+    padding-left: 22px;
+  }
+  .feedback-analysis {
+    font-size: 14.5px; line-height: 1.65; color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .feedback-coach {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: 16px; line-height: 1.55; color: var(--ink);
+    margin: 0;
+  }
+  .feedback-coach::before {
+    content: "— ";
+    color: var(--muted);
+  }
+
+  .pattern-screen { display: none; animation: fadeUp 0.4s ease; }
+  .pattern-screen.show { display: block; }
+
+  .pattern-prompt {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px; line-height: 1.4; margin: 0 0 28px;
+  }
+  .pattern-prompt em { font-style: italic; color: var(--muted); }
+
+  .pattern-options { display: flex; flex-direction: column; gap: 8px; }
+  .pattern-option {
+    background: #fff; border: 1px solid var(--rule);
+    padding: 16px 20px; cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: 'Inter', sans-serif; font-size: 14.5px;
+    line-height: 1.45; color: var(--ink); text-align: left;
+    width: 100%;
+  }
+  .pattern-option:hover { border-color: var(--ink); background: var(--lime-wash); transform: translateX(3px); }
+  .pattern-option.chosen { border: 2px solid var(--ink); background: var(--lime-soft); padding: 15px 19px; }
+  .pattern-option.faded { opacity: 0.3; pointer-events: none; }
+  .pattern-option.faded:hover { transform: none; }
+
+  .pattern-reveal {
+    margin-top: 30px; display: none;
+    animation: fadeUp 0.4s ease;
+  }
+  .pattern-reveal.show { display: block; }
+  .pattern-reveal-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 12px; font-weight: 700;
+  }
+  .pattern-reveal-body {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 18px; line-height: 1.55;
+  }
+  .pattern-reveal-body strong {
+    background: linear-gradient(transparent 65%, rgba(200,232,48,0.45) 65%);
+    font-weight: 700;
+  }
+  .pattern-reveal-body p + p { margin-top: 14px; }
+
+  .carry-screen { display: none; animation: fadeUp 0.4s ease; text-align: center; padding: 30px 0 20px; }
+  .carry-screen.show { display: block; }
+
+  .carry-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 22px; font-weight: 700;
+  }
+
+  .carry-card {
+    background: var(--ink); color: var(--paper);
+    padding: 48px 36px;
+    box-shadow: 8px 8px 0 var(--lime);
+    margin: 0 auto 18px;
+    max-width: 520px;
+    text-align: left;
+    position: relative;
+  }
+  .carry-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em; color: var(--lime);
+    margin-bottom: 18px; font-weight: 700;
+  }
+  .carry-line {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 30px; font-weight: 600;
+    line-height: 1.2; letter-spacing: -0.01em;
+  }
+  .carry-line em { font-style: italic; font-weight: 400; }
+
+  .carry-instruction {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 0 auto 32px; font-weight: 700;
+  }
+
+  .carry-coda {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic; font-size: 16px;
+    color: var(--muted); margin: 0 auto 28px;
+    max-width: 460px; line-height: 1.5;
+  }
+
+  .pb-footer {
+    margin-top: 38px; padding-top: 20px; border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .pb-progress {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; color: var(--muted); letter-spacing: 0.05em;
+  }
+  .pb-btn {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; font-weight: 700; padding: 11px 22px;
+    cursor: pointer; text-transform: uppercase; letter-spacing: 0.08em;
+    border: 1px solid var(--ink); background: var(--ink); color: var(--paper);
+    transition: 0.2s;
+  }
+  .pb-btn:hover:not(:disabled) { background: var(--lime); color: var(--ink); }
+  .pb-btn:disabled { opacity: 0.2; cursor: default; }
+  .pb-btn.ghost { background: transparent; color: var(--ink); }
+  .pb-btn.ghost:hover { background: var(--ink); color: var(--paper); }
+
+  @media (max-width: 600px) {
+    .lab-page { padding: 32px 22px 28px; }
+    .lab-h1 { font-size: 28px; }
+    .scn-text, .commit-prompt, .pattern-prompt { font-size: 18px; }
+    .play-row { grid-template-columns: 52px 1fr; }
+    .tab-key { font-size: 16px; }
+    .play-body { padding: 14px 16px; font-size: 13.5px; }
+    .carry-line { font-size: 24px; }
+    .carry-card { padding: 36px 26px; }
+    .feedback-body { padding-left: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lab-page">
+  <span class="lab-tag" id="phaseTag">IPR Coaching Lab</span>
+  <h1 class="lab-h1">The Two-Second <em>Window.</em></h1>
+  <div class="lab-divider"></div>
+
+  <div id="stage"></div>
+
+  <div class="pb-footer">
+    <div class="pb-progress" id="prog">OPENING</div>
+    <button class="pb-btn" id="nextBtn" disabled>Begin →</button>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  const commitPrompt = {
+    text: "Think back to your last practice. An athlete made a <strong>visible mistake</strong> — bad pass, missed trap, blown read. What did you actually do in the two seconds after?",
+    sub: "No right answer. Just the most honest one.",
+    options: [
+      { key: 'A', text: "Stopped to talk through what happened.", receipt: "You're a teacher first. The instinct is generous — and we'll see in a moment what it costs in a 2-second window." },
+      { key: 'B', text: "Said nothing. Trusted them to recover.", receipt: "You read the room. The question is whether silence is the move you chose, or the move that chose you." },
+      { key: 'C', text: "Gave a quick cue and kept play moving.", receipt: "You're already practicing IPR — you may not have called it that. The five scenarios will sharpen what you're already doing." },
+      { key: 'D', text: "Honestly — I don't remember.", receipt: "Most coaches don't. The two seconds after a mistake is the most under-noticed window in coaching. That's exactly what we're about to look at." }
+    ]
+  };
+
+  const scenarios = [
+    {
+      id: 1,
+      text: "Your player just had a <strong>bad trap</strong> in a 2v2. The ball rolls out. She slams her stick and mouths <em>'sorry'</em> with her head hanging.",
+      choices: [
+        { key: 'A', text: "Call her over to discuss the technical error.", label: "REINFORCES_INR",
+          analysis: "Stopping play signals the mistake was big enough to halt the drill. This reinforces the idea that we 'sit' in failure rather than pass through it.",
+          coach: "Teaching moments land better when they're separated from the emotional moment. Technical cues wait for the water break." },
+        { key: 'B', text: "Say nothing. Let her work through it on her own.", label: "PASSIVE_NEUTRAL",
+          analysis: "Silence isn't wrong, but IPR is a trained skill, not a default one. If she could already reset on her own, she would have.",
+          coach: "Silence reads as trust when the athlete has already shown me she can IPR. Early in the season, it just reads as absence." },
+        { key: 'C', text: "Make eye contact, point to head, and clap.", label: "EXECUTE_IPR",
+          analysis: "This affirms the athlete while keeping play moving. It models exactly what IPR looks like: identify, affirm, restart — all in under two seconds.",
+          coach: "The clap is the part most coaches miss — it turns a correction into a connection." },
+        { key: 'D', text: "Call out 'strainer!' and keep play moving.", label: "SHARED_LANGUAGE",
+          analysis: "Using a shared cue word activates the whole concept in one syllable. Powerful — but only if the team already knows what it means.",
+          coach: "Teach the analogy first. Then the word does the work from thirty yards away." }
+      ]
+    },
+    {
+      id: 2,
+      text: "In a 3v3, your center made a bad pass and your wing snaps: <em>'Oh my god, what was that?!'</em> Both players look at you as <strong>play restarts</strong>.",
+      choices: [
+        { key: 'A', text: "Stop play and address the wing's comment directly.", label: "PUBLIC_DISCIPLINE",
+          analysis: "The wing's behavior needs addressing, but stopping play turns a coaching moment into public discipline. Both players shut down.",
+          coach: "Discipline happens in private. Culture happens in public. Stopping play conflates the two." },
+        { key: 'B', text: "Ignore it. Focus on the next play.", label: "REINFORCES_INR",
+          analysis: "This signals to the whole team that snapping at a teammate after a mistake is acceptable, because nobody corrected it.",
+          coach: "A teammate who adds to another player's mistake is pouring water into their bowl. That gets named — quietly, quickly, always." },
+        { key: 'C', text: "Call to the wing: 'That's on you — go get her next play.'", label: "EXECUTE_IPR",
+          analysis: "Redirects ownership without stopping play. It names the reaction as the actual error and gives the energy a positive target.",
+          coach: "Culture happens in public. This live cue tells the whole team that we recover visibly and treat each other with respect." },
+        { key: 'D', text: "Talk through it with both at the next water break.", label: "PHASED_RECOVERY",
+          analysis: "This handles the repair in private — the right conversation, but it misses the chance to redirect team energy live.",
+          coach: "The water-break chat is for the players. The live cue is for the team. You want both — but the live cue comes first." }
+      ]
+    },
+    {
+      id: 3,
+      text: "A usually vocal player goes <strong>ghost</strong>. No stick slam, no reaction. She's missing easy passes and looking completely absent.",
+      choices: [
+        { key: 'A', text: "Push her harder. High standards will snap her back.", label: "MISREADS_SYMPTOM",
+          analysis: "Pushing a shut-down athlete harder usually pushes her further inside. You'll get compliance, not presence.",
+          coach: "Withdrawal isn't laziness. It's a form of INR that doesn't look like INR — and 'tough it out' coaching makes it worse." },
+        { key: 'B', text: "Pull her aside: 'What's going on with you today?'", label: "EXECUTE_IPR",
+          analysis: "Quiet, curious, private. This is a door, not a correction. The silent shutdown is almost never about the sport itself.",
+          coach: "Checking in tells her you noticed — and that's often the whole intervention." },
+        { key: 'C', text: "Give her a specific small job: 'You're calling the outlet.'", label: "ENGAGEMENT_MOVE",
+          analysis: "Concrete tasks pull athletes out of their internal loop. It re-engages the brain through external responsibility without forcing a conversation.",
+          coach: "Giving her a job means she has to choose to engage, not confess to something first." },
+        { key: 'D', text: "Let her ride it out. Check in after practice.", label: "DELAYED_RESPONSE",
+          analysis: "Right for some athletes who process internally. Risky as a default — most kids hoping to be noticed leave practice feeling invisible.",
+          coach: "Notice the deviation from her baseline. That's the data." }
+      ]
+    },
+    {
+      id: 4,
+      text: "Your new constraint-based drill is <strong>not working</strong>. Players are confused, the game has broken down, and two athletes are looking at each other like 'is this right?'",
+      choices: [
+        { key: 'A', text: "Push through. Give it more time to work.", label: "PROTECTS_EGO",
+          analysis: "Sometimes a drill needs 90 more seconds. More often, 'just give it more time' is about not wanting to admit the design flopped.",
+          coach: "The session plan is not the session. The athletes in front of me are the session." },
+        { key: 'B', text: "Stop. 'That one's on me — let's try it differently.'", label: "MODELS_IPR",
+          analysis: "Your athletes just watched an adult name a mistake and move on without drama. That's IPR made visible at the highest level.",
+          coach: "If I can't IPR, I can't ask them to. 'That one's on me' costs nothing and teaches everything." },
+        { key: 'C', text: "Adjust the constraint on the fly without stopping.", label: "LIVE_ADJUSTMENT",
+          analysis: "Skilled move when the design has potential but one dial is off. Be transparent — silent adjustments confuse players who were just starting to track the original.",
+          coach: "If one dial needs turning, I call out the new rule. If the whole design is broken, I reset." },
+        { key: 'D', text: "Blame the drill: 'This one's from a book, sorry.'", label: "DEFLECTED_OWNERSHIP",
+          analysis: "Naming that it didn't work is good. Deflecting to 'the book' subtly removes you from the equation — and that's where the modeling lives.",
+          coach: "Even if I stole it from a clinic, I'm the one who put it in my session plan. Owning it is the rep." }
+      ]
+    },
+    {
+      id: 5,
+      text: "Great session. Then in the final scrimmage, your strongest player <strong>blew a clear chance at goal</strong>. Whistle blew. Practice is technically over and she's walking off shaking her head.",
+      choices: [
+        { key: 'A', text: "Let it go. Practice is over.", label: "PASSIVE_CLOSE",
+          analysis: "Respecting that practice is done is fine — unless you never circle back. The car ride home is where most athletes lose confidence.",
+          coach: "Letting it go is fine. Forgetting is not." },
+        { key: 'B', text: "'Hey — strong session. Don't carry that last one.'", label: "EXECUTE_IPR",
+          analysis: "Two sentences, ten seconds. Names the strong session (fights recency bias) and explicitly gives her permission to drop the last rep.",
+          coach: "'Don't carry that.' Four words. The car ride home is where athletes replay the one bad rep on a loop. I want to shrink that loop." },
+        { key: 'C', text: "Break down the play: 'Here's what happened on that trap...'", label: "WRONG_TIMING",
+          analysis: "The technical breakdown is useful — tomorrow. Right now, she already knows what happened. Rehearsing it with her coach extends the rumination.",
+          coach: "Timing of the teach matters more than the teach itself. Save it for film." },
+        { key: 'D', text: "Joke about it: 'Guess you're human after all.' Fist bump.", label: "SKILLED_HUMOR",
+          analysis: "For the right athlete, this is perfect. Humor shrinks the mistake. The fist bump is the failure-recovery system in miniature.",
+          coach: "Humor only works when the athlete trusts that I take her seriously. When that trust is there, it does what a pep talk can't." }
+      ]
+    }
+  ];
+
+  const patternQuestion = {
+    text: "Five different scenarios. <em>One skill underneath all of them.</em> What was actually being trained?",
+    options: [
+      { key: 'A', text: "How to give better technical feedback after mistakes.", correct: false,
+        feedback: "Close, but the technical feedback was almost always the wrong move in the moment. The skill wasn't about the content of the feedback — it was about something else." },
+      { key: 'B', text: "When to stop play vs. when to keep play moving.", correct: false,
+        feedback: "Warmer. That's a piece of it. But the deeper pattern is about what you do *with* the moment, not just whether you pause it." },
+      { key: 'C', text: "Shrinking the gap between mistake and reset.", correct: true,
+        feedback: "That's it. Every scenario was a different surface of the same skill: <strong>compress the time between failure and recovery</strong>. Sometimes that's a clap. Sometimes a redirect. Sometimes a four-word sentence on the walk-off. The shape changes; the skill doesn't." },
+      { key: 'D', text: "Knowing your athletes well enough to read them.", correct: false,
+        feedback: "Important — but it's the foundation, not the skill itself. Knowing your athletes is what lets you choose *which* IPR move to use. The skill is the move." }
+    ]
+  };
+
+  const carryCard = {
+    label: "For the next two seconds",
+    line: "Identify. Affirm. <em>Restart.</em>",
+    coda: "IPR isn't a single decision. It's a pattern you build across seasons — one two-second window at a time."
+  };
+
+  let phase = 'commit';
+  let scnIdx = 0;
+  let scnAnswered = false;
+  let commitChosen = false;
+  let patternChosen = false;
+
+  const stage = document.getElementById('stage');
+  const nextBtn = document.getElementById('nextBtn');
+  const prog = document.getElementById('prog');
+  const phaseTag = document.getElementById('phaseTag');
+
+  function render() {
+    if (phase === 'commit') renderCommit();
+    else if (phase === 'scenario') renderScenario();
+    else if (phase === 'pattern') renderPattern();
+    else if (phase === 'carry') renderCarry();
+  }
+
+  function renderCommit() {
+    phaseTag.textContent = "Before we begin";
+    prog.textContent = "OPENING";
+    nextBtn.textContent = "Begin →";
+    nextBtn.disabled = true;
+    nextBtn.style.display = 'inline-block';
+
+    stage.innerHTML = `
+      <div class="commit-screen">
+        <p class="commit-prompt">${commitPrompt.text}</p>
+        <p class="commit-sub">${commitPrompt.sub}</p>
+        <div class="commit-options">
+          ${commitPrompt.options.map(o => `
+            <button class="commit-option" data-key="${o.key}">${o.text}</button>
+          `).join('')}
+        </div>
+        <div id="commitReceipt" class="commit-receipt">
+          <div class="commit-receipt-label">Noted</div>
+          <div class="commit-receipt-text" id="commitReceiptText"></div>
+        </div>
+      </div>
+    `;
+
+    stage.querySelectorAll('.commit-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        const opt = commitPrompt.options.find(o => o.key === key);
+        stage.querySelectorAll('.commit-option').forEach(b => {
+          b.classList.add('faded');
+          b.style.pointerEvents = 'none';
+        });
+        btn.classList.remove('faded');
+        btn.classList.add('chosen');
+        document.getElementById('commitReceiptText').innerHTML = opt.receipt;
+        document.getElementById('commitReceipt').classList.add('show');
+        commitChosen = true;
+        nextBtn.disabled = false;
+        nextBtn.textContent = "Start scenario 1 →";
+      });
+    });
+  }
+
+  function renderScenario() {
+    const s = scenarios[scnIdx];
+    phaseTag.textContent = "IPR Coaching Lab";
+    prog.textContent = `PLAY // 0${scnIdx + 1} of 0${scenarios.length}`;
+    nextBtn.disabled = true;
+    nextBtn.textContent = scnIdx === scenarios.length - 1 ? "See the pattern →" : "Next play →";
+
+    stage.innerHTML = `
+      <div class="scenario-screen">
+        <div class="scn-meta">Situation analysis 0${s.id}</div>
+        <p class="scn-text">${s.text}</p>
+        <div class="call-prompt">Call your play —</div>
+        <div class="play-stack">
+          ${s.choices.map(c => `
+            <div class="play-row" data-key="${c.key}">
+              <div class="strategy-tab">
+                <span class="tab-key">${c.key}</span>
+                <span class="tab-label">play</span>
+              </div>
+              <div class="play-body">${c.text}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div id="feedback" class="feedback-reveal"></div>
+      </div>
+    `;
+    scnAnswered = false;
+
+    stage.querySelectorAll('.play-row').forEach(row => {
+      row.addEventListener('click', () => handleScenarioSelect(row.dataset.key, row));
+    });
+  }
+
+  function handleScenarioSelect(key, el) {
+    if (scnAnswered) return;
+    scnAnswered = true;
+    const s = scenarios[scnIdx];
+    const choice = s.choices.find(c => c.key === key);
+
+    stage.querySelectorAll('.play-row').forEach(r => {
+      r.classList.add('faded');
+      r.style.pointerEvents = 'none';
+    });
+    el.classList.remove('faded');
+    el.classList.add('called');
+
+    const fb = document.getElementById('feedback');
+    fb.innerHTML = `
+      <div class="verdict-row"><span>${choice.label}</span><div class="verdict-line"></div></div>
+      <div class="feedback-body">
+        <p class="feedback-analysis">${choice.analysis}</p>
+        <p class="feedback-coach">${choice.coach}</p>
+      </div>
+    `;
+    fb.classList.add('show');
+    nextBtn.disabled = false;
+  }
+
+  function renderPattern() {
+    phaseTag.textContent = "Stepping back";
+    prog.textContent = "PATTERN";
+    nextBtn.disabled = true;
+    nextBtn.textContent = "One more thing →";
+
+    stage.innerHTML = `
+      <div class="pattern-screen show">
+        <p class="pattern-prompt">${patternQuestion.text}</p>
+        <div class="pattern-options">
+          ${patternQuestion.options.map(o => `
+            <button class="pattern-option" data-key="${o.key}">${o.text}</button>
+          `).join('')}
+        </div>
+        <div id="patternReveal" class="pattern-reveal">
+          <div class="pattern-reveal-label">The through-line</div>
+          <div class="pattern-reveal-body" id="patternRevealBody"></div>
+        </div>
+      </div>
+    `;
+
+    stage.querySelectorAll('.pattern-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        const opt = patternQuestion.options.find(o => o.key === key);
+        stage.querySelectorAll('.pattern-option').forEach(b => {
+          b.classList.add('faded');
+          b.style.pointerEvents = 'none';
+        });
+        btn.classList.remove('faded');
+        btn.classList.add('chosen');
+        document.getElementById('patternRevealBody').innerHTML = `<p>${opt.feedback}</p>`;
+        document.getElementById('patternReveal').classList.add('show');
+        patternChosen = true;
+        nextBtn.disabled = false;
+      });
+    });
+  }
+
+  function renderCarry() {
+    phaseTag.textContent = "On the way home";
+    prog.textContent = "COMPLETE";
+    nextBtn.style.display = 'none';
+
+    stage.innerHTML = `
+      <div class="carry-screen show">
+        <div class="carry-eyebrow">— what to take with you —</div>
+        <div class="carry-card">
+          <div class="carry-label">${carryCard.label}</div>
+          <div class="carry-line">${carryCard.line}</div>
+        </div>
+        <div class="carry-instruction">↑ Screenshot it. Carry it with you.</div>
+        <p class="carry-coda">${carryCard.coda}</p>
+        <button class="pb-btn ghost" id="restartBtn">↻ Run it again</button>
+      </div>
+    `;
+
+    document.getElementById('restartBtn').addEventListener('click', () => {
+      phase = 'commit';
+      scnIdx = 0;
+      commitChosen = false;
+      patternChosen = false;
+      nextBtn.style.display = 'inline-block';
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (phase === 'commit' && commitChosen) {
+      phase = 'scenario';
+      scnIdx = 0;
+      render();
+    } else if (phase === 'scenario') {
+      if (scnIdx < scenarios.length - 1) {
+        scnIdx++;
+        render();
+      } else {
+        phase = 'pattern';
+        render();
+      }
+    } else if (phase === 'pattern' && patternChosen) {
+      phase = 'carry';
+      render();
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
