@@ -630,3 +630,338 @@
     {
       label: 'MINUTE 4 → 3',
       title: 'Dead receive → pass on the move',
+      teaching: [
+        "Still receiving dead — but now after the dead receive, <strong>carry the ball into space, then pass on the move.</strong>",
+        "This is the first minute that looks like real hockey. You receive, you scan, you carry, you pass."
+      ],
+      decision: {
+        prompt: 'What new skill is this minute training?',
+        choices: [
+          {
+            key: 'A',
+            text: 'Better passing technique.',
+            verdict: 'miss',
+            verdictLabel: 'Not the new skill',
+            analysis: [
+              "Passing technique was already being trained in the previous minute. If anything, passing on the move is <em>harder</em> — but technique isn't what's new here.",
+              "Look at what changed between minute 5-4 and this minute. The receive is the same (dead). What's different is what happens <em>after</em> the receive."
+            ],
+            danielle: ["Technique is always being trained — but I don't add a constraint just to retrain something they already had. <strong>Every constraint should add a new skill, not repeat an old one.</strong>"]
+          },
+          {
+            key: 'B',
+            text: 'Carrying the ball into space and finding a target while moving.',
+            verdict: 'strong',
+            verdictLabel: 'Yes — this is the new skill',
+            analysis: [
+              "After the dead receive, the athlete has to do three new things: <em>scan</em> while carrying, <em>commit</em> to a direction, and <em>find a target who's actually open</em>.",
+              "And remember — there are two balls going. The target she picks has to not already be receiving the other ball. That decision didn't exist in the previous minute."
+            ],
+            danielle: ["This is the first minute that <strong>looks like a real game</strong>. Receive, scan, carry, pass. The carrying part is what makes the scan necessary — if you were passing instantly, you wouldn't need to look up. Carrying buys you the time to see."]
+          },
+          {
+            key: 'C',
+            text: 'Endurance.',
+            verdict: 'miss',
+            verdictLabel: 'Not the design',
+            analysis: [
+              "Endurance is happening, but it's not what the constraint is training. Endurance is a side effect of any progressive warm-up.",
+              "When I add a constraint, I'm training a <em>specific skill</em> — and that skill should change minute to minute. If you can't name the new skill, the constraint isn't pulling its weight."
+            ],
+            danielle: ["I'd never design a six-minute warm-up around endurance. It's too short to move the needle physically — but it's exactly the right length to train <strong>specific decision-making skills</strong> under climbing load."]
+          }
+        ]
+      }
+    },
+    {
+      label: 'MINUTE 3 → 2',
+      title: 'Receive on the move → pass off a dead ball',
+      teaching: [
+        "<strong>This is the trickiest minute.</strong> Receive on the move — but stop the ball dead before passing.",
+        "It's the complete flip of the minute before. And that mindset shift alone makes it hard. But that's not actually what this minute is training. This minute is training something most coaches never train at all."
+      ],
+      decision: {
+        prompt: 'What is this minute really training?',
+        choices: [
+          {
+            key: 'A',
+            text: 'The athletes\' first touch.',
+            verdict: 'partial',
+            verdictLabel: 'On the surface — but there\'s a deeper skill',
+            analysis: [
+              "First touch is being practiced, yes. But the previous minute also worked first touch. What's <em>new</em> here?",
+              "Look at what happens between the receive and the pass. The athlete has to receive the ball at speed — then come to a complete stop before she can pass. That stopping motion is the new skill."
+            ],
+            danielle: ["First touch is the surface answer. <strong>The real answer is what happens between the touch and the pass.</strong>"]
+          },
+          {
+            key: 'B',
+            text: 'Deceleration — the ability to slow down and stop on a dime.',
+            verdict: 'strong',
+            verdictLabel: 'Yes — this is the hidden skill',
+            analysis: [
+              "Coaches yell \"faster, faster\" all the time. <em>How often do we train slowing down?</em>",
+              "Slowing down is where most non-contact injuries happen — the deceleration phase of changing direction. It's also where defense lives. You have to be able to break down your steps and stop on a dime.",
+              "The previous minute trained the first step and acceleration. This minute is the brake."
+            ],
+            danielle: ["This is the minute I'm most proud of in the whole warm-up. <strong>Nobody trains deceleration on purpose, and it's where injuries happen and where defense is won.</strong> Two minutes a session, every session, and over a season my athletes get noticeably better at it without ever doing a dedicated deceleration drill."]
+          },
+          {
+            key: 'C',
+            text: 'Patience under pressure.',
+            verdict: 'partial',
+            verdictLabel: 'Right idea, wrong vocabulary',
+            analysis: [
+              "There's something to this — the athlete does have to resist the urge to pass-while-moving. But \"patience\" is a mindset, not a trainable skill.",
+              "What you're actually noticing is the <em>physical act of stopping</em> — which is deceleration. Good instinct, just one layer up from the actual answer."
+            ],
+            danielle: ["I love the instinct here. <strong>Mindset and physical skill are connected</strong> — but if you can name the physical skill specifically (deceleration), you can train it specifically."]
+          }
+        ]
+      }
+    },
+    {
+      label: 'MINUTE 2 → WHISTLE',
+      title: 'On the move → on the move',
+      teaching: [
+        "The last passing minute. <strong>Receive on the move. Pass on the move.</strong> Constant carrying, constant scanning, constant showing for the ball.",
+        "By now they've been moving for four minutes, the cognitive load has been climbing every minute, and we've taken away every \"rest\" the dead ball was giving them. <em>This is where the warm-up earns its keep.</em>"
+      ],
+      keyPoints: [
+        { tag: 'Stack', text: '<strong>Free → Dead/Dead → Dead/Move → Move/Dead → Move/Move.</strong> Each minute adds one piece. By the last minute, they\'re doing all of it under fatigue.' },
+        { tag: 'Watch', text: 'The athletes who were great in minute 1 are not always the athletes who are great in minute 5. <em>That\'s data.</em>' }
+      ],
+      action: 'continue'
+    },
+    {
+      label: 'MINUTES 2 → 0',
+      title: 'The 2v1 — and the part most coaches will steal',
+      teaching: [
+        "Last two minutes. <strong>2v1 keep-away.</strong> Split the space. Two girls and a defender on each side. Two independent games at the same time.",
+        "Rules: keep the ball away from the defender. Non-directional. If the defender wins it, <em>she becomes the attacker</em> and the player who turned it over goes to the middle. Like monkey in the middle, but constantly flipping.",
+        "But the real coaching isn't the rules. It's the two questions I ask when the time runs out. <strong>Same questions, every single session.</strong>"
+      ],
+      diagram: diagram2v1,
+      reflectionPrompts: [
+        {
+          label: 'QUESTION ONE',
+          question: 'Imagine you just played this 2v1 yourself. What\'s one thing you said out loud — and be specific.',
+          placeholder: 'e.g., "I called a foot." "I called my teammate\'s name." "I called out of bounds."'
+        },
+        {
+          label: 'QUESTION TWO',
+          question: 'What\'s one thing you saw, but didn\'t speak up about?',
+          placeholder: 'e.g., "I noticed it hit her foot." "I noticed the wrong team took the ball." "I noticed and didn\'t say anything."'
+        }
+      ],
+      revealTeaching: [
+        "Those two questions — answered honestly, every session — close the gap between what athletes <em>see</em> and what they <em>say</em>.",
+        "That's our motto: <strong>see something, say something.</strong> You see a foot, say it. You see out of bounds, say it. You see your teammate confused, say it.",
+        "Coaches say \"we want you to communicate, we want you to lead\" all the time. <em>But we never actually train them how.</em> The 2v1 is where we train it. Not by telling them to communicate — by giving them a small game where their voice is the only tool they have, and then asking them to account for it afterward."
+      ],
+      revealDanielle: [
+        "<strong>Communication isn't a personality trait. It's a skill.</strong> Like any skill, it gets better when you train it on purpose, with the same questions, every session.",
+        "Run this once a week for a month. Ask the same two questions every time. Watch what happens to the quietest player on your roster."
+      ],
+      action: 'finish'
+    }
+  ];
+
+  let currentStage = 0;
+  let completed = new Array(stages.length).fill(false);
+
+  const stageView = document.getElementById('stageView');
+  const completionCard = document.getElementById('completion');
+  const trackerPips = document.getElementById('trackerPips');
+  const trackerCount = document.getElementById('trackerCount');
+
+  function renderTracker() {
+    trackerPips.innerHTML = '';
+    stages.forEach((_, i) => {
+      const pip = document.createElement('div');
+      pip.className = 'pip';
+      if (i === currentStage) pip.classList.add('active');
+      if (completed[i]) pip.classList.add('complete');
+      trackerPips.appendChild(pip);
+    });
+    trackerCount.textContent = `${currentStage + 1} / ${stages.length}`;
+  }
+
+  function renderStage(index) {
+    const s = stages[index];
+
+    let html = `
+      <div class="stage-label">
+        <div class="dot"></div>
+        <span>Stage <span class="stage-tag">${index + 1} of ${stages.length}</span></span>
+        <div class="line"></div>
+      </div>
+
+      <div class="teaching-card" data-label="${s.label}">
+        <div class="teaching-title">${s.title}</div>
+        ${s.teaching.map(p => `<p class="teaching-text">${p}</p>`).join('')}
+        ${s.meta ? `<div class="teaching-meta">${s.meta}</div>` : ''}
+      </div>
+    `;
+
+    if (s.diagram) html += `<div class="diagram-wrap">${s.diagram}</div>`;
+
+    if (s.keyPoints) {
+      html += `
+        <div class="key-points">
+          <div class="key-points-label">Coach the moment</div>
+          ${s.keyPoints.map(kp => `
+            <div class="key-points-item">
+              <span class="kp-tag">${kp.tag}</span>
+              <span>${kp.text}</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    if (s.decision) {
+      html += `
+        <div class="prompt"><p class="prompt-text">${s.decision.prompt}</p></div>
+        <div class="choices">
+          ${s.decision.choices.map(c => `
+            <button class="choice" data-choice="${c.key}">
+              <span class="choice-letter">${c.key}</span>
+              <span>${c.text}</span>
+            </button>
+          `).join('')}
+        </div>
+        <div class="feedback"></div>
+      `;
+    }
+
+    if (s.reflectionPrompts) {
+      html += s.reflectionPrompts.map((rp, i) => `
+        <div class="reflection" data-reflect-idx="${i}">
+          <div class="reflection-label">${rp.label}</div>
+          <div class="reflection-question">${rp.question}</div>
+          <textarea class="reflection-input" placeholder="${rp.placeholder}"></textarea>
+        </div>
+      `).join('');
+      html += `<button class="reflection-submit" id="reflectionSubmitBtn" disabled>Submit both → Reveal</button><div class="feedback"></div>`;
+    }
+
+    const isFinal = s.action === 'finish';
+    const noInteraction = !s.decision && !s.reflectionPrompts;
+    html += `
+      <div class="controls ${noInteraction ? 'visible' : ''}">
+        ${s.decision ? '<button class="btn" id="tryAgainBtn">↻ Try another answer</button>' : '<span></span>'}
+        <button class="btn primary" id="nextBtn" ${(s.decision || s.reflectionPrompts) ? 'disabled' : ''}>${isFinal ? 'Finish lesson →' : 'Continue →'}</button>
+      </div>
+    `;
+
+    stageView.innerHTML = html;
+    attachHandlers(s);
+    renderTracker();
+  }
+
+  function attachHandlers(stageData) {
+    const nextBtn = stageView.querySelector('#nextBtn');
+    const controls = stageView.querySelector('.controls');
+
+    if (stageData.decision) {
+      const choiceButtons = stageView.querySelectorAll('.choice');
+      const feedbackEl = stageView.querySelector('.feedback');
+      const tryAgainBtn = stageView.querySelector('#tryAgainBtn');
+
+      choiceButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.dataset.choice;
+          const choice = stageData.decision.choices.find(c => c.key === key);
+
+          choiceButtons.forEach(c => { c.disabled = true; c.classList.remove('selected'); });
+          btn.classList.add('selected');
+
+          feedbackEl.innerHTML = `
+            <div class="verdict ${choice.verdict}"><span>${choice.verdictLabel}</span></div>
+            <div class="feedback-body">
+              <div class="feedback-label">Why</div>
+              ${choice.analysis.map(p => `<p class="feedback-text">${p}</p>`).join('')}
+            </div>
+            <div class="danielle-says">${choice.danielle.map(p => `<p>${p}</p>`).join('')}</div>
+          `;
+          feedbackEl.classList.add('visible');
+          controls.classList.add('visible');
+          nextBtn.disabled = false;
+          completed[currentStage] = true;
+          renderTracker();
+          setTimeout(() => feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        });
+      });
+
+      tryAgainBtn.addEventListener('click', () => {
+        choiceButtons.forEach(c => { c.disabled = false; c.classList.remove('selected'); });
+        feedbackEl.classList.remove('visible');
+        feedbackEl.innerHTML = '';
+        stageView.querySelector('.choices').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    if (stageData.reflectionPrompts) {
+      const inputs = stageView.querySelectorAll('.reflection-input');
+      const submitBtn = stageView.querySelector('#reflectionSubmitBtn');
+      const feedbackEl = stageView.querySelector('.feedback');
+
+      const checkInputs = () => {
+        const allFilled = Array.from(inputs).every(inp => inp.value.trim().length > 0);
+        submitBtn.disabled = !allFilled;
+      };
+
+      inputs.forEach(inp => inp.addEventListener('input', checkInputs));
+
+      submitBtn.addEventListener('click', () => {
+        inputs.forEach(inp => inp.parentElement.classList.add('submitted'));
+        submitBtn.disabled = true;
+        submitBtn.style.display = 'none';
+
+        feedbackEl.innerHTML = `
+          <div class="verdict neutral"><span>What those questions are really doing</span></div>
+          <div class="feedback-body">
+            <div class="feedback-label">The training</div>
+            ${stageData.revealTeaching.map(p => `<p class="feedback-text">${p}</p>`).join('')}
+          </div>
+          <div class="danielle-says">${stageData.revealDanielle.map(p => `<p>${p}</p>`).join('')}</div>
+        `;
+        feedbackEl.classList.add('visible');
+        controls.classList.add('visible');
+        nextBtn.disabled = false;
+        completed[currentStage] = true;
+        renderTracker();
+        setTimeout(() => feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+      });
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (!stageData.decision && !stageData.reflectionPrompts) completed[currentStage] = true;
+      if (currentStage < stages.length - 1) {
+        currentStage++;
+        renderStage(currentStage);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        stageView.style.display = 'none';
+        completionCard.classList.add('visible');
+        document.querySelector('.tracker').style.display = 'none';
+        completionCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  document.getElementById('restartBtn').addEventListener('click', () => {
+    currentStage = 0;
+    completed = new Array(stages.length).fill(false);
+    completionCard.classList.remove('visible');
+    stageView.style.display = 'block';
+    document.querySelector('.tracker').style.display = 'flex';
+    renderStage(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  renderStage(0);
+</script>
+</body>
+</html>
