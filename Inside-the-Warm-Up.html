@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inside the Warm-Up — The Collab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #c8e830;
+    --lime-deep: #a8c424;
+    --lime-soft: #f0f8d4;
+    --ink: #0f1410;
+    --ink-soft: #2a302a;
+    --paper: #fdfdf8;
+    --paper-shadow: #e8e8df;
+    --rule: #1a1e1a;
+    --muted: #6b706b;
+    --red: #c84b3a;
+    --amber: #d4941e;
+    --green: #3d8b52;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Fraunces', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.5;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(200, 232, 48, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(200, 232, 48, 0.06) 0%, transparent 40%);
+  }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 48px 28px 80px; }
+
+  .header { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 32px; position: relative; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink); background: var(--lime);
+    display: inline-block; padding: 5px 10px 4px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.05; letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  h1 em { font-style: italic; font-weight: 500; color: var(--ink-soft); }
+
+  .subtitle { font-size: 16px; color: var(--muted); font-style: italic; }
+
+  .tracker { display: flex; gap: 6px; margin-bottom: 28px; align-items: center; }
+
+  .tracker-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted);
+    margin-right: 10px; font-weight: 700;
+  }
+
+  .tracker-pips { display: flex; gap: 6px; flex: 1; }
+
+  .pip {
+    flex: 1; height: 4px;
+    background: var(--paper-shadow);
+    transition: background 0.3s ease;
+    min-width: 18px;
+  }
+
+  .pip.active { background: var(--ink); }
+  .pip.complete { background: var(--lime-deep); }
+
+  .tracker-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    font-weight: 700; letter-spacing: 0.05em;
+    margin-left: 10px; white-space: nowrap;
+  }
+
+  .stage-label {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 18px;
+  }
+
+  .stage-label .dot {
+    width: 8px; height: 8px;
+    background: var(--lime); border-radius: 50%;
+    flex-shrink: 0; box-shadow: 0 0 0 3px var(--lime-soft);
+  }
+
+  .stage-label .line { flex: 1; height: 1px; background: var(--rule); opacity: 0.2; }
+  .stage-label .stage-tag { font-weight: 700; color: var(--ink); }
+
+  .teaching-card {
+    background: var(--ink); color: var(--paper);
+    padding: 32px 30px; border-radius: 2px;
+    position: relative; margin-bottom: 28px;
+    box-shadow: 8px 8px 0 var(--lime);
+  }
+
+  .teaching-card::before {
+    content: attr(data-label);
+    position: absolute; top: -10px; left: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.22em; font-weight: 700;
+    background: var(--lime); color: var(--ink);
+    padding: 4px 10px;
+  }
+
+  .teaching-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600; font-style: italic;
+    font-size: 15px; color: var(--lime);
+    margin-bottom: 14px; letter-spacing: 0.01em;
+  }
+
+  .teaching-text { font-size: 18px; line-height: 1.55; }
+  .teaching-text + .teaching-text { margin-top: 14px; }
+
+  .teaching-text strong {
+    font-weight: 600;
+    background: linear-gradient(transparent 65%, rgba(200, 232, 48, 0.35) 65%);
+    padding: 0 2px;
+  }
+
+  .teaching-text em { font-style: italic; }
+
+  .teaching-meta {
+    margin-top: 18px; padding-top: 18px;
+    border-top: 1px dashed rgba(253, 253, 248, 0.2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--lime); letter-spacing: 0.05em;
+  }
+
+  .diagram-wrap {
+    background: var(--paper); border: 2px solid var(--ink);
+    padding: 24px; margin-bottom: 24px; position: relative;
+  }
+
+  .diagram-wrap::before {
+    content: 'WHAT IT LOOKS LIKE';
+    position: absolute; top: -10px; left: 16px;
+    background: var(--paper); padding: 0 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; font-weight: 700;
+    color: var(--ink);
+  }
+
+  .diagram-wrap svg { width: 100%; height: auto; display: block; }
+
+  .prompt { text-align: center; margin: 32px 0 20px; }
+
+  .prompt-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic; font-size: 21px;
+    font-weight: 500; color: var(--ink);
+  }
+
+  .choices { display: grid; gap: 12px; margin-bottom: 28px; }
+
+  .choice {
+    background: var(--paper); border: 2px solid var(--ink);
+    padding: 16px 20px; text-align: left;
+    font-family: 'Fraunces', serif;
+    font-size: 16px; line-height: 1.4; color: var(--ink);
+    cursor: pointer; transition: all 0.2s ease;
+    display: flex; align-items: flex-start; gap: 14px;
+    width: 100%; font-weight: 400;
+  }
+
+  .choice:hover:not(:disabled) {
+    background: var(--lime-soft);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .choice:active:not(:disabled) { transform: translate(0, 0); box-shadow: 0 0 0 var(--ink); }
+
+  .choice-letter {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; font-size: 13px;
+    background: var(--ink); color: var(--paper);
+    width: 26px; height: 26px;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+
+  .choice:disabled { cursor: default; opacity: 0.35; }
+
+  .choice.selected {
+    background: var(--lime); border-color: var(--ink);
+    opacity: 1 !important;
+  }
+
+  .choice.selected .choice-letter { background: var(--paper); color: var(--ink); }
+
+  .reflection {
+    background: var(--paper); border: 2px solid var(--ink);
+    padding: 22px; margin-bottom: 16px;
+  }
+
+  .reflection-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 10px; font-weight: 700;
+  }
+
+  .reflection-question {
+    font-family: 'Fraunces', serif;
+    font-style: italic; font-size: 18px;
+    line-height: 1.4; color: var(--ink);
+    margin-bottom: 14px; font-weight: 500;
+  }
+
+  .reflection-input {
+    width: 100%; background: var(--paper);
+    border: 1px solid var(--ink); padding: 12px 14px;
+    font-family: 'Fraunces', serif;
+    font-size: 15px; line-height: 1.5; color: var(--ink);
+    resize: vertical; min-height: 90px; font-weight: 400;
+  }
+
+  .reflection-input:focus {
+    outline: none; border-color: var(--lime-deep);
+    box-shadow: 0 0 0 3px var(--lime-soft);
+  }
+
+  .reflection-submit {
+    margin-top: 16px; background: var(--ink); color: var(--paper);
+    border: none; padding: 12px 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; font-weight: 700;
+    cursor: pointer; transition: all 0.15s ease;
+  }
+
+  .reflection-submit:hover:not(:disabled) { background: var(--lime); color: var(--ink); }
+  .reflection-submit:disabled { opacity: 0.35; cursor: default; }
+  .reflection.submitted .reflection-input { background: var(--paper-shadow); pointer-events: none; }
+
+  .feedback { display: none; margin-top: 28px; animation: slideIn 0.4s ease-out; }
+  .feedback.visible { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .verdict {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; letter-spacing: 0.15em;
+    text-transform: uppercase; font-weight: 700;
+    padding: 10px 16px; margin-bottom: 20px;
+    width: fit-content;
+  }
+
+  .verdict.partial { background: var(--amber); color: var(--paper); }
+  .verdict.strong { background: var(--green); color: var(--paper); }
+  .verdict.miss { background: var(--red); color: var(--paper); }
+  .verdict.neutral { background: var(--ink); color: var(--paper); }
+
+  .feedback-body {
+    background: var(--paper); border-left: 4px solid var(--ink);
+    padding: 4px 0 4px 22px; margin-bottom: 24px;
+  }
+
+  .feedback-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 6px; font-weight: 700;
+  }
+
+  .feedback-text { font-size: 16px; line-height: 1.55; color: var(--ink); margin-bottom: 16px; }
+  .feedback-text:last-child { margin-bottom: 0; }
+  .feedback-text em { font-style: italic; font-weight: 500; }
+
+  .danielle-says {
+    background: var(--lime-soft); border: 1px solid var(--lime-deep);
+    padding: 22px 24px; position: relative; margin-bottom: 24px;
+  }
+
+  .danielle-says::before {
+    content: 'WHAT I’D DO';
+    position: absolute; top: -9px; left: 16px;
+    background: var(--paper); padding: 0 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; font-weight: 700;
+    color: var(--ink);
+  }
+
+  .danielle-says p { font-size: 15px; line-height: 1.55; color: var(--ink); }
+  .danielle-says p + p { margin-top: 10px; }
+  .danielle-says strong { font-weight: 700; }
+
+  .key-points {
+    background: var(--paper); border-left: 4px solid var(--lime);
+    padding: 20px 24px; margin: 24px 0;
+  }
+
+  .key-points-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 12px; font-weight: 700;
+  }
+
+  .key-points-item {
+    font-size: 15px; line-height: 1.55; color: var(--ink);
+    padding: 10px 0; display: flex; gap: 12px; align-items: flex-start;
+  }
+
+  .key-points-item + .key-points-item { border-top: 1px dashed rgba(15, 20, 16, 0.15); }
+  .key-points-item strong { font-weight: 700; }
+
+  .kp-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em; font-weight: 700;
+    background: var(--ink); color: var(--paper);
+    padding: 3px 7px; flex-shrink: 0; margin-top: 3px;
+    text-transform: uppercase;
+  }
+
+  .controls {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; margin-top: 28px; padding-top: 24px;
+    border-top: 1px dashed var(--rule);
+    opacity: 0.5; flex-wrap: wrap;
+  }
+
+  .controls.visible { opacity: 1; }
+
+  .btn {
+    background: none; border: 1px solid var(--ink);
+    padding: 10px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--ink);
+    cursor: pointer; transition: all 0.15s ease; font-weight: 700;
+  }
+
+  .btn:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
+  .btn:disabled { opacity: 0.3; cursor: default; }
+
+  .btn.primary { background: var(--ink); color: var(--paper); }
+  .btn.primary:hover { background: var(--lime); color: var(--ink); border-color: var(--ink); }
+
+  .completion {
+    display: none; background: var(--ink); color: var(--paper);
+    padding: 40px 32px; margin-top: 32px;
+    box-shadow: 8px 8px 0 var(--lime);
+    animation: slideIn 0.5s ease-out;
+  }
+
+  .completion.visible { display: block; }
+
+  .completion-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em;
+    color: var(--lime); font-weight: 700; margin-bottom: 14px;
+  }
+
+  .completion h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 800; font-size: 28px;
+    line-height: 1.15; margin-bottom: 16px; letter-spacing: -0.01em;
+  }
+
+  .completion h2 em { font-style: italic; font-weight: 500; color: var(--lime); }
+
+  .completion p {
+    font-size: 16px; line-height: 1.55;
+    color: var(--paper); opacity: 0.88; margin-bottom: 18px;
+  }
+
+  .four-purposes {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin: 28px 0 24px;
+  }
+
+  @media (max-width: 520px) { .four-purposes { grid-template-columns: 1fr; } }
+
+  .purpose {
+    background: rgba(200, 232, 48, 0.08);
+    border: 1px solid rgba(200, 232, 48, 0.3);
+    padding: 16px;
+  }
+
+  .purpose-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    color: var(--lime); font-weight: 700;
+    margin-bottom: 8px; text-transform: uppercase;
+  }
+
+  .purpose-text { font-size: 14px; line-height: 1.5; color: var(--paper); opacity: 0.9; }
+
+  .completion .restart {
+    margin-top: 12px; background: var(--lime); color: var(--ink);
+    border: none; padding: 12px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; font-weight: 700;
+    cursor: pointer; transition: all 0.15s ease;
+  }
+
+  .completion .restart:hover { background: var(--paper); }
+
+  .footer-note {
+    margin-top: 48px; padding-top: 28px;
+    border-top: 2px solid var(--ink);
+    font-size: 14px; color: var(--muted);
+    line-height: 1.55; font-style: italic;
+  }
+
+  .footer-note strong { font-style: normal; font-weight: 700; color: var(--ink); }
+
+  @media (max-width: 600px) {
+    .container { padding: 32px 18px 60px; }
+    .teaching-card { padding: 26px 20px; box-shadow: 6px 6px 0 var(--lime); }
+    .teaching-text { font-size: 16px; }
+    .choice { font-size: 15px; padding: 14px 16px; }
+    .prompt-text { font-size: 18px; }
+    .controls { justify-content: center; }
+    .completion { padding: 32px 22px; box-shadow: 6px 6px 0 var(--lime); }
+    .completion h2 { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="eyebrow">The Collab · Lesson 02</div>
+    <h1>Inside the Warm-Up. <em>Six minutes that do the work of twenty.</em></h1>
+    <p class="subtitle">A coaching walkthrough you can run with your own group.</p>
+  </header>
+
+  <div class="tracker">
+    <span class="tracker-label">Stages</span>
+    <div class="tracker-pips" id="trackerPips"></div>
+    <span class="tracker-count" id="trackerCount">1 / 8</span>
+  </div>
+
+  <div id="stageView"></div>
+
+  <div class="completion" id="completion">
+    <div class="completion-eyebrow">LESSON COMPLETE</div>
+    <h2>Six minutes. <em>Four purposes. One foundation.</em></h2>
+    <p>A great warm-up does four things at once. Most warm-ups do one — usually the physical part — and call it a day. Here's what you just walked through:</p>
+
+    <div class="four-purposes">
+      <div class="purpose">
+        <div class="purpose-label">Physical</div>
+        <div class="purpose-text">Each minute is harder than the last. Cognitive load climbs alongside the physical load.</div>
+      </div>
+      <div class="purpose">
+        <div class="purpose-label">Technical</div>
+        <div class="purpose-text">Every minute trains a real skill — dead first touch, deceleration, scanning, passing on the move.</div>
+      </div>
+      <div class="purpose">
+        <div class="purpose-label">Social / Verbal</div>
+        <div class="purpose-text">The 2v1 makes communication an explicit, named skill — with the same feedback questions every time.</div>
+      </div>
+      <div class="purpose">
+        <div class="purpose-label">Mental</div>
+        <div class="purpose-text">Two balls, constant decisions, head on a swivel. Nobody zones out.</div>
+      </div>
+    </div>
+
+    <p>If this is the only thing you take from the Collab and try with your own group — try this. Run it once a week, ask the same two questions every time, and watch what happens to your athletes' communication over a month.</p>
+    <button class="restart" id="restartBtn">↻ Walk it again</button>
+  </div>
+
+  <div class="footer-note">
+    <strong>Why this lesson?</strong> Most coaches read about a warm-up and try it once. The ones that stick are the ones you understand well enough to defend — to athletes, to parents, to yourself on a tired Tuesday. This is the warm-up, with the <em>why</em> baked into every minute.
+  </div>
+
+</div>
+
+<script>
+  const diagramSetup = `
+    <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="20" width="560" height="260" fill="none" stroke="#0f1410" stroke-width="2" stroke-dasharray="6 4"/>
+      <circle cx="130" cy="80" r="14" fill="#0f1410"/>
+      <text x="130" y="85" text-anchor="middle" fill="#c8e830" font-family="JetBrains Mono" font-size="12" font-weight="700">1</text>
+      <circle cx="280" cy="120" r="14" fill="#0f1410"/>
+      <text x="280" y="125" text-anchor="middle" fill="#c8e830" font-family="JetBrains Mono" font-size="12" font-weight="700">2</text>
+      <circle cx="450" cy="90" r="14" fill="#0f1410"/>
+      <text x="450" y="95" text-anchor="middle" fill="#c8e830" font-family="JetBrains Mono" font-size="12" font-weight="700">3</text>
+      <circle cx="180" cy="220" r="14" fill="#0f1410"/>
+      <text x="180" y="225" text-anchor="middle" fill="#c8e830" font-family="JetBrains Mono" font-size="12" font-weight="700">4</text>
+      <circle cx="370" cy="200" r="14" fill="#0f1410"/>
+      <text x="370" y="205" text-anchor="middle" fill="#c8e830" font-family="JetBrains Mono" font-size="12" font-weight="700">5</text>
+      <circle cx="500" cy="220" r="14" fill="#0f1410"/>
+      <text x="500" y="225" text-anchor="middle" fill="#c8e830" font-family="JetBrains Mono" font-size="12" font-weight="700">6</text>
+      <circle cx="200" cy="100" r="7" fill="#c8e830" stroke="#0f1410" stroke-width="2"/>
+      <circle cx="410" cy="180" r="7" fill="#c8e830" stroke="#0f1410" stroke-width="2"/>
+      <text x="300" y="295" text-anchor="middle" fill="#6b706b" font-family="JetBrains Mono" font-size="11" font-weight="700">6 ATHLETES · 2 BALLS · ONE SHARED SPACE</text>
+    </svg>
+  `;
+
+  const diagram2v1 = `
+    <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="20" width="560" height="260" fill="none" stroke="#0f1410" stroke-width="2" stroke-dasharray="6 4"/>
+      <line x1="300" y1="20" x2="300" y2="280" stroke="#0f1410" stroke-width="2"/>
+      <circle cx="100" cy="100" r="14" fill="#0f1410"/>
+      <text x="100" y="105" text-anchor="middle" fill="#c8e830" font-family="JetBrains Mono" font-size="11" font-weight="700">X</text>
+      <circle cx="200" cy="200" r="14" fill="#0f1410"/>
+      <text x="200" y="205" text-anchor="middle" fill="#c8e830" font-family="JetBrains Mono" font-size="11" font-weight="700">X</text>
+      <circle cx="160" cy="150" r="14" fill="#c84b3a"/>
+      <text x="160" y="155" text-anchor="middle" fill="#fdfdf8" font-family="JetBrains Mono" font-size="11" font-weight="700">O</text>
+      <circle cx="120" cy="120" r="6" fill="#c8e830" stroke="#0f1410" stroke-width="2"/>
+      <circle cx="400" cy="100" r="14" fill="#0f1410"/>
+      <text x="400" y="105" text-anchor="middle" fill="#c8e830" font-family="JetBrains Mono" font-size="11" font-weight="700">X</text>
+      <circle cx="500" cy="200" r="14" fill="#0f1410"/>
+      <text x="500" y="205" text-anchor="middle" fill="#c8e830" font-family="JetBrains Mono" font-size="11" font-weight="700">X</text>
+      <circle cx="460" cy="150" r="14" fill="#c84b3a"/>
+      <text x="460" y="155" text-anchor="middle" fill="#fdfdf8" font-family="JetBrains Mono" font-size="11" font-weight="700">O</text>
+      <circle cx="420" cy="120" r="6" fill="#c8e830" stroke="#0f1410" stroke-width="2"/>
+      <text x="160" y="50" text-anchor="middle" fill="#6b706b" font-family="JetBrains Mono" font-size="10" font-weight="700">GAME 1</text>
+      <text x="460" y="50" text-anchor="middle" fill="#6b706b" font-family="JetBrains Mono" font-size="10" font-weight="700">GAME 2</text>
+      <text x="300" y="295" text-anchor="middle" fill="#6b706b" font-family="JetBrains Mono" font-size="11" font-weight="700">2v1 KEEP-AWAY · 2 INDEPENDENT GAMES</text>
+    </svg>
+  `;
+
+  const stages = [
+    {
+      label: 'OPEN',
+      title: 'The warm-up most coaches misread',
+      teaching: [
+        "Six minutes. That's the whole warm-up. <strong>Same six minutes</strong>, every Collab session.",
+        "I know — six minutes sounds short. But this warm-up is doing the work of physical prep, communication training, technical reps, <em>and</em> mental engagement, all at once. That's why we spend an entire first session of every new group just teaching it.",
+        "Here's how I want you to walk through this lesson: at most stages, I'm going to ask you to <em>predict</em> what a constraint is doing before I tell you. The point isn't to get the right answer. The point is to notice what you'd notice if it were your warm-up to design."
+      ],
+      meta: '▸ 8 stages. ~10 minutes. Skip nothing.',
+      action: 'continue'
+    },
+    {
+      label: 'THE SETUP',
+      title: 'Six athletes. Two balls.',
+      teaching: [
+        "Six girls scattered in a defined space. <strong>Two balls going at the same time.</strong>",
+        "The warm-up has two halves: <em>five one-minute passing rounds</em>, then a <em>2v1 keep-away</em> for the final two minutes. Each round adds a constraint. Each constraint trains something specific."
+      ],
+      diagram: diagramSetup,
+      decision: {
+        prompt: 'Why two balls instead of one?',
+        choices: [
+          {
+            key: 'A',
+            text: 'To get more touches in less time.',
+            verdict: 'partial',
+            verdictLabel: 'Partly right — but missing the bigger reason',
+            analysis: [
+              "More touches matter, sure. But if touches were the goal, three balls would be better than two. Why stop there?",
+              "The deeper reason is about <em>where the athletes' eyes go</em>. With one ball, everyone watches the ball. With two, they have to track multiple things at once — and decide which one applies to them."
+            ],
+            danielle: ["Two balls forces <strong>head on a swivel</strong>. They can't just stand and wait. They have to look up, scan, and decide who's actually playing toward them — which is the same skill they need in a real game."]
+          },
+          {
+            key: 'B',
+            text: 'To force athletes to scan and make decisions, not just react.',
+            verdict: 'strong',
+            verdictLabel: 'Yes — this is the whole point',
+            analysis: [
+              "With two balls in play, every athlete has to look up <em>before</em> she passes — to check if her target is even ready. She has to commit to showing for one teammate instead of hiding between two.",
+              "It also means there's nowhere to hide. In a single-ball drill, the unfocused player can space out and nobody notices. With two balls, the unfocused player gets hit with a pass she didn't see coming."
+            ],
+            danielle: ["This is why I almost never run a single-ball warm-up. <strong>One ball lets athletes coast. Two balls makes them think.</strong> Same physical effort, double the cognitive load."]
+          },
+          {
+            key: 'C',
+            text: 'To make sure no one is standing still.',
+            verdict: 'partial',
+            verdictLabel: 'A side effect, not the design',
+            analysis: [
+              "Yes, two balls keeps everyone moving — but that's also true of any well-designed warm-up. What's specific to two balls is the <em>decision-making</em> it forces.",
+              "If \"no one standing still\" were the goal, you could solve it with a single ball and a rule that says \"pass and follow.\" Two balls is doing more than that."
+            ],
+            danielle: ["Movement is the floor, not the ceiling. <strong>I want them moving with their eyes up</strong> — and that's what the second ball is really for."]
+          }
+        ]
+      }
+    },
+    {
+      label: 'MINUTE 6 → 5',
+      title: 'Pass and move (free)',
+      teaching: [
+        "First minute. <strong>Pass to whoever, wherever.</strong> The only rule: you pass, you move. No standing still.",
+        "This is the on-ramp. It looks easy, and it should — we want them moving and warm before we start asking harder things of them."
+      ],
+      keyPoints: [
+        { tag: 'See', text: 'Are they moving <em>after</em> they pass, or just standing and admiring it?' },
+        { tag: 'Cue', text: '"Pass and adjust" — they should be relocating to a better receiving spot the second the ball leaves their stick.' }
+      ],
+      action: 'continue'
+    },
+    {
+      label: 'MINUTE 5 → 4',
+      title: 'Dead receive → dead pass',
+      teaching: [
+        "Now we add a constraint. <strong>Receive the ball completely dead. Pass off a dead ball.</strong> Two-touch and two-touch only.",
+        "<em>[DANIELLE: confirm or rewrite the rationale below — this is the minute where I had to make my best guess about why it exists.]</em>",
+        "This is the cleanest, most controlled rep — and the most boring. We don't stay here long. But it's the baseline. Before we ask them to receive on the move and decelerate and scan, we want them to know what a perfect dead-ball pass actually feels like."
+      ],
+      keyPoints: [
+        { tag: 'See', text: 'Are they fully stopping the ball, or letting it drift before they pass?' },
+        { tag: 'Why', text: 'This minute is a <strong>baseline</strong>. The next three minutes will all be variations — they need this clean version to compare against.' }
+      ],
+      action: 'continue'
+    },
+    {
+      label: 'MINUTE 4 → 3',
+      title: 'Dead receive → pass on the move',
