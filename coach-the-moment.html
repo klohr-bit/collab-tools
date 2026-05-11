@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Coach the Moment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #c8e830;
+    --ink: #0a0d08;
+    --surface: #131610;
+    --surface-2: #1a1e16;
+    --surface-3: #22271d;
+    --line: #2a3024;
+    --paper: #eef0e8;
+    --muted: #9aa48e;
+    --muted-2: #6b7360;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    background: var(--ink);
+    height: 100%;
+    overscroll-behavior: none;
+  }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    color: var(--paper);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── SHELL ── */
+  .shell {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 32px;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0 10px;
+    flex-shrink: 0;
+  }
+  .top-brand {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+  }
+  .top-phase {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── PROGRESS ── */
+  .progress {
+    display: none;
+    gap: 5px;
+    padding-bottom: 12px;
+    flex-shrink: 0;
+  }
+  .progress.visible { display: flex; }
+  .p-seg {
+    flex: 1;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--line);
+    transition: background 0.4s ease;
+  }
+  .p-seg.done { background: rgba(200,232,48,0.35); }
+  .p-seg.active { background: var(--lime); }
+
+  /* ── SCREEN ── */
+  .screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .screen.entering {
+    animation: slideUp 0.3s cubic-bezier(0.2, 0, 0, 1);
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── BOTTOM ── */
+  .bottom {
+    padding-top: 16px;
+    flex-shrink: 0;
+  }
+  .btn {
+    width: 100%;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 17px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn:disabled { opacity: 0.2; pointer-events: none; }
+  .btn-primary { background: var(--lime); color: var(--ink); }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  /* ── LANDING ── */
+  .landing {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+  }
+  .landing-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: auto;
+  }
+  .logo-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    animation: blink 2.5s ease infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .logo-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .landing-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px 0 24px;
+  }
+  .landing-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 12px;
+  }
+  .landing-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(64px, 17vw, 96px);
+    font-weight: 900;
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--paper);
+    margin-bottom: 24px;
+  }
+  .landing-title .accent { color: var(--lime); }
+
+  .landing-divider {
+    width: 32px;
+    height: 2px;
+    background: var(--lime);
+    margin-bottom: 16px;
+  }
+  .landing-sub {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 280px;
+  }
+
+  .landing-footer {
+    font-size: 12px;
+    color: var(--muted-2);
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .landing-footer strong { color: var(--muted); font-weight: 500; }
+
+  /* ── THRESHOLD FLASH ── */
+  .threshold {
+    position: fixed; inset: 0;
+    background: var(--ink);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .threshold.show { opacity: 1; pointer-events: all; }
+  .threshold-word {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(52px, 14vw, 80px);
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--lime);
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .threshold.show .threshold-word { opacity: 1; transform: scale(1); }
+
+  /* ── CHECK-IN ── */
+  .checkin {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+  }
+  .question-big {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: var(--paper);
+  }
+  .question-sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-top: -10px;
+  }
+
+  .opts { display: flex; flex-direction: column; gap: 7px; }
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--paper);
+    line-height: 1.35;
+    transition: border-color 0.15s;
+  }
+  .opt:active { border-color: var(--lime); background: var(--surface-3); }
+  .opt.chosen { border-color: var(--lime); background: rgba(200,232,48,0.08); }
+  .opt.faded { opacity: 0.18; pointer-events: none; }
+  .opt-radio {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 2px solid var(--muted-2);
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .opt.chosen .opt-radio { background: var(--lime); border-color: var(--lime); }
+
+  .receipt {
+    padding: 14px 16px;
+    background: var(--surface-2);
+    border-left: 2px solid var(--lime);
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+    display: none;
+    animation: slideUp 0.3s ease;
+  }
+  .receipt.show { display: block; }
+  .receipt strong { color: var(--paper); font-weight: 600; }
+
+  /* ── SCENARIO ── */
+  .scenario {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* SCENE — the focal point */
+  .scene-box {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 20px 20px;
+  }
+  .scene-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .scene-moment-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+  }
+  .scene-loc {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+  }
+  .scene-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--paper);
+  }
+  .scene-text em { color: var(--lime); font-style: normal; }
+  .scene-text strong {
+    background: var(--lime);
+    color: var(--ink);
+    padding: 0 4px;
+    border-radius: 2px;
+    font-weight: 900;
+  }
+
+  .prompt-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* CHOICE CARDS */
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+
+  .card-wrap { perspective: 900px; }
+  .card-inner {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.4,0.2,0.2,1);
+    min-height: 88px;
+  }
+  .card-inner.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px 13px;
+    min-height: 88px;
+  }
+  .card-front {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .card-front:active { border-color: var(--lime); transform: scale(0.97); }
+  .card-letter {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--muted-2);
+    margin-bottom: 6px;
+  }
+  .card-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--paper);
+    line-height: 1.35;
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+    border: 2px solid var(--lime);
+    background: var(--ink);
+    justify-content: center;
+  }
+  .card-back.is-execute { background: var(--lime); border-color: var(--lime); }
+  .card-back-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--lime);
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+  }
+  .card-back.is-execute .card-back-text { color: var(--ink); }
+  .card-back-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(10,13,8,0.5);
+    margin-top: 8px;
+    display: none;
+  }
+  .card-back.is-execute .card-back-tag { display: block; }
+
+  .card-wrap.faded { opacity: 0.08; pointer-events: none; }
+
+  /* FEEDBACK */
+  .feedback {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+    animation: slideUp 0.35s ease 0.45s both;
+  }
+  .feedback.show { display: flex; }
+
+  .fb-consequence {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--paper);
+  }
+  .fb-consequence em { color: var(--lime); font-style: normal; }
+
+  .fb-tradeoff {
+    background: var(--surface-2);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .fb-tradeoff-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .fb-tradeoff-row:last-child { border-bottom: none; }
+  .fb-tradeoff-row--costs { border-left: 2px solid rgba(200,232,48,0.3); }
+  .fb-tradeoff-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+    opacity: 0.7;
+  }
+  .fb-tradeoff-row--costs .fb-tradeoff-label { opacity: 0.4; }
+  .fb-tradeoff-val {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .fb-coach-block {
+    background: var(--lime);
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: auto;
+  }
+  .fb-coach-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.5;
+    margin-bottom: 5px;
+  }
+  .fb-coach-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  /* REFLECT PROMPT */
+  .reflect-prompt {
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.5;
+    text-align: center;
+    padding: 0 8px 12px;
+  }
+
+  /* ── INTERRUPT ── */
+  .interrupt {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px 0;
+  }
+  .interrupt-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--lime);
+  }
+  .interrupt-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(36px, 10vw, 56px);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+  }
+  .interrupt-title .dim { color: var(--muted); }
+  .interrupt-title .bright { color: var(--paper); }
+  .interrupt-title .accent { color: var(--lime); }
+  .interrupt-sub {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 280px;
+  }
+
+  /* ── PATTERN ── */
+  .pattern {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 4px;
+  }
+  .pills { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 4px;
+    background: var(--surface-3);
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+  .pill.lit { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+
+  .pattern-headline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--paper);
+  }
+  .pattern-headline em { color: var(--lime); font-style: normal; }
+  .pattern-body {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.55;
+    flex: 1;
+  }
+
+  .reveal-block {
+    background: var(--lime);
+    padding: 20px;
+    border-radius: 10px;
+    display: none;
+    animation: slideUp 0.35s ease;
+  }
+  .reveal-block.show { display: block; }
+  .reveal-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.5;
+    margin-bottom: 8px;
+  }
+  .reveal-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.35;
+  }
+
+  /* ── MIRROR ── */
+  .mirror {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 4px;
+  }
+  .mirror-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--paper);
+  }
+  .mirror-title span { color: var(--lime); }
+
+  .call-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .call-cell {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 10px 5px;
+    text-align: center;
+  }
+  .call-cell.is-execute { background: var(--lime); border-color: var(--lime); }
+  .call-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px; font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 5px;
+    letter-spacing: 0.1em;
+  }
+  .call-cell.is-execute .call-num { color: rgba(10,13,8,0.5); }
+  .call-key {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 24px; font-weight: 900;
+    color: var(--paper);
+    line-height: 1;
+  }
+  .call-cell.is-execute .call-key { color: var(--ink); }
+  .call-cat {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .call-cell.is-execute .call-cat { color: rgba(10,13,8,0.6); }
+
+  .tally {
+    background: var(--surface-2);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .tally-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .tally-row:last-child { border-bottom: none; }
+  .tally-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .tally-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--paper);
+  }
+
+  .mirror-read {
+    background: var(--lime);
+    padding: 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .mirror-read strong { font-weight: 700; }
+
+  /* ── CARRY ── */
+  .carry {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 8px;
+  }
+  .carry-card {
+    background: var(--lime);
+    border-radius: 12px;
+    padding: 24px 22px;
+    box-shadow: 0 8px 32px rgba(200,232,48,0.18);
+  }
+  .carry-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.5;
+    margin-bottom: 12px;
+  }
+  .carry-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.0;
+    color: var(--ink);
+    margin-bottom: 18px;
+    letter-spacing: -0.01em;
+  }
+  .carry-exp {
+    padding-top: 16px;
+    border-top: 1px solid rgba(0,0,0,0.15);
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .carry-exp strong {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 5px;
+  }
+  .carry-coda {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    text-align: center;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+
+  /* ── DESKTOP ── */
+  @media (min-width: 560px) {
+    body { padding: 24px 16px 48px; background: #060807; }
+    .shell {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 28px 32px 32px;
+      min-height: auto;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+      border-top: 3px solid var(--lime);
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="threshold" id="threshold">
+  <div class="threshold-word">Begin.</div>
+</div>
+
+<div class="shell">
+  <div class="top-bar">
+    <span class="top-brand">Collab Coaching Lab</span>
+    <span class="top-phase" id="phaseLabel"></span>
+  </div>
+  <div class="progress" id="progress">
+    <div class="p-seg" data-i="0"></div>
+    <div class="p-seg" data-i="1"></div>
+    <div class="p-seg" data-i="2"></div>
+    <div class="p-seg" data-i="3"></div>
+    <div class="p-seg" data-i="4"></div>
+  </div>
+  <div class="screen" id="screen"></div>
+  <div class="bottom" id="bottom" style="display:none"></div>
+</div>
+
+<script>
+(function(){
+
+  // ── DATA ──────────────────────────────────────────────
+
+  const CHECKIN = {
+    question: "How long have you been coaching this group?",
+    sub: "Sets the context for every moment you're about to face.",
+    opts: [
+      { key:'A', text:"First few sessions.",
+        receipt:"No baseline yet. <strong>Trust is what you're building first.</strong> Watch where you reach for control." },
+      { key:'B', text:"A month or two in.",
+        receipt:"You can read them, but habits aren't set. <strong>This window matters most.</strong>" },
+      { key:'C', text:"Mid-season — we know each other.",
+        receipt:"You have a baseline. <strong>The question is whether you trust what you see.</strong>" },
+      { key:'D', text:"Long-term. Way back.",
+        receipt:"The risk isn't that you don't know them. <strong>It's that you think you do.</strong>" }
+    ]
+  };
+
+  // Each choice has: gets (upside), costs (tradeoff), coach (Danielle's honest line)
+  // reflect: the pause question shown above the Next button — not a verdict, a beat
+  // subcat: BUILD_CONSTRAINT | BUILD_QUESTION | BUILD_TASK | DIRECT_INTERVENTION | DIRECT_TECHNICAL | HOLD
+  const SCENARIOS = [
+    {
+      id: 1,
+      loc: "PRACTICE · MIN 2",
+      text: "Three players <strong>barely moving</strong> on the sideline. <em>One is your captain.</em> Everyone else is working.",
+      prompt: "What do you do?",
+      reflect: "Did you pick what you'd actually do — or what felt like the right answer?",
+      choices: [
+        { key:'A', text:"Blow the whistle.",
+          cat:'DIRECT', subcat:'DIRECT_INTERVENTION',
+          label:"The group snaps to. <em>You're the engine now.</em>",
+          gets:"Everyone moves. Immediately. Standard enforced.",
+          costs:"You just told the team the warm-up needs policing. That's yours to carry all session.",
+          coach:"Every time I'm the engine, I'm training them not to be. I reach for this less than I used to." },
+        { key:'B', text:"Walk over. 'What are we working on?'",
+          cat:'BUILD', subcat:'BUILD_QUESTION',
+          label:"She pauses. Thinks. <em>Gets back to it.</em>",
+          gets:"The captain leads herself back in. No public correction, trust intact.",
+          costs:"The other two on the sideline didn't get the message — this only landed on one player.",
+          coach:"Does it get everyone moving as fast? No. Does it build something the whistle can't? Yes." },
+        { key:'C', text:"Hold your position. Watch what happens.",
+          cat:'HOLD', subcat:'HOLD',
+          label:"The sideline chat <em>continues.</em>",
+          gets:"You stay out of it entirely. If she self-corrects, you've learned something about her.",
+          costs:"Silence only works once the standard is trained. Right now it teaches her she can coast.",
+          coach:"I've used this and regretted it. Silence needs to be earned — by me, not just assumed." },
+        { key:'D', text:"New constraint: every pass under the knees.",
+          cat:'BUILD', subcat:'BUILD_CONSTRAINT',
+          label:"Everyone has to engage. <em>Sideline stops.</em>",
+          gets:"Forces attention without naming anyone. The drill does the work.",
+          costs:"You changed the drill, not the culture. Same three might drift again in five minutes.",
+          coach:"Constraints buy engagement in the moment. What am I doing the rest of practice to make it stick?" }
+      ]
+    },
+    {
+      id: 2,
+      loc: "PRACTICE · MIN 4",
+      text: "Two players <strong>aren't talking to each other.</strong> Something happened before practice. <em>Everyone else knows it too.</em>",
+      prompt: "What do you do?",
+      reflect: "Whatever you picked — what are you most uncertain about in that call?",
+      choices: [
+        { key:'A', text:"Pair them together in the next drill.",
+          cat:'BUILD', subcat:'BUILD_CONSTRAINT',
+          label:"They have to interact. <em>Tension stays, but movement starts.</em>",
+          gets:"Forces proximity without requiring either player to make the first move. The drill does the work.",
+          costs:"If the conflict is real and raw, this can backfire — resentment on the field is worse than silence.",
+          coach:"I use this when I think they just need a nudge. I don't use it when I think someone got hurt." },
+        { key:'B', text:"Pull them aside together. 'We need five minutes after.'",
+          cat:'DIRECT', subcat:'DIRECT_INTERVENTION',
+          label:"They both nod. <em>Something shifts — but practice is now waiting.</em>",
+          gets:"You named it. Both players know it's not being swept under. That can itself release pressure.",
+          costs:"You've committed to a conversation you haven't prepared for, mid-practice, with the team watching.",
+          coach:"This is the right call. I just want to know what I'm walking into before I call that meeting." },
+        { key:'C', text:"Trust the session. Let practice do what practice does.",
+          cat:'HOLD', subcat:'HOLD',
+          label:"Practice continues. <em>The temperature stays.</em>",
+          gets:"You don't escalate something that might resolve on its own. Some conflicts need motion, not mediation.",
+          costs:"If it doesn't resolve, it runs the whole session — and you've modeled that it's okay to bring it to the field.",
+          coach:"I ask myself: is this affecting the work right now? If yes, I can't ignore it." },
+        { key:'D', text:"Check in with each player separately — thirty seconds each.",
+          cat:'BUILD', subcat:'BUILD_QUESTION',
+          label:"Both feel seen. <em>Practice keeps moving.</em>",
+          gets:"You acknowledge both without forcing them together before they're ready. Lower risk, still present.",
+          costs:"Thirty seconds isn't enough to know what happened — you're managing without real information.",
+          coach:"This buys me time to understand it. That's worth something — as long as I actually follow through." }
+      ]
+    },
+    {
+      id: 3,
+      loc: "PRACTICE · MIN 8",
+      text: "Man-to-man defense day. Communication built into the warm-up. Eight minutes in — <em>complete silence.</em>",
+      prompt: "What's your move?",
+      reflect: "Is this a design problem or an effort problem? Does your answer change anything?",
+      choices: [
+        { key:'A', text:"Stop play. 'Let's hear communication.'",
+          cat:'DIRECT', subcat:'DIRECT_INTERVENTION',
+          label:"They talk. <em>For about thirty seconds.</em>",
+          gets:"Silence broken. Standard named. Everyone knows what you want.",
+          costs:"You solved it for them. Stopping play every time this happens is now the system.",
+          coach:"I've done this. They talk for thirty seconds and revert. The problem is in my design, not their effort." },
+        { key:'B', text:"'I can't talk for two minutes. You run it.'",
+          cat:'BUILD', subcat:'BUILD_CONSTRAINT',
+          label:"Silence. Then <em>someone breaks it.</em>",
+          gets:"They find the communication themselves. That rep sticks differently than being told.",
+          costs:"Some groups freeze instead of stepping up. You need to know yours before you try this.",
+          coach:"It breaks faster than I expect, every time. The hardest part is trusting the silence." },
+        { key:'C', text:"'Call a name before every receive.'",
+          cat:'BUILD', subcat:'BUILD_CONSTRAINT',
+          label:"Names start <em>filling the gym.</em>",
+          gets:"Scripts the behavior. Lower risk than removing your voice — same direction.",
+          costs:"You're generating compliance, not habit. They're doing it because you said to.",
+          coach:"I use this as a bridge, not a destination. Is it moving them toward talking on their own?" },
+        { key:'D', text:"Stay quiet. See if they find it without you.",
+          cat:'HOLD', subcat:'HOLD',
+          label:"Warm-up ends <em>in silence.</em>",
+          gets:"No interruption. You get real data on whether they can self-organize — or can't.",
+          costs:"Silent warm-up, silent practice, silent game. This pattern hardens faster than you think.",
+          coach:"Silence in a communication drill is a signal I can't look away from. What am I hoping for here?" }
+      ]
+    },
+    {
+      id: 4,
+      loc: "PRACTICE · MID-SESSION",
+      text: "<em>One of your strongest players.</em> Something is off today. Going through the motions. <strong>Barely making eye contact.</strong>",
+      prompt: "What do you do?",
+      reflect: "Are you reading her — or projecting onto her?",
+      choices: [
+        { key:'A', text:"Hold her to the same standard. Don't let up.",
+          cat:'DIRECT', subcat:'DIRECT_INTERVENTION',
+          label:"She complies. <em>Stays somewhere else.</em>",
+          gets:"Standard maintained. You didn't create a two-tier system in front of the group.",
+          costs:"Pushing a shut-down athlete harder pushes her further inside. Compliance without presence.",
+          coach:"I've done this. She went through the motions for the whole practice. I got the behavior, not the player." },
+        { key:'B', text:"Pull her aside. 'Hey — what's going on today?'",
+          cat:'BUILD', subcat:'BUILD_QUESTION',
+          label:"She pauses. <em>Something shifts.</em>",
+          gets:"She finds out you noticed. That's often the whole intervention.",
+          costs:"You've stepped out of practice for one player. The group reads that.",
+          coach:"It's almost never about field hockey. Two minutes now can save the whole session." },
+        { key:'C', text:"Give her a specific job. 'You're calling every outlet this drill.'",
+          cat:'BUILD', subcat:'BUILD_TASK',
+          label:"Her eyes <em>come up.</em>",
+          gets:"Concrete task pulls her out of her head without forcing a conversation she may not want.",
+          costs:"You still don't know what's going on. You've managed the surface, not the cause.",
+          coach:"A task gives her a way back in on her own terms. I still check in after." },
+        { key:'D', text:"Read it as information. Let her run her own session today.",
+          cat:'HOLD', subcat:'HOLD',
+          label:"She gets through it. <em>You catch her after.</em>",
+          gets:"Respects her process. Some athletes genuinely need space, not intervention.",
+          costs:"Most athletes hoping to be noticed just feel invisible when you wait.",
+          coach:"There are players where this is right. I have to be honest about whether I'm reading her — or avoiding it." }
+      ]
+    },
+    {
+      id: 5,
+      loc: "PRACTICE · END OF SESSION",
+      text: "Practice just ended. <em>Your best player made the same technical error three times.</em> She knows. <strong>Walking off alone. Not looking up.</strong>",
+      prompt: "What do you say?",
+      reflect: "Ten seconds after you said it — what does her face do?",
+      choices: [
+        { key:'A', text:"Nothing. Let her walk.",
+          cat:'HOLD', subcat:'HOLD',
+          label:"She leaves. <em>The loop runs the whole drive home.</em>",
+          gets:"No forced moment. She processes on her own terms, in her own time.",
+          costs:"She replays the error alone. By tomorrow it's either buried or calcified.",
+          coach:"I used to default to this. Then I started asking: am I giving her space, or am I avoiding the moment?" },
+        { key:'B', text:"'Good session. That pattern — we'll work it Thursday.'",
+          cat:'BUILD', subcat:'BUILD_QUESTION',
+          label:"She looks up. <em>Something loosens.</em>",
+          gets:"Names the session first to fight recency bias. Turns the error into a plan, not a verdict.",
+          costs:"If she doesn't trust that Thursday is real, the reassurance lands hollow.",
+          coach:"Two sentences. One acknowledges, one gives her somewhere to put it. That's enough right now." },
+        { key:'C', text:"Walk her through what happened technically.",
+          cat:'DIRECT', subcat:'DIRECT_TECHNICAL',
+          label:"She listens. <em>She already knows.</em>",
+          gets:"The analysis is accurate. She'll have the information when she's ready to use it.",
+          costs:"Right now you're extending the rumination, not closing it. She doesn't need the breakdown — she needs to leave.",
+          coach:"The teach is right. The timing is wrong. This conversation belongs at Thursday's practice, not right here." },
+        { key:'D', text:"Fist bump. 'That one's not following you home.'",
+          cat:'BUILD', subcat:'BUILD_TASK',
+          label:"She half-laughs. <em>The weight shifts.</em>",
+          gets:"Humor shrinks the mistake without dismissing it. Gives her permission to let it go.",
+          costs:"Only works if the trust is already there. With the wrong athlete it reads as brushing her off.",
+          coach:"I know when I've earned the right to say this. When I'm not sure, I don't." }
+      ]
+    }
+  ];
+
+  const CATS = {
+    1:{ A:'DIRECT', B:'BUILD', C:'HOLD',  D:'BUILD' },
+    2:{ A:'HOLD',   B:'DIRECT',C:'BUILD', D:'BUILD' },
+    3:{ A:'DIRECT', B:'BUILD', C:'BUILD', D:'HOLD'  },
+    4:{ A:'DIRECT', B:'BUILD', C:'BUILD', D:'HOLD'  },
+    5:{ A:'HOLD',   B:'BUILD', C:'DIRECT',D:'BUILD' }
+  };
+
+  // ── STATE ──────────────────────────────────────────────
+
+  let phase = 'landing';
+  let scnIdx = 0;
+  let answered = false;
+  let checkinDone = false;
+  let patternShown = false;
+  const picks = [];
+
+  // ── ELEMENTS ───────────────────────────────────────────
+
+  const screenEl    = document.getElementById('screen');
+  const bottomEl    = document.getElementById('bottom');
+  const progressEl  = document.getElementById('progress');
+  const phaseLbl    = document.getElementById('phaseLabel');
+  const thresholdEl = document.getElementById('threshold');
+
+  // ── HELPERS ────────────────────────────────────────────
+
+  function setPhase(t) { phaseLbl.textContent = t; }
+
+  function showProgress(active) {
+    progressEl.classList.add('visible');
+    progressEl.querySelectorAll('.p-seg').forEach((s,i) => {
+      s.className = 'p-seg' + (i < active ? ' done' : i === active ? ' active' : '');
+    });
+  }
+  function hideProgress() { progressEl.classList.remove('visible'); }
+
+  function showBtn(label, disabled=false, ghost=false) {
+    bottomEl.style.display = 'block';
+    bottomEl.innerHTML = `<button class="btn ${ghost?'btn-ghost':'btn-primary'}" id="mainBtn"${disabled?' disabled':''}>${label}</button>`;
+  }
+  function hideBtn() { bottomEl.style.display = 'none'; }
+  function btn() { return document.getElementById('mainBtn'); }
+
+  function go(html) {
+    screenEl.innerHTML = html;
+    screenEl.className = 'screen entering';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => screenEl.className = 'screen');
+    });
+    window.scrollTo(0,0);
+  }
+
+  // ── RENDER ─────────────────────────────────────────────
+
+  function render() {
+    if      (phase==='landing')    rLanding();
+    else if (phase==='checkin')    rCheckin();
+    else if (phase==='scenario')   rScenario();
+    else if (phase==='interrupt2') rInterrupt();
+    else if (phase==='pattern')    rPattern();
+    else if (phase==='mirror')     rMirror();
+    else if (phase==='carry')      rCarry();
+  }
+
+  // ── LANDING ────────────────────────────────────────────
+
+  function rLanding() {
+    setPhase('');
+    hideProgress();
+    go(`
+      <div class="landing">
+        <div class="landing-logo">
+          <div class="logo-dot"></div>
+          <span class="logo-label">Collab Coaching Lab &nbsp;/&nbsp; The Warm-Up</span>
+        </div>
+        <div class="landing-main">
+          <div class="landing-eyebrow">The Warm-Up</div>
+          <div class="landing-title">Coach<br>The <span class="accent">Moment.</span></div>
+          <div class="landing-divider"></div>
+          <div class="landing-sub">What is your warm-up actually teaching?</div>
+        </div>
+        <div class="landing-footer">Built by <strong>Coach Danielle</strong>. Tested on real Tuesdays.</div>
+      </div>
+    `);
+    showBtn('Enter the Lab →');
+    btn().onclick = doThreshold;
+  }
+
+  // ── THRESHOLD ──────────────────────────────────────────
+
+  function doThreshold() {
+    thresholdEl.classList.add('show');
+    setTimeout(() => {
+      phase = 'checkin';
+      render();
+    }, 1400);
+    setTimeout(() => thresholdEl.classList.remove('show'), 1700);
+  }
+
+  // ── CHECK-IN ───────────────────────────────────────────
+
+  function rCheckin() {
+    setPhase('Before We Start');
+    hideProgress();
+    go(`
+      <div class="checkin">
+        <div class="eyebrow">Before we start</div>
+        <div class="question-big">${CHECKIN.question}</div>
+        <p class="question-sub">${CHECKIN.sub}</p>
+        <div class="opts">
+          ${CHECKIN.opts.map(o=>`
+            <button class="opt" data-key="${o.key}">
+              <span class="opt-radio"></span>
+              ${o.text}
+            </button>`).join('')}
+        </div>
+        <div class="receipt" id="receipt"></div>
+      </div>
+    `);
+    showBtn('Start the Moments →', true);
+
+    screenEl.querySelectorAll('.opt').forEach(optBtn => {
+      optBtn.addEventListener('click', () => {
+        const opt = CHECKIN.opts.find(o=>o.key===optBtn.dataset.key);
+        screenEl.querySelectorAll('.opt').forEach(b => b.classList.add('faded'));
+        optBtn.classList.remove('faded');
+        optBtn.classList.add('chosen');
+        const r = document.getElementById('receipt');
+        r.innerHTML = opt.receipt;
+        r.classList.add('show');
+        checkinDone = true;
+        btn().disabled = false;
+      });
+    });
+
+    btn().onclick = () => { if(checkinDone){ phase='scenario'; scnIdx=0; render(); } };
+  }
+
+  // ── SCENARIO ───────────────────────────────────────────
+
+  function rScenario() {
+    const s = SCENARIOS[scnIdx];
+    setPhase('');
+    showProgress(scnIdx);
+    answered = false;
+
+    go(`
+      <div class="scenario">
+        <div class="scene-box">
+          <div class="scene-header">
+            <div class="scene-moment-num">Moment 0${s.id}</div>
+            <div class="scene-loc">${s.loc}</div>
+          </div>
+          <div class="scene-text">${s.text}</div>
+        </div>
+        <div class="prompt-label">${s.prompt}</div>
+        <div class="choices" id="choices">
+          ${s.choices.map((c,i)=>`
+            <div class="card-wrap" id="wrap-${c.key}"
+              style="opacity:0;transform:translateY(8px);transition:opacity 0.25s ease ${i*60}ms,transform 0.25s ease ${i*60}ms">
+              <div class="card-inner" id="inner-${c.key}">
+                <div class="card-face card-front" data-key="${c.key}">
+                  <div class="card-letter">${c.key}</div>
+                  <div class="card-text">${c.text}</div>
+                </div>
+                <div class="card-face card-back">
+                  <div class="card-back-text">${c.label}</div>
+                </div>
+              </div>
+            </div>`).join('')}
+        </div>
+        <div class="feedback" id="fb">
+          <div class="fb-consequence" id="fb-con"></div>
+          <div class="fb-tradeoff" id="fb-tradeoff">
+            <div class="fb-tradeoff-row">
+              <span class="fb-tradeoff-label">What you get</span>
+              <span class="fb-tradeoff-val" id="fb-gets"></span>
+            </div>
+            <div class="fb-tradeoff-row fb-tradeoff-row--costs">
+              <span class="fb-tradeoff-label">What it costs</span>
+              <span class="fb-tradeoff-val" id="fb-costs"></span>
+            </div>
+          </div>
+          <div class="fb-coach-block">
+            <div class="fb-coach-label">Coach Danielle</div>
+            <div class="fb-coach-text" id="fb-co"></div>
+          </div>
+        </div>
+      </div>
+    `);
+
+    requestAnimationFrame(() => {
+      s.choices.forEach((c,i) => {
+        setTimeout(() => {
+          const w = document.getElementById(`wrap-${c.key}`);
+          if(w){ w.style.opacity='1'; w.style.transform='translateY(0)'; }
+        }, i*60+30);
+      });
+    });
+
+    hideBtn();
+
+    screenEl.querySelectorAll('.card-front').forEach(f => {
+      f.addEventListener('click', () => { if(!answered) pickCard(f.dataset.key); });
+    });
+  }
+
+  function pickCard(key) {
+    answered = true;
+    const s = SCENARIOS[scnIdx];
+    const choice = s.choices.find(c=>c.key===key);
+    picks.push({ scnId:s.id, key, cat:CATS[s.id][key], subcat:choice.subcat });
+
+    setTimeout(() => {
+      document.getElementById(`inner-${key}`).classList.add('flipped');
+      s.choices.forEach(c => {
+        if(c.key!==key) document.getElementById(`wrap-${c.key}`).classList.add('faded');
+      });
+    }, 50);
+
+    setTimeout(() => {
+      document.getElementById('choices').style.display = 'none';
+      screenEl.querySelector('.prompt-label').style.display = 'none';
+      document.getElementById('fb-con').innerHTML = choice.label;
+      document.getElementById('fb-gets').textContent = choice.gets;
+      document.getElementById('fb-costs').textContent = choice.costs;
+      document.getElementById('fb-co').textContent = choice.coach;
+      document.getElementById('fb').classList.add('show');
+
+      const isLast = scnIdx === SCENARIOS.length - 1;
+      bottomEl.style.display = 'block';
+      bottomEl.innerHTML = `
+        <div class="reflect-prompt">${s.reflect}</div>
+        <button class="btn btn-primary" id="mainBtn">${isLast ? 'See the Pattern \u2192' : 'Next Moment \u2192'}</button>
+      `;
+      document.getElementById('mainBtn').addEventListener('click', advanceScenario);
+    }, 680);
+  }
+
+  function advanceScenario() {
+    if      (scnIdx===3) { phase='interrupt2'; render(); }
+    else if (scnIdx < SCENARIOS.length-1) { scnIdx++; render(); }
+    else { phase='pattern'; render(); }
+  }
+
+  // ── INTERRUPTS ─────────────────────────────────────────
+
+  function rInterrupt() {
+    setPhase('');
+    hideProgress();
+    go(`
+      <div class="interrupt">
+        <div class="interrupt-num">Moment 5 of 5</div>
+        <div class="interrupt-title">
+          <div class="dim">Last one.</div>
+          <div class="bright">What do you <span class="accent">say?</span></div>
+        </div>
+        <p class="interrupt-sub">Practice just ended. This moment lives in about ten seconds. Most coaches either nail it or completely miss it.</p>
+      </div>
+    `);
+    showBtn('Final Moment →', true);
+    btn().onclick = () => { scnIdx=4; phase='scenario'; render(); };
+    setTimeout(() => {
+      btn().disabled = false;
+      btn().onclick = () => { scnIdx=4; phase='scenario'; render(); };
+    }, 1200);
+  }
+
+  // ── PATTERN ────────────────────────────────────────────
+
+  function rPattern() {
+    setPhase('The Pattern');
+    hideProgress();
+    patternShown = false;
+    go(`
+      <div class="pattern">
+        <div class="eyebrow">Five moments. One practice.</div>
+        <div class="pills">
+          <span class="pill lit">Energy</span>
+          <span class="pill lit">Peer dynamics</span>
+          <span class="pill lit">Communication</span>
+          <span class="pill lit">Withdrawal</span>
+          <span class="pill lit">End of session</span>
+        </div>
+        <div class="pattern-headline">Same question <em>every time.</em></div>
+        <p class="pattern-body">Do you step in and solve it — or do you build the conditions for them to solve it?</p>
+        <div class="reveal-block show" id="reveal">
+          <div class="reveal-label">The through-line</div>
+          <div class="reveal-text">Every moment had a real upside and a real cost. That's not a design flaw — that's the job. The warm-up isn't just conditioning. It's where your coaching tendencies get trained into your athletes, rep by rep.</div>
+        </div>
+      </div>
+    `);
+    showBtn('See Your Calls →');
+    btn().onclick = () => { phase='mirror'; render(); };
+  }
+
+  // ── MIRROR ─────────────────────────────────────────────
+
+  function rMirror() {
+    setPhase('Your Calls');
+    hideProgress();
+
+    const counts = { BUILD:0, DIRECT:0, HOLD:0 };
+    const subcounts = {};
+    picks.forEach(p => {
+      if(counts[p.cat]!==undefined) counts[p.cat]++;
+      subcounts[p.subcat] = (subcounts[p.subcat]||0) + 1;
+    });
+
+    function buildRead() {
+      const constraints = subcounts['BUILD_CONSTRAINT']||0;
+      const questions   = subcounts['BUILD_QUESTION']||0;
+      const tasks       = subcounts['BUILD_TASK']||0;
+      const technical   = subcounts['DIRECT_TECHNICAL']||0;
+      const intervene   = subcounts['DIRECT_INTERVENTION']||0;
+      const hold        = subcounts['HOLD']||0;
+
+      // Dominant subcat reads — most specific first
+      if(constraints >= 2 && constraints >= questions && constraints >= tasks) {
+        return `You reached for <strong>constraints twice</strong> — changing the drill conditions rather than addressing people directly. That's a design instinct: you trust the environment to do the work. Worth asking: are there moments where a direct word would have been faster and cleaner than redesigning the rep?`;
+      }
+      if(questions >= 2 && questions >= constraints && questions >= tasks) {
+        return `You went back to <strong>the question</strong> more than once — pulling players into their own thinking rather than telling them what to do. That's a coaching instinct that's hard to train. The cost is it only works one player at a time. How do you scale that across a whole group?`;
+      }
+      if(tasks >= 2) {
+        return `You gave <strong>players jobs</strong> more than once — specific tasks that pulled them back into the work without requiring a conversation. That's a sharp read of what people actually need. The question underneath it: do they know *why* you gave them that job, or just that you did?`;
+      }
+      if(technical >= 1 && counts.DIRECT >= 2) {
+        return `You moved toward <strong>direct correction</strong> — including breaking down what went wrong technically. That's a teach-first instinct. It works when the athlete is ready to receive it. The timing question is the one that follows you: is right now the moment they can actually hear it?`;
+      }
+      if(hold >= 2) {
+        return `You held back in <strong>${hold} moments</strong> — letting things play out rather than stepping in. Sometimes that's the right read. The harder question is whether your athletes knew what to do in that space, or whether they were just waiting for you to fill it.`;
+      }
+      // General fallbacks
+      if(counts.BUILD>=4) return `Your tendency is to <strong>build conditions</strong> rather than step in — across constraints, questions, and tasks. The athletes who play for you get reps in solving problems themselves. The question: are there moments where a direct intervention would have been faster and cleaner?`;
+      if(counts.DIRECT>=3) return `Your tendency is toward <strong>direct intervention</strong>. That instinct creates clarity and moves fast. Worth noticing: in how many of those moments did the group actually need you to step in — and how many might have gotten there on their own?`;
+      return `You <strong>moved between instincts</strong> across all five moments. That flexibility can be a strength. It can also mean the athletes aren't sure what to expect from you. Which of your calls felt most deliberate? Which felt reactive?`;
+    }
+
+    const catLabel = { BUILD:'Build', DIRECT:'Direct', HOLD:'Hold' };
+
+    const cells = picks.map(p => `
+      <div class="call-cell ${p.cat==='BUILD'?'is-execute':''}">
+        <div class="call-num">0${p.scnId}</div>
+        <div class="call-key">${p.key}</div>
+        <div class="call-cat">${catLabel[p.cat]||p.cat}</div>
+      </div>`).join('');
+
+    const tally = Object.entries(counts)
+      .filter(([,v])=>v>0)
+      .map(([k,v])=>`
+        <div class="tally-row">
+          <span class="tally-label">${catLabel[k]||k}</span>
+          <span class="tally-val">${v} / 5</span>
+        </div>`).join('');
+
+    go(`
+      <div class="mirror">
+        <div class="mirror-title">Your <span>calls.</span></div>
+        <div class="call-grid">${cells}</div>
+        <div class="tally">${tally}</div>
+        <div class="mirror-read">${buildRead()}</div>
+      </div>
+    `);
+
+    showBtn('Take It With You →');
+    btn().onclick = () => { phase='carry'; render(); };
+  }
+
+  // ── CARRY ──────────────────────────────────────────────
+
+  function rCarry() {
+    setPhase('Done');
+    hideProgress();
+    go(`
+      <div class="carry">
+        <div class="carry-card">
+          <div class="carry-label">For your next warm-up</div>
+          <div class="carry-line">Train the habit.<br>Build the conditions.<br>Get out of the way.</div>
+          <div class="carry-exp">
+            <strong>Try this week</strong>
+            Take your voice out of the warm-up for ninety seconds. Stop talking. See what fills the silence.
+          </div>
+        </div>
+        <div class="carry-coda">Take it with you.</div>
+      </div>
+    `);
+    showBtn('↻ Run It Again', false, true);
+    btn().onclick = () => {
+      phase='landing'; scnIdx=0; checkinDone=false; patternShown=false; picks.length=0;
+      render();
+    };
+  }
+
+  // ── GO ─────────────────────────────────────────────────
+  render();
+
+})();
+</script>
+</body>
+</html>
