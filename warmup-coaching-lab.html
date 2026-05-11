@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coach the Moment — The Warm-Up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #c8e830;
+    --lime-bright: #d4f43d;
+    --lime-soft: rgba(200, 232, 48, 0.15);
+    --lime-wash: rgba(200, 232, 48, 0.08);
+    --ink: #0a0d0a;
+    --surface: #14171a;
+    --surface-2: #1c2024;
+    --surface-3: #252a2f;
+    --line: #2a2f35;
+    --line-strong: #3a4048;
+    --paper: #f4f6f0;
+    --muted: #8a9095;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--ink); }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--ink);
+    color: var(--paper);
+    line-height: 1.5;
+    padding: 24px 16px 56px;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .lab-page {
+    max-width: 760px;
+    margin: 0 auto;
+    background: var(--surface);
+    color: var(--paper);
+    padding: 36px 36px 32px;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .lab-page::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--lime);
+  }
+
+  .lab-tag {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em;
+    background: var(--lime); color: var(--ink); padding: 5px 11px;
+    display: inline-block; font-weight: 700; margin-bottom: 18px;
+    border-radius: 999px;
+  }
+
+  .lab-h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 32px; font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.025em; margin: 0 0 8px;
+    color: var(--paper);
+  }
+  .lab-h1 .accent { color: var(--lime); }
+
+  .lab-meta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.15em;
+    color: var(--muted); text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .lab-divider { border-bottom: 1px solid var(--line); margin-bottom: 30px; }
+
+  /* CHECK-IN */
+  .checkin-screen { animation: fadeUp 0.4s ease; }
+
+  .checkin-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--lime);
+    font-weight: 700; margin-bottom: 20px;
+  }
+
+  .checkin-question {
+    font-family: 'Inter', sans-serif;
+    font-size: 26px; font-weight: 700;
+    line-height: 1.2; letter-spacing: -0.02em;
+    color: var(--paper);
+    margin-bottom: 8px;
+  }
+
+  .checkin-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; color: var(--muted);
+    margin-bottom: 36px;
+    line-height: 1.5;
+  }
+
+  .checkin-options {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 0;
+  }
+  .checkin-option {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; font-weight: 500;
+    color: var(--paper);
+    line-height: 1.4;
+    width: 100%;
+    border-radius: 12px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .checkin-option:hover {
+    border-color: var(--lime);
+    background: var(--surface-3);
+    transform: translateX(4px);
+  }
+  .checkin-option.chosen {
+    border: 2px solid var(--lime);
+    background: var(--lime-soft);
+    padding: 17px 21px;
+  }
+  .checkin-option.faded { opacity: 0.25; pointer-events: none; }
+  .checkin-option-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--line); flex-shrink: 0;
+    transition: background 0.18s ease;
+  }
+  .checkin-option:hover .checkin-option-dot { background: var(--lime); }
+  .checkin-option.chosen .checkin-option-dot { background: var(--lime); }
+
+  .checkin-receipt {
+    margin-top: 28px;
+    padding: 20px 22px;
+    background: var(--surface-2);
+    border-left: 3px solid var(--lime);
+    border-radius: 10px;
+    display: none;
+    animation: fadeUp 0.3s ease;
+  }
+  .checkin-receipt.show { display: block; }
+  .checkin-receipt-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; line-height: 1.6;
+    color: var(--muted);
+  }
+  .checkin-receipt-text strong { color: var(--paper); font-weight: 600; }
+
+  /* LANDING */
+  .landing-screen { animation: fadeUp 0.5s ease; }
+
+  .landing-brand {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 80px;
+  }
+  .landing-brand-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 0 0 rgba(200, 232, 48, 0.7);
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(200, 232, 48, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(200, 232, 48, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(200, 232, 48, 0); }
+  }
+  .landing-brand-text {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    font-weight: 700;
+  }
+
+  .landing-hero {
+    margin-bottom: 52px;
+  }
+  .landing-hero-tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: 76px;
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    margin-bottom: 0;
+  }
+  .landing-hero-tagline .word-coach { color: var(--paper); }
+  .landing-hero-tagline .word-the { color: var(--paper); }
+  .landing-hero-tagline .word-moment { color: var(--lime); }
+  .landing-hero-tagline .punctuation { color: var(--lime); }
+
+  .landing-question {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px; font-weight: 400;
+    color: var(--muted);
+    letter-spacing: -0.005em;
+    margin-top: 28px;
+    line-height: 1.4;
+    max-width: 380px;
+  }
+
+  .landing-enter-wrapper {
+    display: flex; justify-content: flex-start;
+    margin-top: 48px; margin-bottom: 72px;
+  }
+  .landing-enter-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; font-weight: 700;
+    padding: 18px 36px;
+    cursor: pointer;
+    border: none;
+    background: var(--lime);
+    color: var(--ink);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: 0.01em;
+  }
+  .landing-enter-btn:hover {
+    background: var(--lime-bright);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(200, 232, 48, 0.25);
+  }
+  .landing-enter-btn:active { transform: translateY(-1px); }
+  .landing-enter-btn .arrow {
+    transition: transform 0.25s ease;
+    font-size: 16px;
+  }
+  .landing-enter-btn:hover .arrow { transform: translateX(4px); }
+
+  .landing-trust {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    letter-spacing: 0.01em;
+  }
+  .landing-trust strong { color: rgba(244,246,240,0.5); font-weight: 500; }
+
+  /* THRESHOLD */
+  .threshold-overlay {
+    position: fixed; inset: 0;
+    background: var(--ink);
+    z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .threshold-overlay.active { opacity: 1; pointer-events: all; }
+  .threshold-text {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 14px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--lime);
+    font-weight: 700;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .threshold-text.show { opacity: 1; transform: translateY(0); }
+  .threshold-text::before { content: "// "; color: var(--paper); }
+  .threshold-text::after { content: " //"; color: var(--paper); }
+
+  /* SCENARIO */
+  .scn-meta {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; color: var(--lime); text-transform: uppercase;
+    margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
+    letter-spacing: 0.1em; font-weight: 700;
+  }
+  .scn-meta::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  .scn-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 22px; line-height: 1.4; margin: 0 0 32px;
+    font-weight: 600; letter-spacing: -0.015em;
+    color: var(--paper);
+  }
+  .scn-text strong {
+    background: var(--lime);
+    color: var(--ink);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+  .scn-text em {
+    color: var(--lime);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .call-prompt {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted); font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  /* CARD GRID */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .card-option {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-option::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background 0.2s ease;
+  }
+  .card-option:hover {
+    border-color: var(--lime);
+    background: var(--surface-3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .card-option:hover::before { background: var(--lime); }
+
+  .card-key-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-letter {
+    width: 28px; height: 28px;
+    background: var(--surface-3);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 800;
+    color: var(--muted);
+    transition: all 0.2s ease;
+  }
+  .card-option:hover .card-letter {
+    background: var(--lime);
+    color: var(--ink);
+  }
+  .card-arrow {
+    font-size: 15px; color: var(--line);
+    transition: all 0.2s ease;
+  }
+  .card-option:hover .card-arrow {
+    color: var(--lime);
+    transform: translateX(3px);
+  }
+  .card-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; font-weight: 500;
+    line-height: 1.5; color: var(--paper);
+    flex: 1;
+  }
+
+  .card-option.called {
+    border: 2px solid var(--lime);
+    background: var(--lime-soft);
+    transform: none;
+    box-shadow: none;
+  }
+  .card-option.called::before { background: var(--lime); }
+  .card-option.called .card-letter {
+    background: var(--lime);
+    color: var(--ink);
+  }
+  .card-option.faded {
+    opacity: 0.2;
+    pointer-events: none;
+    transform: none;
+  }
+
+  /* PROGRESS DOTS */
+  .progress-dots {
+    display: flex; gap: 8px; align-items: center;
+    margin-bottom: 32px;
+  }
+  .progress-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--line);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .progress-dot.active {
+    background: var(--lime);
+    width: 20px; border-radius: 3px;
+    box-shadow: 0 0 8px rgba(200, 232, 48, 0.5);
+  }
+  .progress-dot.done {
+    background: var(--lime);
+    opacity: 0.4;
+  }
+
+  /* STAGGERED CARD ANIMATION */
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card-option { opacity: 0; }
+  .card-option.animate {
+    animation: cardIn 0.3s ease forwards;
+  }
+
+  /* CONSEQUENCE ANIMATION */
+  @keyframes consequenceIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes analysisIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .feedback-consequence {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px; font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--paper);
+    line-height: 1.15;
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    animation: consequenceIn 0.4s ease 0.1s forwards;
+  }
+  .feedback-consequence em {
+    color: var(--lime);
+    font-style: normal;
+  }
+
+  .feedback-body-wrap {
+    opacity: 0;
+    animation: analysisIn 0.4s ease 0.55s forwards;
+  }
+
+  .feedback-picked {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .feedback-picked-key {
+    background: var(--surface-3);
+    color: var(--paper);
+    width: 22px; height: 22px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .feedback-analysis {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 18px;
+    font-weight: 400;
+  }
+
+  .feedback-coach-block {
+    background: var(--lime);
+    padding: 18px 20px;
+    border-radius: 12px;
+  }
+  .feedback-coach-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink);
+    font-weight: 700; opacity: 0.6;
+    margin-bottom: 7px;
+  }
+  .feedback-coach-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; line-height: 1.5;
+    color: var(--ink); font-weight: 600;
+  }
+
+  /* MID-LAB INTERRUPT */
+  .interrupt-screen {
+    animation: fadeUp 0.5s ease;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    min-height: 280px;
+    padding: 20px 0;
+  }
+  .interrupt-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--lime);
+    font-weight: 700; margin-bottom: 20px;
+  }
+  .interrupt-line1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 36px; font-weight: 800;
+    letter-spacing: -0.03em; line-height: 1.05;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .interrupt-line2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 36px; font-weight: 800;
+    letter-spacing: -0.03em; line-height: 1.05;
+    color: var(--paper); margin-bottom: 32px;
+  }
+  .interrupt-line2 span { color: var(--lime); }
+  .interrupt-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; color: var(--muted);
+    line-height: 1.5; max-width: 360px;
+  }
+
+  /* PATTERN REFRAME */
+  .pattern-screen { display: none; animation: fadeUp 0.5s ease; }
+  .pattern-screen.show { display: block; }
+
+  .pattern-reframe {
+    padding: 8px 0;
+  }
+  .pattern-reframe-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--lime);
+    font-weight: 700; margin-bottom: 24px;
+  }
+  .pattern-reframe-contexts {
+    display: flex; gap: 8px; margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .pattern-context-pill {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+  .pattern-context-pill.active {
+    background: var(--lime);
+    color: var(--ink);
+    border-color: var(--lime);
+  }
+  .pattern-reframe-question {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px; font-weight: 800;
+    letter-spacing: -0.025em; line-height: 1.15;
+    color: var(--paper);
+    margin-bottom: 12px;
+  }
+  .pattern-reframe-question em {
+    color: var(--lime);
+    font-style: normal;
+  }
+  .pattern-reframe-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; color: var(--muted);
+    line-height: 1.55; margin-bottom: 32px;
+  }
+  .pattern-reframe-reveal {
+    background: var(--lime);
+    padding: 22px 24px;
+    border-radius: 14px;
+    margin-top: 24px;
+    display: none;
+    animation: fadeUp 0.4s ease;
+  }
+  .pattern-reframe-reveal.show { display: block; }
+  .pattern-reframe-reveal-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--ink);
+    font-weight: 700; opacity: 0.6;
+    margin-bottom: 10px;
+  }
+  .pattern-reframe-reveal-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px; font-weight: 700;
+    line-height: 1.4; color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* MIRROR */
+  .mirror-screen { display: none; animation: fadeUp 0.4s ease; }
+  .mirror-screen.show { display: block; }
+
+  .mirror-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--lime);
+    margin-bottom: 12px; font-weight: 700;
+  }
+  .mirror-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 32px; line-height: 1.1;
+    margin-bottom: 28px; font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--paper);
+  }
+  .mirror-title .accent { color: var(--lime); }
+
+  .mirror-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 8px; margin-bottom: 28px;
+  }
+  .mirror-cell {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    padding: 16px 8px; text-align: center;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    border-radius: 10px;
+  }
+  .mirror-cell-num {
+    font-size: 11px; color: var(--muted); letter-spacing: 0.1em;
+    margin-bottom: 8px; font-weight: 700;
+  }
+  .mirror-cell-key {
+    font-family: 'Inter', sans-serif;
+    font-size: 26px; font-weight: 800; color: var(--paper);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .mirror-cell-cat {
+    font-size: 8px; letter-spacing: 0.1em;
+    color: var(--muted); text-transform: uppercase;
+    line-height: 1.3; font-weight: 700;
+  }
+  .mirror-cell.execute {
+    background: var(--lime);
+    border-color: var(--lime);
+  }
+  .mirror-cell.execute .mirror-cell-num { color: var(--ink); opacity: 0.6; }
+  .mirror-cell.execute .mirror-cell-key { color: var(--ink); }
+  .mirror-cell.execute .mirror-cell-cat { color: var(--ink); font-weight: 700; opacity: 0.85; }
+
+  .mirror-tally {
+    background: var(--surface-2);
+    padding: 22px 24px;
+    margin-bottom: 24px;
+    border-left: 3px solid var(--lime);
+    border-radius: 12px;
+  }
+  .mirror-tally-row {
+    display: flex; justify-content: space-between;
+    align-items: baseline; padding: 8px 0;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+  .mirror-tally-row + .mirror-tally-row { border-top: 1px solid var(--line); }
+  .mirror-tally-label { color: var(--muted); }
+  .mirror-tally-count {
+    font-weight: 800; color: var(--paper); font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  .mirror-read {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px; line-height: 1.55;
+    padding: 22px 24px;
+    background: var(--lime);
+    color: var(--ink);
+    border-radius: 12px;
+    font-weight: 500;
+  }
+  .mirror-read strong {
+    background: var(--ink);
+    color: var(--lime);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  /* CARRY */
+  .carry-screen { display: none; animation: fadeUp 0.4s ease; text-align: center; padding: 20px 0 20px; }
+  .carry-screen.show { display: block; }
+
+  .carry-eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--lime);
+    margin-bottom: 22px; font-weight: 700;
+  }
+
+  .carry-card {
+    background: var(--lime); color: var(--ink);
+    padding: 44px 36px;
+    box-shadow: 0 16px 48px rgba(200, 232, 48, 0.2);
+    margin: 0 auto 18px;
+    max-width: 540px;
+    text-align: left;
+    position: relative;
+    border-radius: 20px;
+  }
+  .carry-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.2em; color: var(--ink);
+    margin-bottom: 18px; font-weight: 700;
+    opacity: 0.6;
+  }
+  .carry-line {
+    font-family: 'Inter', sans-serif;
+    font-size: 30px; font-weight: 800;
+    line-height: 1.1; letter-spacing: -0.025em;
+    margin-bottom: 22px;
+    color: var(--ink);
+  }
+  .carry-line .accent {
+    color: var(--ink);
+    background: rgba(0,0,0,0.08);
+    padding: 0 4px;
+    border-radius: 4px;
+  }
+  .carry-experiment {
+    font-family: 'Inter', sans-serif;
+    font-size: 14.5px; line-height: 1.55;
+    color: var(--ink);
+    padding-top: 22px;
+    border-top: 1px solid rgba(0,0,0,0.15);
+  }
+  .carry-experiment strong {
+    color: var(--ink); font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    font-size: 10px; display: block; margin-bottom: 8px;
+    opacity: 0.7;
+  }
+
+  .carry-instruction {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted);
+    margin: 0 auto 32px; font-weight: 700;
+  }
+
+  .carry-coda {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--muted); margin: 0 auto 28px;
+    max-width: 480px; line-height: 1.6;
+  }
+
+  /* FOOTER */
+  .pb-footer {
+    margin-top: 38px; padding-top: 22px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .pb-progress {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px; color: var(--muted); letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+  .pb-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 700; padding: 12px 26px;
+    cursor: pointer;
+    letter-spacing: -0.005em;
+    border: none;
+    background: var(--lime); color: var(--ink);
+    transition: all 0.2s ease;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pb-btn:hover:not(:disabled) {
+    background: var(--lime-bright);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(200, 232, 48, 0.25);
+  }
+  .pb-btn:disabled { opacity: 0.2; cursor: default; }
+  .pb-btn.ghost {
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid var(--line-strong);
+  }
+  .pb-btn.ghost:hover {
+    background: var(--surface-3);
+    color: var(--lime);
+    border-color: var(--lime);
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 16px 12px 32px; }
+    .lab-page { padding: 28px 20px 24px; border-radius: 16px; }
+    .lab-h1 { font-size: 24px; }
+    .landing-brand { margin-bottom: 52px; }
+    .landing-hero-tagline { font-size: 52px; }
+    .landing-question { font-size: 15px; margin-top: 22px; max-width: 100%; }
+    .landing-enter-btn { padding: 18px 32px; width: 100%; justify-content: center; }
+    .landing-enter-wrapper { margin-top: 36px; margin-bottom: 52px; }
+    .scn-text, .commit-prompt, .pattern-prompt { font-size: 19px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .card-option { padding: 18px 16px; gap: 12px; }
+    .interrupt-line1, .interrupt-line2 { font-size: 26px; }
+    .feedback-consequence { font-size: 22px; }
+    .pattern-reframe-question { font-size: 22px; }
+    .progress-dots { margin-bottom: 24px; }
+    .mirror-cell-key { font-size: 20px; }
+    .mirror-cell { padding: 12px 6px; }
+    .threshold-text { font-size: 11px; letter-spacing: 0.25em; }
+    .feedback-body, .pattern-reveal-body, .mirror-read { padding: 18px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="threshold-overlay" id="thresholdOverlay">
+  <div class="threshold-text" id="thresholdText">session beginning</div>
+</div>
+
+<div class="lab-page">
+  <div id="labHeader">
+    <span class="lab-tag" id="phaseTag">Collab Coaching Lab</span>
+    <h1 class="lab-h1">Coach the moment<span class="accent">.</span></h1>
+    <div class="lab-divider"></div>
+  </div>
+
+  <div id="stage"></div>
+
+  <div class="pb-footer" id="pbFooter">
+    <div class="pb-progress" id="prog">OPENING</div>
+    <button class="pb-btn" id="nextBtn" disabled>Begin →</button>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  const scenarios = [
+    {
+      id: 1,
+      text: "You're at practice. Tuesday evening, your regular gym. The warm-up started two minutes ago. Three athletes are <strong>barely moving</strong> on the sideline, chatting. <em>One of them is your captain.</em> The rest of the group is working.",
+      prompt: "What do you do?",
+      choices: [
+        { key: 'A', text: "Blow the whistle.", label: "The group snaps to. Practice starts.",
+          analysis: "They move. But you've just told the team the warm-up needs policing. That energy follows you into the next fifty minutes, and the captain learns that you'll handle it so she doesn't have to.",
+          coach: "If my voice has to be the engine, I've already lost the rep. I want the standard to come from them." },
+        { key: 'B', text: "Walk over. 'What are we working on today?'", label: "She pauses. Thinks. Gets back to it.",
+          analysis: "One question, no correction. The captain gets a chance to lead instead of being called out. Most athletes self-correct from here without you becoming the enforcer.",
+          coach: "A question puts the work back in their court. A correction takes it out of their court and puts it in mine." },
+        { key: 'C', text: "Say nothing. Let it play out.", label: "The sideline chat continues.",
+          analysis: "Silence is a real tool. But it works after the standard is set, not before. Your non-response right now teaches the captain the warm-up is optional until you say otherwise.",
+          coach: "Silence is what I reach for after I've trained the standard. Not on the first rep of the session." },
+        { key: 'D', text: "Call a new constraint. 'Every pass under the knees.'", label: "Everyone has to engage. The sideline stops.",
+          analysis: "Live constraints force engagement without singling anyone out. The casual three either step up or get exposed by the constraint. Cleaner than calling names, and it teaches them to read the drill instead of reading you.",
+          coach: "When energy drops, I change the dial. Faster than a correction, and it puts the responsibility on the constraint instead of me." }
+      ]
+    },
+    {
+      id: 2,
+      text: "You're at practice. Three minutes into the warm-up. <em>Your most engaged player</em> jogs over to you. <strong>'When do we get to the real practice?'</strong> She's not being difficult. She genuinely doesn't know.",
+      prompt: "What do you say?",
+      choices: [
+        { key: 'A', text: "'This is the real practice. Get back in.'", label: "She nods and goes back. Same belief intact.",
+          analysis: "True, not wrong. But the belief that the warm-up isn't real hasn't shifted. She'll be back next week with the same question. You answered it instead of using it.",
+          coach: "Telling her the warm-up matters doesn't change how she sees it. Showing her does, and it takes the same amount of time." },
+        { key: 'B', text: "'Watch your teammate's first touch next rep. Tell me what you see.'", label: "She turns back. Now she's watching differently.",
+          analysis: "You just turned a complaint into a coaching task. She's doing the work of the warm-up without realizing it, and she leaves with a new lens for the rest of the session.",
+          coach: "That question is a gift if I'm awake enough to catch it. She's available for a real coaching moment right now." },
+        { key: 'C', text: "'Great question. The warm-up IS practice. Here's why...'", label: "She listens. Her feet stop moving.",
+          analysis: "Solid instinct, wrong timing. You've stopped her movement to explain something she'd learn faster by doing. The philosophy belongs in the wrap-up, not here.",
+          coach: "I save the why-we-do-this conversation for notebook time. In the warm-up, body moving, eyes up." },
+        { key: 'D', text: "Smile. 'Soon.' Keep her moving.", label: "She jogs back. Question unresolved.",
+          analysis: "She gets back to work, but the belief that the warm-up isn't real stays intact. Same question, next week, same player.",
+          coach: "'Soon' is a missed rep. The question deserves a real answer that costs me nothing." }
+      ]
+    },
+    {
+      id: 3,
+      text: "You're at practice. Today's theme is <strong>man-to-man defense</strong>. You've built communication into the warm-up specifically for this. Five minutes in, the drill is running well. <em>But it's completely silent.</em> No one is talking.",
+      prompt: "What's your move?",
+      choices: [
+        { key: 'A', text: "Stop play. 'We've talked about this. Let's hear it.'", label: "They talk. For about thirty seconds.",
+          analysis: "Then they revert. The silence is a design problem, not a discipline problem. You can remind athletes to communicate, but you can't lecture them into it.",
+          coach: "If I have to remind them to talk, my constraint isn't doing its job. It should make silence impossible, not just discouraged." },
+        { key: 'B', text: "'For the next two minutes, I can't talk. You have to run this.'", label: "Silence. Then someone breaks it.",
+          analysis: "Athletes only communicate when they have to. Removing your voice creates the only condition under which they will. The silence breaks itself, usually faster than you expect.",
+          coach: "I take away my voice and watch. It breaks faster than I expect, every single time." },
+        { key: 'C', text: "Add a rule: call a name before every receive.", label: "Names start filling the gym.",
+          analysis: "Scripts the talk instead of creating space for it. Works well when removing your voice feels like too big a jump for this group right now. Same direction, smaller step.",
+          coach: "Smaller constraint, same direction. I use this version early on, then graduate to taking my voice out entirely." },
+        { key: 'D', text: "Let it ride. They'll communicate when the game starts.", label: "The warm-up ends in silence.",
+          analysis: "Sometimes. More often, the silent warm-up becomes a silent practice becomes a silent game. The pattern hardens fast if nobody names it.",
+          coach: "Communication isn't a switch they flip at the whistle. It's a habit I'm either training in the warm-up or letting them lose." }
+      ]
+    },
+    {
+      id: 4,
+      text: "You're at a game. Pre-game warm-up, twenty minutes before opening whistle. <em>One of your strongest players</em> has been quiet all morning. Not her baseline. No stick slam, no reaction. She's going through the motions and <strong>barely making eye contact</strong> with anyone.",
+      prompt: "What do you do?",
+      choices: [
+        { key: 'A', text: "Push her harder. High standards snap people back.", label: "She complies. She doesn't come back.",
+          analysis: "Pushing a shut-down athlete harder usually pushes her further inside. You'll get compliance, but not presence. And whatever was actually going on stays unaddressed under the surface of a good warm-up.",
+          coach: "Withdrawal isn't laziness. It's a form of INR that doesn't look like INR. 'Tough it out' coaching makes it worse." },
+        { key: 'B', text: "Pull her aside quietly. 'Hey. What's going on today?'", label: "She pauses. Something shifts.",
+          analysis: "Quiet, curious, private. This is a door, not a correction. The silent shutdown is almost never about field hockey. Checking in tells her you noticed — and that's often the whole intervention.",
+          coach: "I'm not asking her to perform. I'm asking her to show up. Those are different asks." },
+        { key: 'C', text: "Give her a specific job. 'You're calling the outlet every transition.'", label: "She has to engage. Her eyes come up.",
+          analysis: "Concrete tasks pull athletes out of their internal loop. It re-engages the brain through external responsibility without forcing a conversation she may not be ready to have.",
+          coach: "Giving her a job means she has to choose to engage, not confess to something first. Sometimes that's the easier door." },
+        { key: 'D', text: "Let her ride it out. Check in after the game.", label: "She stays in her head. You go into the game not knowing.",
+          analysis: "Right for some athletes who need to process internally. Risky as a default. Most athletes hoping to be noticed leave feeling invisible, and you go into the game not knowing what you're working with.",
+          coach: "Notice the deviation from her baseline. That's the data. What I do with it is the coaching." }
+      ]
+    },
+    {
+      id: 5,
+      text: "You're at a game. Final whistle just blew. <em>Your best player missed a clear chance at goal</em> in the last two minutes. You lost by one. She's walking off the field <strong>head down, shaking her head</strong>, replaying it.",
+      prompt: "What do you say?",
+      choices: [
+        { key: 'A', text: "Nothing. Give her space. You'll talk tomorrow.", label: "She gets in the car. The replay loop starts.",
+          analysis: "Respecting space is right. But without any intervention, she replays the one bad rep on a loop the whole drive home. Tomorrow she's already buried it somewhere she won't look.",
+          coach: "Letting it go is fine. Forgetting to come back to it is not. The car ride home is where confidence goes to die if nobody interrupts the loop." },
+        { key: 'B', text: "'Hey. Strong game. Don't carry that last one.'", label: "She looks up. Something loosens.",
+          analysis: "Two sentences, ten seconds. Names the strong game first to fight recency bias, then explicitly gives her permission to let the last rep go. The car ride home is now a different conversation.",
+          coach: "'Don't carry that.' Four words. I want to shrink the loop she's about to run before she gets in that car." },
+        { key: 'C', text: "Break it down with her. 'Here's what happened on that chance...'", label: "She listens. But she already knows.",
+          analysis: "The technical breakdown is useful. Tomorrow. Right now she already knows what happened. Rehearsing it with her coach right after the loss extends the rumination, not the learning.",
+          coach: "Timing of the teach matters more than the teach itself. Save it for film. Right now she needs to leave the field." },
+        { key: 'D', text: "Fist bump. 'Guess you're human after all.'", label: "She laughs, a little. The weight shifts.",
+          analysis: "For the right athlete, this is the perfect move. Humor shrinks the mistake without dismissing it. The fist bump is a reset in miniature. Only works when she trusts that you take her seriously.",
+          coach: "Humor only works when the athlete knows I'm in her corner. When that trust is there, it does what a pep talk can't." }
+      ]
+    }
+  ];
+
+  const choiceCategories = {
+    1: { A: 'DIRECT', B: 'EXECUTE', C: 'PASSIVE', D: 'EXECUTE' },
+    2: { A: 'DIRECT', B: 'EXECUTE', C: 'CONDITIONAL', D: 'PASSIVE' },
+    3: { A: 'DIRECT', B: 'EXECUTE', C: 'EXECUTE', D: 'PASSIVE' },
+    4: { A: 'DIRECT', B: 'EXECUTE', C: 'EXECUTE', D: 'EXECUTE' },
+    5: { A: 'DIRECT', B: 'CONDITIONAL', C: 'EXECUTE', D: 'PASSIVE' }
+  };
+
+  const patternQuestion = {
+    text: "Practice. Pre-game. Post-game. <em>Same skill showing up in all five moments.</em> What was it?",
+    options: [
+      { key: 'A', text: "Knowing when to talk and when to stay quiet.", correct: false,
+        feedback: "That's part of it. But the deeper pattern isn't about volume — it's about what you're trying to create when you do either. Keep going." },
+      { key: 'B', text: "Building the conditions for athletes to do the work themselves.", correct: true,
+        feedback: "That's it. Every moment was a chance to either <strong>do the work for them</strong> or <strong>build the conditions for them to do it themselves</strong>. At practice. At pre-game. On the walk off the field. The setting changed. The skill didn't." },
+      { key: 'C', text: "Reading the athlete in front of you.", correct: false,
+        feedback: "Important, but that's the input. What you do with what you read — that's the skill. The pattern is in the choice that follows the read." },
+      { key: 'D', text: "Staying calm under pressure.", correct: false,
+        feedback: "Close but too broad. The moments weren't really about pressure — they were about who owns the next rep. You or them." }
+    ]
+  };
+
+  const mirrorCopy = {
+    eyebrow: "How you called it",
+    title: 'Your <span class="accent">pattern</span>.',
+    reads: {
+      executeHeavy: "You leaned into <strong>building conditions</strong> over giving instructions. That's the Collab warm-up in motion. The athletes who play for you are getting reps in self-organizing, which is the whole point.",
+      executeBalanced: "You're <strong>mixing instinct and design</strong>. There were moments you took control and moments you handed it back. Worth asking yourself: which of those felt more uncomfortable in the moment? That's usually where the next rep of growth lives.",
+      directHeavy: "You were quick to take <strong>direct control</strong>. That's not wrong, especially with a group that's still learning the standard. The question for next week is whether you can hold off for one more beat and see what they do before you step in.",
+      passivePresent: "A few of your calls leaned <strong>passive or hands-off</strong>. Silence is a real tool, but it works best after the standard is set, not before. Worth checking whether your athletes have been shown what to do in the moments you stayed quiet."
+    }
+  };
+
+  const carryCard = {
+    label: "For your next warm-up",
+    line: 'Train the habit. Build the conditions. <span class="accent">Get out of the way.</span>',
+    experimentLabel: "Try one thing this week",
+    experiment: "Take your voice out of the warm-up for ninety seconds. Just stop talking. See what fills the silence, and notice how long it takes."
+  };
+
+  const carryCoda = "Take it with you.";
+
+  let phase = 'landing';
+  let scnIdx = 0;
+  let scnAnswered = false;
+  let checkinChosen = false;
+  let patternChosen = false;
+  const userChoices = [];
+
+  const stage = document.getElementById('stage');
+  const nextBtn = document.getElementById('nextBtn');
+  const prog = document.getElementById('prog');
+  const phaseTag = document.getElementById('phaseTag');
+  const labHeader = document.getElementById('labHeader');
+  const pbFooter = document.getElementById('pbFooter');
+  const thresholdOverlay = document.getElementById('thresholdOverlay');
+  const thresholdText = document.getElementById('thresholdText');
+
+  function render() {
+    if (phase === 'landing') renderLanding();
+    else if (phase === 'checkin') renderCheckin();
+    else if (phase === 'interrupt1') renderInterrupt1();
+    else if (phase === 'interrupt2') renderInterrupt2();
+    else if (phase === 'scenario') renderScenario();
+    else if (phase === 'pattern') renderPattern();
+    else if (phase === 'mirror') renderMirror();
+    else if (phase === 'carry') renderCarry();
+  }
+
+  function renderLanding() {
+    labHeader.style.display = 'none';
+    pbFooter.style.display = 'none';
+
+    stage.innerHTML = `
+      <div class="landing-screen">
+        <div class="landing-brand">
+          <div class="landing-brand-dot"></div>
+          <div class="landing-brand-text">The Collab Coaching Lab &nbsp;/&nbsp; The Warm-Up</div>
+        </div>
+
+        <div class="landing-hero">
+          <h1 class="landing-hero-tagline">
+            <span class="word-coach">Coach </span><span class="word-the">the </span><span class="word-moment">moment</span><span class="punctuation">.</span>
+          </h1>
+          <p class="landing-question">What is your warm-up actually teaching?</p>
+        </div>
+
+        <div class="landing-enter-wrapper">
+          <button class="landing-enter-btn" id="enterLabBtn">
+            ENTER THE LAB <span class="arrow">→</span>
+          </button>
+        </div>
+
+        <div class="landing-trust">
+          Built by <strong>Coach Danielle</strong>. Tested on real Tuesdays.
+        </div>
+      </div>
+    `;
+
+    document.getElementById('enterLabBtn').addEventListener('click', triggerThreshold);
+  }
+
+  function triggerThreshold() {
+    thresholdOverlay.classList.add('active');
+    setTimeout(() => { thresholdText.classList.add('show'); }, 350);
+    setTimeout(() => { thresholdText.classList.remove('show'); }, 1400);
+    setTimeout(() => {
+      phase = 'checkin';
+      labHeader.style.display = 'none';
+      pbFooter.style.display = 'flex';
+      render();
+    }, 1700);
+    setTimeout(() => {
+      thresholdOverlay.classList.remove('active');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }, 2000);
+  }
+
+  function renderCheckin() {
+    labHeader.style.display = 'none';
+    prog.textContent = "BEFORE WE START";
+    nextBtn.disabled = true;
+    nextBtn.innerHTML = "Start the moments →";
+    nextBtn.style.display = 'inline-flex';
+
+    const checkinData = {
+      eyebrow: "Quick check-in",
+      question: "Picture your group right now. How long have you been coaching them?",
+      sub: "This shapes every moment you're about to face.",
+      options: [
+        {
+          key: 'A',
+          text: "Just starting out — first few sessions together.",
+          receipt: "The moments ahead will feel raw. You don't have a baseline for these athletes yet, and they don't know what to expect from you. <strong>Trust is the first thing you're building.</strong> Notice where you reach for control."
+        },
+        {
+          key: 'B',
+          text: "A month or two in — still finding our rhythm.",
+          receipt: "You know enough to read them, but the habits aren't set yet. <strong>This is the most important window.</strong> The patterns you establish right now are the ones that stick."
+        },
+        {
+          key: 'C',
+          text: "Mid-season — we know each other pretty well.",
+          receipt: "You have a baseline now. When something's off, you'll notice. <strong>The question is whether you trust what you see</strong> enough to act on it, or whether you let it slide because things are generally good."
+        },
+        {
+          key: 'D',
+          text: "Long-term — this group and I go way back.",
+          receipt: "The risk with a long-term group isn't that you don't know them. It's that you think you do. <strong>Watch for the moments where familiarity becomes assumption.</strong>"
+        }
+      ]
+    };
+
+    stage.innerHTML = `
+      <div class="checkin-screen">
+        <div class="checkin-eyebrow">${checkinData.eyebrow}</div>
+        <h2 class="checkin-question">${checkinData.question}</h2>
+        <p class="checkin-sub">${checkinData.sub}</p>
+        <div class="checkin-options">
+          ${checkinData.options.map(o => `
+            <button class="checkin-option" data-key="${o.key}">
+              <span class="checkin-option-dot"></span>
+              ${o.text}
+            </button>
+          `).join('')}
+        </div>
+        <div id="checkinReceipt" class="checkin-receipt">
+          <div class="checkin-receipt-text" id="checkinReceiptText"></div>
+        </div>
+      </div>
+    `;
+
+    stage.querySelectorAll('.checkin-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        const opt = checkinData.options.find(o => o.key === key);
+        stage.querySelectorAll('.checkin-option').forEach(b => {
+          b.classList.add('faded');
+          b.style.pointerEvents = 'none';
+        });
+        btn.classList.remove('faded');
+        btn.classList.add('chosen');
+        document.getElementById('checkinReceiptText').innerHTML = opt.receipt;
+        document.getElementById('checkinReceipt').classList.add('show');
+        checkinChosen = true;
+        nextBtn.disabled = false;
+      });
+    });
+  }
+
+  function renderInterrupt1() {
+    labHeader.style.display = 'none';
+    prog.textContent = "MOMENT 03 OF 05";
+    nextBtn.disabled = false;
+    nextBtn.innerHTML = "Keep going →";
+    stage.innerHTML = `
+      <div class="interrupt-screen">
+        <div class="interrupt-eyebrow">Halfway there</div>
+        <div class="interrupt-line1">Still at practice.</div>
+        <div class="interrupt-line2">Next two are <span>different.</span></div>
+        <div class="interrupt-sub">Higher stakes. Less control. Same skill you've been using.</div>
+      </div>
+    `;
+  }
+
+  function renderInterrupt2() {
+    labHeader.style.display = 'none';
+    prog.textContent = "MOMENT 05 OF 05";
+    nextBtn.disabled = false;
+    nextBtn.innerHTML = "Last one →";
+    stage.innerHTML = `
+      <div class="interrupt-screen">
+        <div class="interrupt-eyebrow">Final moment</div>
+        <div class="interrupt-line1">The game is over.</div>
+        <div class="interrupt-line2">Now what do <span>you say?</span></div>
+        <div class="interrupt-sub">Most coaches either nail this or completely miss it. It lives in about ten seconds.</div>
+      </div>
+    `;
+  }
+
+  function buildProgressDots(currentIdx) {
+    return `
+      <div class="progress-dots">
+        ${[0,1,2,3,4].map(i => `
+          <div class="progress-dot ${i < currentIdx ? 'done' : i === currentIdx ? 'active' : ''}"></div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function renderScenario() {
+    const s = scenarios[scnIdx];
+    labHeader.style.display = 'none';
+    prog.textContent = `MOMENT 0${scnIdx + 1} OF 05`;
+    nextBtn.disabled = true;
+    nextBtn.innerHTML = "Next moment →";
+
+    stage.innerHTML = `
+      <div class="scenario-screen">
+        ${buildProgressDots(scnIdx)}
+        <div class="scn-meta">Moment 0${s.id}</div>
+        <p class="scn-text">${s.text}</p>
+        <div class="call-prompt" id="callPrompt">${s.prompt || 'What do you do?'}</div>
+        <div class="card-grid" id="cardGrid">
+          ${s.choices.map((c, i) => `
+            <div class="card-option" data-key="${c.key}">
+              <div class="card-key-row">
+                <span class="card-letter">${c.key}</span>
+                <span class="card-arrow">→</span>
+              </div>
+              <div class="card-text">${c.text}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div id="feedback" class="feedback-reveal"></div>
+      </div>
+    `;
+    scnAnswered = false;
+
+    // Stagger cards in
+    requestAnimationFrame(() => {
+      stage.querySelectorAll('.card-option').forEach((card, i) => {
+        setTimeout(() => card.classList.add('animate'), i * 80);
+      });
+    });
+
+    stage.querySelectorAll('.card-option').forEach(card => {
+      card.addEventListener('click', () => handleScenarioSelect(card.dataset.key, card));
+    });
+  }
+
+  function handleScenarioSelect(key, el) {
+    if (scnAnswered) return;
+    scnAnswered = true;
+    const s = scenarios[scnIdx];
+    const choice = s.choices.find(c => c.key === key);
+
+    userChoices.push({
+      scnId: s.id,
+      key: key,
+      category: choiceCategories[s.id][key]
+    });
+
+    const grid = document.getElementById('cardGrid');
+    const prompt = document.getElementById('callPrompt');
+    grid.style.transition = 'opacity 0.22s ease';
+    prompt.style.transition = 'opacity 0.22s ease';
+    grid.style.opacity = '0';
+    prompt.style.opacity = '0';
+
+    setTimeout(() => {
+      grid.style.display = 'none';
+      prompt.style.display = 'none';
+
+      const fb = document.getElementById('feedback');
+      fb.style.display = 'block';
+      fb.innerHTML = `
+        <div class="feedback-consequence">${choice.label}</div>
+        <div class="feedback-body-wrap">
+          <div class="feedback-picked">
+            <span class="feedback-picked-key">${key}</span>
+            <span>You chose: ${choice.text}</span>
+          </div>
+          <p class="feedback-analysis">${choice.analysis}</p>
+          <div class="feedback-coach-block">
+            <div class="feedback-coach-label">Coach Danielle</div>
+            <div class="feedback-coach-text">${choice.coach}</div>
+          </div>
+        </div>
+      `;
+
+      const isLast = scnIdx === scenarios.length - 1;
+      nextBtn.innerHTML = isLast ? "See the pattern →" : "Next moment →";
+      nextBtn.disabled = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 240);
+  }
+
+  function renderPattern() {
+    labHeader.style.display = 'none';
+    prog.textContent = "THE PATTERN";
+    nextBtn.disabled = false;
+    nextBtn.innerHTML = "See your calls →";
+
+    stage.innerHTML = `
+      <div class="pattern-screen show">
+        <div class="pattern-reframe">
+          <div class="pattern-reframe-eyebrow">You just coached five moments</div>
+          <div class="pattern-reframe-contexts">
+            <span class="pattern-context-pill active">Practice</span>
+            <span class="pattern-context-pill active">Pre-game</span>
+            <span class="pattern-context-pill active">Post-game</span>
+          </div>
+          <div class="pattern-reframe-question">Different settings.<br><em>Same question.</em></div>
+          <div class="pattern-reframe-sub">In every moment, you were deciding: do you do the work — or do you build the conditions for them to do it?</div>
+          <button class="pb-btn" id="revealPatternBtn" style="margin-bottom:0;">Show me the answer →</button>
+          <div id="patternRevealBlock" class="pattern-reframe-reveal">
+            <div class="pattern-reframe-reveal-label">The through-line</div>
+            <div class="pattern-reframe-reveal-text">Every moment was a chance to step in or step back. Practice, pre-game, post-game — the setting changed. The choice didn't. That's the skill the warm-up is actually training: building the conditions for athletes to do the work themselves, so when you're not there, they can.</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('revealPatternBtn').addEventListener('click', () => {
+      document.getElementById('patternRevealBlock').classList.add('show');
+      document.getElementById('revealPatternBtn').style.display = 'none';
+      patternChosen = true;
+    });
+  }
+
+  function renderMirror() {
+    labHeader.style.display = 'none';
+    prog.textContent = "MIRROR";
+    nextBtn.disabled = false;
+    nextBtn.innerHTML = "Take it with you →";
+
+    const counts = { EXECUTE: 0, DIRECT: 0, PASSIVE: 0, CONDITIONAL: 0 };
+    userChoices.forEach(c => { counts[c.category]++; });
+
+    let readText;
+    if (counts.EXECUTE >= 4) readText = mirrorCopy.reads.executeHeavy;
+    else if (counts.DIRECT >= 3) readText = mirrorCopy.reads.directHeavy;
+    else if (counts.PASSIVE >= 2) readText = mirrorCopy.reads.passivePresent;
+    else readText = mirrorCopy.reads.executeBalanced;
+
+    const gridCells = userChoices.map(c => {
+      const isExecute = c.category === 'EXECUTE';
+      const catLabel = c.category === 'EXECUTE' ? 'Build' :
+                       c.category === 'DIRECT' ? 'Direct' :
+                       c.category === 'PASSIVE' ? 'Hold' :
+                       'Read';
+      return `
+        <div class="mirror-cell ${isExecute ? 'execute' : ''}">
+          <div class="mirror-cell-num">0${c.scnId}</div>
+          <div class="mirror-cell-key">${c.key}</div>
+          <div class="mirror-cell-cat">${catLabel}</div>
+        </div>
+      `;
+    }).join('');
+
+    const tallyRows = [
+      { label: 'Build conditions', count: counts.EXECUTE },
+      { label: 'Direct control', count: counts.DIRECT },
+      { label: 'Read the room', count: counts.CONDITIONAL },
+      { label: 'Held back', count: counts.PASSIVE }
+    ].filter(r => r.count > 0);
+
+    stage.innerHTML = `
+      <div class="mirror-screen show">
+        <div class="mirror-eyebrow">${mirrorCopy.eyebrow}</div>
+        <h2 class="mirror-title">${mirrorCopy.title}</h2>
+        <div class="mirror-grid">${gridCells}</div>
+        <div class="mirror-tally">
+          ${tallyRows.map(r => `
+            <div class="mirror-tally-row">
+              <span class="mirror-tally-label">${r.label}</span>
+              <span class="mirror-tally-count">${r.count} / 5</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="mirror-read">${readText}</div>
+      </div>
+    `;
+  }
+
+  function renderCarry() {
+    labHeader.style.display = 'block';
+    phaseTag.textContent = "Collab Coaching Lab";
+    prog.textContent = "COMPLETE";
+    nextBtn.style.display = 'none';
+
+    stage.innerHTML = `
+      <div class="carry-screen show">
+        <div class="carry-eyebrow">what to take with you</div>
+        <div class="carry-card">
+          <div class="carry-label">${carryCard.label}</div>
+          <div class="carry-line">${carryCard.line}</div>
+          <div class="carry-experiment">
+            <strong>${carryCard.experimentLabel}</strong>
+            ${carryCard.experiment}
+          </div>
+        </div>
+        <p class="carry-coda">${carryCoda}</p>
+        <button class="pb-btn ghost" id="restartBtn">↻ Run it again</button>
+      </div>
+    `;
+
+    document.getElementById('restartBtn').addEventListener('click', () => {
+      phase = 'landing';
+      scnIdx = 0;
+      checkinChosen = false;
+      patternChosen = false;
+      userChoices.length = 0;
+      nextBtn.style.display = 'inline-flex';
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (phase === 'checkin' && checkinChosen) {
+      phase = 'scenario'; scnIdx = 0; render();
+    }
+    else if (phase === 'interrupt1') {
+      phase = 'scenario'; scnIdx = 2; render();
+    }
+    else if (phase === 'interrupt2') {
+      phase = 'scenario'; scnIdx = 4; render();
+    }
+    else if (phase === 'scenario') {
+      if (scnIdx === 1) { phase = 'interrupt1'; render(); }
+      else if (scnIdx === 3) { phase = 'interrupt2'; render(); }
+      else if (scnIdx < scenarios.length - 1) { scnIdx++; render(); }
+      else { phase = 'pattern'; render(); }
+    }
+    else if (phase === 'pattern') { phase = 'mirror'; render(); }
+    else if (phase === 'mirror') { phase = 'carry'; render(); }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
