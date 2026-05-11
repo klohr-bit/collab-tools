@@ -68,12 +68,12 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
   cursor: pointer;
   display: none;
   align-items: center; justify-content: center;
+  font-size: 14px; line-height: 1;
   transition: background 0.15s, border-color 0.15s;
   flex-shrink: 0;
 }
 .whistle-btn.visible { display: flex; }
 .whistle-btn:active { background: var(--lime-dim); border-color: var(--lime); }
-.whistle-btn svg { width: 14px; height: 14px; }
 
 .progress { display: none; gap: 5px; padding-bottom: 10px; }
 .progress.visible { display: flex; }
@@ -168,7 +168,8 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
 .danielle-overlay.show { opacity: 1; pointer-events: all; }
 
 .d-icon {
-  margin-bottom: 28px; opacity: 0;
+  font-size: 40px; line-height: 1;
+  margin-bottom: 20px; opacity: 0;
   transform: translateY(-8px);
   transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
 }
@@ -297,7 +298,7 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
 /* Scene box: most dominant */
 .scene-box {
   background: var(--surface-2); border: 1px solid var(--line);
-  border-radius: 10px; padding: 14px 16px 16px;
+  border-radius: 10px; padding: 14px 16px 20px;
 }
 .scene-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -328,98 +329,163 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
   color: var(--muted-2);
 }
 
-/* Choice cards */
-.choices { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-.card-wrap { perspective: 900px; min-height: 80px; }
+/* ─────────────────────────────────
+   CHOICE CARDS — single column, slide-right on pick
+───────────────────────────────── */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+.card-wrap {
+  overflow: hidden;
+}
 .card-inner {
-  position: relative; transform-style: preserve-3d;
-  transition: transform 0.4s cubic-bezier(0.4,0.2,0.2,1);
-  height: 100%; min-height: 80px;
+  transition: transform 0.28s cubic-bezier(0.4,0,1,1),
+              opacity 0.2s ease;
+  min-height: 52px;
+  border-radius: 9px;
 }
-.card-inner.flipped { transform: rotateY(180deg); }
-.card-face {
-  position: absolute; inset: 0;
-  backface-visibility: hidden; -webkit-backface-visibility: hidden;
-  border-radius: 8px; display: flex; flex-direction: column; padding: 11px 12px;
+.card-inner.slide-out {
+  transform: translateX(110%);
+  opacity: 0;
 }
+
+/* FRONT — full row tap target */
 .card-front {
-  background: var(--surface-2); border: 1px solid var(--line);
-  cursor: pointer; transition: border-color 0.15s;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--line);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 9px;
+  min-height: 52px;
+  width: 100%;
+  text-align: left;
+  transition: border-color 0.12s, background 0.12s;
+  -webkit-tap-highlight-color: transparent;
 }
-.card-front:active { border-color: var(--lime); transform: scale(0.97); }
+.card-front:active {
+  transform: scale(0.985);
+  border-color: var(--lime);
+  border-left-color: var(--lime);
+  background: var(--surface-3);
+}
+/* Letter pill */
 .card-letter {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
-  color: var(--muted-2); margin-bottom: 5px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--lime);
+  background: var(--surface-3);
+  width: 36px;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px 0 0 7px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--line);
 }
-.card-text { font-size: 12px; font-weight: 500; color: var(--paper); line-height: 1.35; flex: 1; }
-.card-back {
-  transform: rotateY(180deg);
-  background: var(--surface-3); border: 1px solid var(--line);
-  justify-content: center; padding: 12px;
+/* Choice text */
+.card-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--paper);
+  line-height: 1.4;
+  padding: 14px;
+  flex: 1;
 }
-.card-back-text {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 14px; font-weight: 700; color: var(--paper); line-height: 1.25;
+
+.card-wrap.faded {
+  opacity: 0.06;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
-.card-back-text em { color: var(--lime); font-style: normal; }
-.card-wrap.faded { opacity: 0.07; pointer-events: none; }
 
 /* Feedback — after pick */
-.feedback { display: none; flex-direction: column; gap: 9px; animation: fadeUp 0.35s ease 0.4s both; padding-bottom: 4px; }
+.feedback { display: none; flex-direction: column; gap: 8px; animation: fadeUp 0.35s ease 0.15s both; padding: 10px 0 4px; flex: 1; }
 .feedback.show { display: flex; }
 
-/* 1. Consequence — largest, dominant */
-.fb-consequence {
+/* Consequence — scene-family, connected unit */
+.fb-setup {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 26px; font-weight: 700; line-height: 1.1; color: var(--paper);
+  font-size: 21px; font-weight: 700;
+  color: var(--muted); line-height: 1.2;
+  padding: 0 2px; margin-bottom: 0;
 }
-.fb-consequence em { color: var(--lime); font-style: normal; }
+.fb-result {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 21px; font-weight: 700;
+  line-height: 1.2; color: var(--lime);
+  padding: 0 2px; margin-bottom: 20px;
+}
 
-/* 2. Costs — lime accent, higher visual weight, leads */
-.fb-costs-block {
-  border-left: 3px solid var(--lime);
-  padding: 10px 14px;
+/* Tradeoff card */
+.fb-tradeoff-card {
   background: var(--surface-2);
-  border-radius: 0 7px 7px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 12px;
 }
 .fb-block-label {
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 4px; color: var(--lime);
 }
-.fb-costs-block .fb-block-label { color: var(--lime); }
-.fb-costs-val { font-size: 14px; color: var(--paper); line-height: 1.5; font-weight: 500; }
-
-/* 3. Gets — quieter, validating */
-.fb-gets-block {
-  padding: 10px 14px;
-  background: var(--surface-2); border: 1px solid var(--line); border-radius: 7px;
+.fb-costs-val,
+.fb-gets-val {
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px; font-weight: 500;
+  color: var(--paper); line-height: 1.5;
 }
-.fb-gets-block .fb-block-label { color: var(--muted); }
-.fb-gets-val { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
-/* 4. Danielle teaser — lowest, inviting */
+/* Coach Danielle's Take — sits lower, distributes space */
 .danielle-teaser {
-  display: flex; align-items: center; gap: 10px;
-  padding: 11px 14px;
-  background: transparent; border: 1px solid var(--line); border-radius: 7px;
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 18px;
+  background: var(--surface-2);
+  border: 1px solid var(--lime);
+  border-radius: 8px;
   cursor: pointer; width: 100%; text-align: left;
   transition: border-color 0.15s, background 0.15s;
+  margin-top: 24px;
 }
-.danielle-teaser:active { border-color: var(--lime); background: var(--lime-dim); }
-.danielle-teaser-icon {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: var(--surface-3);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.danielle-teaser-icon svg { width: 13px; height: 13px; }
+.danielle-teaser:active { background: var(--lime-dim); }
+.danielle-teaser-icon { font-size: 18px; line-height: 1; flex-shrink: 0; }
 .danielle-teaser-label {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--lime);
+}
+.danielle-teaser-arrow { margin-left: auto; color: var(--lime); font-size: 16px; line-height: 1; }
+
+/* ─────────────────────────────────
+   COMPLETE BEAT
+───────────────────────────────── */
+.complete-beat {
+  flex: 1; display: flex; flex-direction: column;
+  justify-content: center; padding: 16px 0;
+}
+.complete-dim {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(40px, 12vw, 60px);
+  font-weight: 900; text-transform: uppercase;
+  line-height: 0.9; letter-spacing: -0.01em;
   color: var(--muted);
 }
-.danielle-teaser-arrow { margin-left: auto; color: var(--lime); font-size: 14px; line-height: 1; }
+.complete-bright {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(40px, 12vw, 60px);
+  font-weight: 900; text-transform: uppercase;
+  line-height: 0.9; letter-spacing: -0.01em;
+  color: var(--paper);
+}
+.complete-bright .accent { color: var(--lime); }
 
 /* ─────────────────────────────────
    INTERRUPT
@@ -482,13 +548,13 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
   background: var(--surface-2); border: 1px solid var(--line);
   border-radius: 7px; padding: 9px 4px; text-align: center;
 }
-.call-cell.is-build { background: var(--lime); border-color: var(--lime); }
+.call-cell.is-build { border-left: 3px solid var(--lime); }
 .call-num { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; font-weight: 700; color: var(--muted-2); margin-bottom: 4px; letter-spacing: 0.1em; }
-.call-cell.is-build .call-num { color: rgba(10,13,8,0.4); }
+.call-cell.is-build .call-num { color: var(--muted-2); }
 .call-key { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 900; color: var(--paper); line-height: 1; }
-.call-cell.is-build .call-key { color: var(--ink); }
+.call-cell.is-build .call-key { color: var(--paper); }
 .call-cat { font-family: 'Barlow Condensed', sans-serif; font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted-2); margin-top: 3px; }
-.call-cell.is-build .call-cat { color: rgba(10,13,8,0.5); }
+.call-cell.is-build .call-cat { color: var(--lime); }
 .tally { background: var(--surface-2); border-radius: 8px; overflow: hidden; }
 .tally-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line); }
 .tally-row:last-child { border-bottom: none; }
@@ -506,6 +572,13 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
 .carry-line { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 900; text-transform: uppercase; line-height: 1.0; color: var(--ink); margin-bottom: 16px; letter-spacing: -0.01em; }
 .carry-exp { padding-top: 14px; border-top: 1px solid rgba(0,0,0,0.12); font-size: 13px; color: var(--ink); line-height: 1.55; }
 .carry-exp strong { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.45; margin-bottom: 4px; }
+.carry-question {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px; font-weight: 700;
+  line-height: 1.2; letter-spacing: -0.01em;
+  color: var(--paper);
+  padding: 4px 2px;
+}
 .carry-coda { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted-2); text-align: center; padding-top: 4px; }
 
 /* ─────────────────────────────────
@@ -530,17 +603,8 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
 </div>
 
 <div class="danielle-overlay" id="danielleOverlay">
-  <div class="d-icon">
-    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="28" cy="28" r="27" stroke="#c8e830" stroke-width="1.5" opacity="0.25"/>
-      <g transform="translate(12,16)">
-        <path d="M20 11C20 11 15.5 11 12.5 13.5C9.5 16 9 19.5 9 19.5L5.5 19.5C4.1 19.5 3 20.6 3 22C3 23.4 4.1 24.5 5.5 24.5L9 24.5C9 24.5 9.5 28 12.5 30.5C15.5 33 20 33 20 33L20 11Z" fill="#c8e830" opacity="0.9"/>
-        <rect x="20" y="14.5" width="10" height="6" rx="3" fill="#c8e830" opacity="0.65"/>
-        <circle cx="7" cy="22" r="1.2" fill="#0a0d08"/>
-      </g>
-    </svg>
-  </div>
-  <div class="d-name">Coach Danielle</div>
+  <div class="d-icon">🏑</div>
+  <div class="d-name">Coach Danielle's Take</div>
   <div class="d-quote" id="danielleQuote"></div>
   <div class="d-close">
     <button class="btn btn-ghost" id="danielleCloseBtn">Back to Moment</button>
@@ -553,12 +617,7 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
       <span class="top-brand">Collab Coaching Lab</span>
       <div class="top-right">
         <span class="top-phase" id="phaseLabel"></span>
-        <button class="whistle-btn" id="whistleBtn" aria-label="Coach's take">
-          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11 5.5C11 5.5 8 5.5 6.5 7.5C5 9.5 4.5 12 4.5 12L2.5 12C1.7 12 1 12.7 1 13.5C1 14.3 1.7 15 2.5 15L4.5 15C4.5 15 5 17.5 6.5 18.5C8 19.5 11 19.5 11 19.5L11 5.5Z" fill="#c8e830"/>
-            <rect x="11" y="8" width="7" height="4" rx="2" fill="#c8e830" opacity="0.65"/>
-          </svg>
-        </button>
+        <button class="whistle-btn" id="whistleBtn" aria-label="Coach Danielle's Take">🏑</button>
       </div>
     </div>
     <div class="progress" id="progress">
@@ -602,7 +661,7 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
       id:1, loc:"PRACTICE \u00b7 MIN 2",
       text:"Three players <strong>barely moving</strong> on the sideline. <em>One is your captain.</em> Everyone else is working.",
       prompt:"What do you do?",
-      reflect:"Did you pick what you'd actually do \u2014 or what felt like the right answer?",
+      reflect:"Did you pick what you'd actually do, or what felt like the right answer?",
       choices:[
         { key:'A', text:"Blow the whistle.", cat:'DIRECT', subcat:'DIRECT_INTERVENTION',
           label:"The group snaps to. <em>You're the engine now.</em>",
@@ -612,13 +671,13 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
         { key:'B', text:"Walk over. 'What are we working on?'", cat:'BUILD', subcat:'BUILD_QUESTION',
           label:"She pauses. Thinks. <em>Gets back to it.</em>",
           gets:"The captain leads herself back in. No public correction, trust intact.",
-          costs:"The other two on the sideline didn't get the message \u2014 this only landed on one player.",
+          costs:"The other two on the sideline didn't get the message. This only landed on one player.",
           coach:"Does it get everyone moving as fast? No. Does it build something the whistle can't? Yes." },
         { key:'C', text:"Hold your position. Watch what happens.", cat:'HOLD', subcat:'HOLD',
           label:"The sideline chat <em>continues.</em>",
           gets:"You stay out of it. If she self-corrects, you've learned something about her.",
           costs:"Silence only works once the standard is trained. Right now it teaches her she can coast.",
-          coach:"I've used this and regretted it. Silence needs to be earned \u2014 by me, not just assumed." },
+          coach:"I've used this and regretted it. Silence needs to be earned, by me, not just assumed." },
         { key:'D', text:"New constraint: every pass under the knees.", cat:'BUILD', subcat:'BUILD_CONSTRAINT',
           label:"Everyone has to engage. <em>Sideline stops.</em>",
           gets:"Forces attention without naming anyone. The drill does the work.",
@@ -630,15 +689,15 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
       id:2, loc:"PRACTICE \u00b7 MIN 4",
       text:"Two players <strong>aren't talking to each other.</strong> Something happened before practice. <em>Everyone else knows it too.</em>",
       prompt:"What do you do?",
-      reflect:"Whatever you picked \u2014 what are you most uncertain about in that call?",
+      reflect:"Whatever you picked: what are you most uncertain about in that call?",
       choices:[
         { key:'A', text:"Pair them together in the next drill.", cat:'BUILD', subcat:'BUILD_CONSTRAINT',
           label:"They have to interact. <em>Tension stays, but movement starts.</em>",
           gets:"Forces proximity without requiring either player to make the first move.",
-          costs:"If the conflict is real and raw, this can backfire \u2014 resentment on the field is worse than silence.",
+          costs:"If the conflict is real and raw, this can backfire. Resentment on the field is worse than silence.",
           coach:"I use this when I think they just need a nudge. I don't use it when I think someone got hurt." },
         { key:'B', text:"'We need five minutes after practice.'", cat:'DIRECT', subcat:'DIRECT_INTERVENTION',
-          label:"They both nod. <em>Something shifts \u2014 but practice is now waiting.</em>",
+          label:"They both nod. <em>Something shifts. Practice is now waiting.</em>",
           gets:"You named it. Both players know it's not being swept under. That can itself release pressure.",
           costs:"You've committed to a conversation you haven't prepared for, with the team watching.",
           coach:"This is the right call. I just want to know what I'm walking into before I call that meeting." },
@@ -647,16 +706,16 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
           gets:"You don't escalate something that might resolve on its own. Some conflicts need motion, not mediation.",
           costs:"If it doesn't resolve, you've modeled that it's okay to bring conflict onto the field.",
           coach:"I ask myself: is this affecting the work right now? If yes, I can't ignore it." },
-        { key:'D', text:"Check in with each one separately \u2014 thirty seconds each.", cat:'BUILD', subcat:'BUILD_QUESTION',
+        { key:'D', text:"Check in with each one separately. Thirty seconds each.", cat:'BUILD', subcat:'BUILD_QUESTION',
           label:"Both feel seen. <em>Practice keeps moving.</em>",
           gets:"You acknowledge both without forcing them together before they're ready.",
-          costs:"Thirty seconds isn't enough to know what happened \u2014 you're managing without real information.",
-          coach:"This buys me time to understand it. Worth something \u2014 as long as I actually follow through." }
+          costs:"Thirty seconds isn't enough to know what happened. You're managing without real information.",
+          coach:"This buys me time to understand it. Worth something, as long as I actually follow through." }
       ]
     },
     {
       id:3, loc:"PRACTICE \u00b7 MIN 8",
-      text:"Man-to-man defense day. Communication built into the warm-up. Eight minutes in \u2014 <em>complete silence.</em>",
+      text:"Man-to-man defense day. Communication built into the warm-up. Eight minutes in. <em>Complete silence.</em>",
       prompt:"What's your move?",
       reflect:"Is this a design problem or an effort problem? Does your answer change anything?",
       choices:[
@@ -672,7 +731,7 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
           coach:"It breaks faster than I expect, every time. The hardest part is trusting the silence." },
         { key:'C', text:"'Call a name before every receive.'", cat:'BUILD', subcat:'BUILD_CONSTRAINT',
           label:"Names start <em>filling the gym.</em>",
-          gets:"Scripts the behavior. Lower risk than removing your voice \u2014 same direction.",
+          gets:"Scripts the behavior. Lower risk than removing your voice. Same direction.",
           costs:"You're generating compliance, not habit. They're doing it because you said to.",
           coach:"I use this as a bridge, not a destination. Is it moving them toward talking on their own?" },
         { key:'D', text:"Stay quiet. See if they find it without you.", cat:'HOLD', subcat:'HOLD',
@@ -686,14 +745,14 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
       id:4, loc:"PRACTICE \u00b7 MID-SESSION",
       text:"<em>One of your strongest players.</em> Something is off today. Going through the motions. <strong>Barely making eye contact.</strong>",
       prompt:"What do you do?",
-      reflect:"Are you reading her \u2014 or projecting onto her?",
+      reflect:"Are you reading her, or projecting onto her?",
       choices:[
         { key:'A', text:"Hold her to the same standard. Don't let up.", cat:'DIRECT', subcat:'DIRECT_INTERVENTION',
           label:"She complies. <em>Stays somewhere else.</em>",
           gets:"Standard maintained. You didn't create a two-tier system in front of the group.",
           costs:"Pushing a shut-down athlete harder pushes her further inside. Compliance without presence.",
           coach:"I've done this. She went through the motions for the whole practice. I got the behavior, not the player." },
-        { key:'B', text:"Pull her aside. 'Hey \u2014 what's going on today?'", cat:'BUILD', subcat:'BUILD_QUESTION',
+        { key:'B', text:"Pull her aside. 'Hey. What's going on today?'", cat:'BUILD', subcat:'BUILD_QUESTION',
           label:"She pauses. <em>Something shifts.</em>",
           gets:"She finds out you noticed. That's often the whole intervention.",
           costs:"You've stepped out of practice for one player. The group reads that.",
@@ -707,21 +766,21 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
           label:"She gets through it. <em>You catch her after.</em>",
           gets:"Respects her process. Some athletes genuinely need space, not intervention.",
           costs:"Most athletes hoping to be noticed just feel invisible when you wait.",
-          coach:"There are players where this is right. I have to be honest about whether I'm reading her \u2014 or avoiding it." }
+          coach:"There are players where this is right. I have to be honest about whether I'm reading her, or avoiding it." }
       ]
     },
     {
       id:5, loc:"PRACTICE \u00b7 END OF SESSION",
       text:"Practice just ended. <em>Your best player made the same technical error three times.</em> She knows. <strong>Walking off alone. Not looking up.</strong>",
       prompt:"What do you say?",
-      reflect:"Ten seconds after you said it \u2014 what does her face do?",
+      reflect:"Ten seconds after you said it: what does her face do?",
       choices:[
         { key:'A', text:"Nothing. Let her walk.", cat:'HOLD', subcat:'HOLD',
           label:"She leaves. <em>The loop runs the whole drive home.</em>",
           gets:"No forced moment. She processes on her own terms, in her own time.",
           costs:"She replays the error alone. By tomorrow it's either buried or calcified.",
           coach:"I used to default to this. Then I started asking: am I giving her space, or am I avoiding the moment?" },
-        { key:'B', text:"'Good session. That pattern \u2014 we'll work it Thursday.'", cat:'BUILD', subcat:'BUILD_QUESTION',
+        { key:'B', text:"'Good session. That pattern. We'll work it next practice.'", cat:'BUILD', subcat:'BUILD_QUESTION',
           label:"She looks up. <em>Something loosens.</em>",
           gets:"Names the session first to fight recency bias. Turns the error into a plan, not a verdict.",
           costs:"If she doesn't trust that Thursday is real, the reassurance lands hollow.",
@@ -813,6 +872,7 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
     else if (phase==='checkin')    rCheckin();
     else if (phase==='scenario')   rScenario();
     else if (phase==='interrupt2') rInterrupt();
+    else if (phase==='complete')   rComplete();
     else if (phase==='pattern')    rPattern();
     else if (phase==='mirror')     rMirror();
     else if (phase==='carry')      rCarry();
@@ -885,37 +945,32 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
       <div class="choices" id="choices">
         ${s.choices.map((c,i)=>`
           <div class="card-wrap" id="wrap-${c.key}"
-            style="opacity:0;transform:translateY(8px);transition:opacity 0.25s ease ${i*55}ms,transform 0.25s ease ${i*55}ms">
+            style="opacity:0;transform:translateY(8px);transition:opacity 0.22s ease ${i*50}ms,transform 0.22s ease ${i*50}ms">
             <div class="card-inner" id="inner-${c.key}">
-              <div class="card-face card-front" data-key="${c.key}">
+              <button class="card-front" data-key="${c.key}">
                 <div class="card-letter">${c.key}</div>
                 <div class="card-text">${c.text}</div>
-              </div>
-              <div class="card-face card-back">
-                <div class="card-back-text">${c.label}</div>
-              </div>
+              </button>
             </div>
           </div>`).join('')}
       </div>
       <div class="feedback" id="fb">
-        <div class="fb-consequence" id="fb-con"></div>
-        <div class="fb-costs-block">
-          <div class="fb-block-label">What it costs</div>
-          <div class="fb-costs-val" id="fb-costs"></div>
-        </div>
-        <div class="fb-gets-block">
-          <div class="fb-block-label">What you get</div>
-          <div class="fb-gets-val" id="fb-gets"></div>
+          <div class="fb-setup" id="fb-setup"></div>
+          <div class="fb-result" id="fb-result"></div>
+        <div class="fb-tradeoff-card">
+          <div class="fb-tradeoff-row is-cost">
+            <div class="fb-block-label">What it costs</div>
+            <div class="fb-costs-val" id="fb-costs"></div>
+          </div>
+          <div class="fb-tradeoff-row is-get">
+            <div class="fb-block-label">What you get</div>
+            <div class="fb-gets-val" id="fb-gets"></div>
+          </div>
         </div>
         <button class="danielle-teaser" id="danielleTeaser">
-          <div class="danielle-teaser-icon">
-            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11 5.5C11 5.5 8 5.5 6.5 7.5C5 9.5 4.5 12 4.5 12L2.5 12C1.7 12 1 12.7 1 13.5C1 14.3 1.7 15 2.5 15L4.5 15C4.5 15 5 17.5 6.5 18.5C8 19.5 11 19.5 11 19.5L11 5.5Z" fill="#c8e830"/>
-              <rect x="11" y="8" width="7" height="4" rx="2" fill="#c8e830" opacity="0.65"/>
-            </svg>
-          </div>
-          <span class="danielle-teaser-label">Coach's take</span>
-          <span class="danielle-teaser-arrow">\u2192</span>
+          <div class="danielle-teaser-icon">🏑</div>
+          <span class="danielle-teaser-label">Coach Danielle\'s Take</span>
+          <span class="danielle-teaser-arrow">→</span>
         </button>
       </div>
     </div>`);
@@ -940,17 +995,35 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
     const choice = s.choices.find(c=>c.key===key);
     picks.push({ scnId:s.id, key, cat:CATS[s.id][key], subcat:choice.subcat });
 
-    setTimeout(() => {
-      document.getElementById(`inner-${key}`).classList.add('flipped');
-      s.choices.forEach(c => {
-        if(c.key!==key) document.getElementById(`wrap-${c.key}`).classList.add('faded');
-      });
-    }, 50);
+    // Slide chosen card right, fade others simultaneously
+    const chosenInner = document.getElementById(`inner-${key}`);
+    if(chosenInner) chosenInner.classList.add('slide-out');
+    s.choices.forEach(c => {
+      if(c.key!==key) document.getElementById(`wrap-${c.key}`).classList.add('faded');
+    });
 
+    // After slide completes, show feedback
     setTimeout(() => {
       document.getElementById('choices').style.display = 'none';
       screenEl.querySelector('.prompt-label').style.display = 'none';
-      document.getElementById('fb-con').innerHTML = choice.label;
+      screenEl.querySelector('.scene-box').style.display = 'none';
+
+      // Split label into setup (before em) and result (em content)
+      const label = choice.label;
+      const emMatch = label.match(/^(.*?)<em>(.*?)<\/em>(.*)$/s);
+      if(emMatch) {
+        const setup = emMatch[1].trim();
+        const result = (emMatch[2] + emMatch[3]).trim();
+        const setupEl = document.getElementById('fb-setup');
+        const resultEl = document.getElementById('fb-result');
+        if(setup) { setupEl.textContent = setup; setupEl.style.display = ''; }
+        else { setupEl.style.display = 'none'; }
+        resultEl.textContent = result;
+      } else {
+        document.getElementById('fb-setup').style.display = 'none';
+        document.getElementById('fb-result').textContent = label.replace(/<[^>]+>/g, '');
+      }
+
       document.getElementById('fb-costs').textContent = choice.costs;
       document.getElementById('fb-gets').textContent = choice.gets;
       document.getElementById('fb').classList.add('show');
@@ -963,13 +1036,13 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
         <div class="reflect-prompt">${s.reflect}</div>
         <button class="btn btn-primary" id="mainBtn">${isLast ? 'See the Pattern \u2192' : 'Next Moment \u2192'}</button>`;
       document.getElementById('mainBtn').addEventListener('click', advanceScenario);
-    }, 680);
+    }, 320);
   }
 
   function advanceScenario() {
     if      (scnIdx===3) { phase='interrupt2'; render(); }
     else if (scnIdx < SCENARIOS.length-1) { scnIdx++; render(); }
-    else { phase='pattern'; render(); }
+    else { phase='complete'; render(); }
   }
 
   // ── INTERRUPT ──────────────────────────────────────────
@@ -991,6 +1064,17 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
     }, 1200);
   }
 
+  // ── COMPLETE BEAT ──────────────────────────────────────
+  function rComplete() {
+    setPhase(''); hideProgress();
+    go(`<div class="complete-beat">
+      <div class="complete-dim">That's</div>
+      <div class="complete-bright">all <span class="accent">five.</span></div>
+    </div>`);
+    hideBtn();
+    setTimeout(() => { phase='pattern'; render(); }, 2000);
+  }
+
   // ── PATTERN ────────────────────────────────────────────
   function rPattern() {
     setPhase('The Pattern'); hideProgress();
@@ -1004,10 +1088,10 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
         <span class="pill lit">End of session</span>
       </div>
       <div class="pattern-headline">Same question <em>every time.</em></div>
-      <p class="pattern-body">Do you step in and solve it \u2014 or build the conditions for them to solve it?</p>
+      <p class="pattern-body">Do you step in and solve it, or build the conditions for them to solve it?</p>
       <div class="reveal-block">
         <div class="reveal-label">The through-line</div>
-        <div class="reveal-text">Every moment had a real upside and a real cost. That's not a design flaw \u2014 that's the job. The warm-up isn't just conditioning. It's where your coaching tendencies get trained into your athletes, rep by rep.</div>
+        <div class="reveal-text">Every moment had a real upside and a real cost. That's not a design flaw. That's the job. The warm-up isn't just conditioning. It's where your coaching tendencies get trained into your athletes, rep by rep.</div>
       </div>
     </div>`);
     showBtn('See Your Calls \u2192');
@@ -1030,14 +1114,14 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
       const t = subcounts['BUILD_TASK']||0;
       const tech = subcounts['DIRECT_TECHNICAL']||0;
       const h = subcounts['HOLD']||0;
-      if(c>=2 && c>=q && c>=t) return `You reached for <strong>constraints</strong> more than once \u2014 changing the drill conditions rather than addressing people directly. That's a design instinct: you trust the environment to do the work. Worth asking: are there moments where a direct word would have been faster?`;
-      if(q>=2 && q>=c && q>=t) return `You went back to <strong>the question</strong> more than once \u2014 pulling players into their own thinking rather than telling them. That's a hard instinct to train. The cost: it only works one player at a time. How do you scale it?`;
-      if(t>=2) return `You gave <strong>players jobs</strong> more than once \u2014 tasks that pulled them back in without requiring a conversation. Sharp read of what people need. The question: do they know why you gave them that job, or just that you did?`;
-      if(tech>=1 && counts.DIRECT>=2) return `You moved toward <strong>direct correction</strong> \u2014 including breaking down what went wrong technically. That's a teach-first instinct. It works when the athlete is ready to receive it. Is right now ever that moment?`;
-      if(h>=2) return `You held back in <strong>${h} moments</strong> \u2014 letting things play out. Sometimes that's the right read. The harder question: did your athletes know what to do in that space, or were they just waiting for you?`;
+      if(c>=2 && c>=q && c>=t) return `You reached for <strong>constraints</strong> more than once. You changed the drill conditions rather than addressing people directly. That's a design instinct: you trust the environment to do the work. Worth asking: are there moments where a direct word would have been faster?`;
+      if(q>=2 && q>=c && q>=t) return `You went back to <strong>the question</strong> more than once. You pulled players into their own thinking rather than telling them. That's a hard instinct to train. The cost: it only works one player at a time. How do you scale it?`;
+      if(t>=2) return `You gave <strong>players jobs</strong> more than once. Tasks that pulled them back in without requiring a conversation. Sharp read of what people need. The question: do they know why you gave them that job, or just that you did?`;
+      if(tech>=1 && counts.DIRECT>=2) return `You moved toward <strong>direct correction</strong>, including breaking down what went wrong technically. That's a teach-first instinct. It works when the athlete is ready to receive it. Is right now ever that moment?`;
+      if(h>=2) return `You held back in <strong>${h} moments</strong>, letting things play out. Sometimes that's the right read. The harder question: did your athletes know what to do in that space, or were they just waiting for you?`;
       if(counts.BUILD>=4) return `Your tendency is to <strong>build conditions</strong> rather than step in. The athletes who play for you get reps in solving problems themselves. Worth asking: are there moments where direct intervention would have been faster and cleaner?`;
       if(counts.DIRECT>=3) return `Your tendency is toward <strong>direct intervention</strong>. That instinct creates clarity fast. Worth noticing: how many of those moments did the group actually need you to step in?`;
-      return `You <strong>moved between instincts</strong> across all five moments. That flexibility can be a strength \u2014 or a signal that athletes don't know what to expect. Which calls felt deliberate? Which felt reactive?`;
+      return `You <strong>moved between instincts</strong> across all five moments. That flexibility can be a strength, or a signal that athletes don't know what to expect. Which calls felt deliberate? Which felt reactive?`;
     }
 
     const catLabel = { BUILD:'Build', DIRECT:'Direct', HOLD:'Hold' };
@@ -1074,6 +1158,9 @@ body { font-family: 'Barlow', sans-serif; color: var(--paper); -webkit-font-smoo
           <strong>Try this week</strong>
           Take your voice out of the warm-up for ninety seconds. Stop talking. See what fills the silence.
         </div>
+      </div>
+      <div class="carry-question">
+        What's one thing you're taking into your next practice?
       </div>
       <div class="carry-coda">Take it with you.</div>
     </div>`);
